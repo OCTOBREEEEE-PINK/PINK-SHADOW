@@ -1,0 +1,25 @@
+### Register
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+  "pseudo": "alice",
+  "password": "secret123"
+}
+
+### Login
+POST http://localhost:8000/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=alice&password=secret123
+
+### Create session (replace <TOKEN>)
+POST http://localhost:8000/sessions
+Authorization: Bearer <TOKEN>
+Content-Type: application/json
+
+{
+  "name": "Test Escape"
+}
+
+
