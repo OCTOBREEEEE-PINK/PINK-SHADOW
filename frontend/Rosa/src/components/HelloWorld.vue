@@ -306,7 +306,7 @@ const connectedPlayers = ref([]);
 const showPlayersList = ref(false);
 const websocket = ref(null);
 const isConnected = ref(false);
-const currentToken = ref('');
+// Token supprimé - plus nécessaire
 const countdown = ref(480); // 8 minutes en secondes
 const countdownInterval = ref(null);
 const missionStarted = ref(false);
@@ -387,40 +387,24 @@ const handleSubmitName = async () => {
   console.log('Nom du joueur :', playerName.value);
 
   try {
-    // 1. S'inscrire
+    // 1. S'inscrire (sans mot de passe)
     const registerResponse = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-        pseudo: playerName.value, 
-        password: 'defaultPassword123' 
+        pseudo: playerName.value
       }),
     });
 
     if (!registerResponse.ok) throw new Error('Erreur lors de l\'inscription');
 
-    // 2. Se connecter pour obtenir un token
-    const loginResponse = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `username=${encodeURIComponent(playerName.value)}&password=defaultPassword123`,
-    });
-
-    if (!loginResponse.ok) throw new Error('Erreur lors de la connexion');
-
-    const loginData = await loginResponse.json();
-    currentToken.value = loginData.access_token;
-
-    // 3. Créer une session de jeu
-    const sessionResponse = await fetch(`${API_BASE_URL}/sessions`, {
+    // 2. Créer une session de jeu
+    const sessionResponse = await fetch(`${API_BASE_URL}/sessions?pseudo=${encodeURIComponent(playerName.value)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${currentToken.value}`,
       },
       body: JSON.stringify({ name: `Session de ${playerName.value}` }),
     });
@@ -430,35 +414,34 @@ const handleSubmitName = async () => {
     const sessionData = await sessionResponse.json();
     const sessionCode = sessionData.code;
 
-    // 4. Rejoindre la session
-    const joinResponse = await fetch(`${API_BASE_URL}/sessions/${sessionCode}/join`, {
+    // 3. Rejoindre la session
+    const joinResponse = await fetch(`${API_BASE_URL}/sessions/${sessionCode}/join?pseudo=${encodeURIComponent(playerName.value)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${currentToken.value}`,
       },
       body: JSON.stringify({}),
     });
 
     if (!joinResponse.ok) throw new Error('Erreur lors de la jonction à la session');
 
-          // 5. Enregistrer l'émoji choisi
-          await setPlayerEmoji(playerName.value, selectedEmoji.value);
-          
-          // 6. Se connecter via WebSocket
-          await connectWebSocket(sessionCode);
+    // 4. Enregistrer l'émoji choisi
+    await setPlayerEmoji(playerName.value, selectedEmoji.value);
+    
+    // 5. Se connecter via WebSocket
+    await connectWebSocket(sessionCode, playerName.value);
 
-          hasJoined.value = true; 
-          console.log('Connexion complète réussie !');
-          
-          // Récupérer la liste des joueurs connectés
-          await fetchConnectedPlayers();
-          
-          // Synchroniser le timer avec le serveur
-          await fetchTimer();
-          
-          // Démarrer le compte à rebours
-          await startCountdown();
+    hasJoined.value = true; 
+    console.log('Connexion complète réussie !');
+    
+    // Récupérer la liste des joueurs connectés
+    await fetchConnectedPlayers();
+    
+    // Synchroniser le timer avec le serveur
+    await fetchTimer();
+    
+    // Démarrer le compte à rebours
+    await startCountdown();
     
     // Mettre à jour la liste des joueurs toutes les 5 secondes
     setInterval(fetchConnectedPlayers, 5000);
@@ -557,10 +540,10 @@ const startServerTimer = async () => {
 };
 
 // Fonction pour se connecter via WebSocket
-const connectWebSocket = (sessionCode) => {
+const connectWebSocket = (sessionCode, pseudo) => {
   return new Promise((resolve, reject) => {
     try {
-      const wsUrl = `${WS_BASE_URL}/ws/chat/${sessionCode}?token=${currentToken.value}`;
+      const wsUrl = `${WS_BASE_URL}/ws/chat/${sessionCode}?pseudo=${encodeURIComponent(pseudo)}`;
       console.log('Connexion WebSocket vers:', wsUrl);
       
       websocket.value = new WebSocket(wsUrl);
@@ -714,7 +697,6 @@ const disconnect = () => {
   hasJoined.value = false;
   connectedPlayers.value = [];
   isConnected.value = false;
-  currentToken.value = '';
   missionStarted.value = false;
   playerName.value = '';
   selectedEmoji.value = '🌸';

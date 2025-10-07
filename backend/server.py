@@ -6,10 +6,7 @@ from typing import Optional, List, Dict, Any
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import jwt, JWTError
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
-from passlib.context import CryptContext
 from pydantic import BaseModel, Field
 
 
@@ -17,9 +14,7 @@ from pydantic import BaseModel, Field
 # Config & Security
 # -----------------------------
 
-JWT_SECRET = os.getenv("JWT_SECRET") or secrets.token_urlsafe(32)
-JWT_ALG = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 8
+# Configuration simplifiée sans authentification
 
 MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 MONGODB_DB = os.getenv("MONGODB_DB", "escape_game")
@@ -35,8 +30,7 @@ if not ENCRYPTION_KEY:
     ENCRYPTION_KEY = Fernet.generate_key().decode()
 fernet = Fernet(ENCRYPTION_KEY.encode())
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+# Authentification simplifiée - pas de mots de passe
 
 
 # -----------------------------
@@ -78,14 +72,8 @@ async def on_shutdown() -> None:
 # Models
 # -----------------------------
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-
-
 class UserCreate(BaseModel):
     pseudo: str = Field(min_length=3, max_length=32)
-    password: str = Field(min_length=6, max_length=128)
 
 
 class UserPublic(BaseModel):
@@ -135,38 +123,8 @@ class TimerInfo(BaseModel):
 # Security Helpers
 # -----------------------------
 
-def verify_password(plain_password: str, password_hash: str) -> bool:
-    return pwd_context.verify(plain_password, password_hash)
-
-
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def create_access_token(subject: str, expires_delta: Optional[timedelta] = None) -> str:
-    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    to_encode = {"sub": subject, "exp": expire}
-    return jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALG)
-
-
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
-        pseudo: Optional[str] = payload.get("sub")
-        if pseudo is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    # Ensure user exists
-    assert db is not None
-    user = await db.users.find_one({"pseudo": pseudo})
-    if not user:
-        raise credentials_exception
+# Fonction simplifiée pour obtenir le pseudo depuis les paramètres de requête
+async def get_current_user(pseudo: str) -> str:
     return pseudo
 
 
@@ -176,10 +134,10 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
 
 @app.post("/auth/register", response_model=UserPublic, status_code=201)
 async def register_user(payload: UserCreate) -> UserPublic:
+    # Enregistrement simplifié sans mot de passe
     assert db is not None
     user_doc = {
         "pseudo": payload.pseudo,
-        "password_hash": hash_password(payload.password),
         "created_at": datetime.now(timezone.utc),
     }
     try:
@@ -190,19 +148,9 @@ async def register_user(payload: UserCreate) -> UserPublic:
     return UserPublic(pseudo=payload.pseudo)
 
 
-@app.post("/auth/login", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
-    assert db is not None
-    user = await db.users.find_one({"pseudo": form_data.username})
-    if not user or not verify_password(form_data.password, user.get("password_hash", "")):
-        raise HTTPException(status_code=400, detail="Incorrect pseudo or password")
-    token = create_access_token(user["pseudo"])
-    return Token(access_token=token)
-
-
 @app.get("/me", response_model=UserPublic)
-async def me(current_pseudo: str = Depends(get_current_user)) -> UserPublic:
-    return UserPublic(pseudo=current_pseudo)
+async def me(pseudo: str) -> UserPublic:
+    return UserPublic(pseudo=pseudo)
 
 
 # -----------------------------
@@ -225,13 +173,13 @@ DEFAULT_ROOM_STATES = {
 
 
 @app.post("/sessions", status_code=201)
-async def create_session(payload: SessionCreate, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def create_session(payload: SessionCreate, pseudo: str) -> Dict[str, Any]:
     assert db is not None
     code = generate_session_code()
     doc = {
         "name": payload.name,
         "code": code,
-        "owner": current_pseudo,
+        "owner": pseudo,
         "players": [],  # list of pseudos
         "current_room": 1,
         "room_states": DEFAULT_ROOM_STATES.copy(),
@@ -263,7 +211,7 @@ def _compute_timer_remaining(timer: Optional[Dict[str, Any]]) -> Optional[int]:
 
 
 @app.get("/sessions/{code}")
-async def get_session(code: str, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def get_session(code: str, pseudo: str) -> Dict[str, Any]:
     session = await get_session_or_404(code)
     # Redact sensitive fields
     session.pop("_id", None)
@@ -277,20 +225,20 @@ async def get_session(code: str, current_pseudo: str = Depends(get_current_user)
 
 
 @app.post("/sessions/{code}/join")
-async def join_session(code: str, payload: SessionJoin, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def join_session(code: str, payload: SessionJoin, pseudo: str) -> Dict[str, Any]:
     assert db is not None
     session = await get_session_or_404(code)
     if session.get("finished"):
         raise HTTPException(status_code=400, detail="Session is finished")
     players: List[str] = session.get("players", [])
-    if current_pseudo in players:
+    if pseudo in players:
         return {"ok": True, "message": "Already joined"}
     if len(players) >= 5:
         raise HTTPException(status_code=403, detail="Session is full (max 5 players)")
-    await db.sessions.update_one({"code": code}, {"$addToSet": {"players": current_pseudo}})
+    await db.sessions.update_one({"code": code}, {"$addToSet": {"players": pseudo}})
     # Create or upsert player state
     await db.player_states.update_one(
-        {"session_code": code, "pseudo": current_pseudo},
+        {"session_code": code, "pseudo": pseudo},
         {
             "$setOnInsert": {
                 "inventory": payload.inventory or [],
@@ -304,17 +252,17 @@ async def join_session(code: str, payload: SessionJoin, current_pseudo: str = De
 
 
 @app.post("/sessions/{code}/leave")
-async def leave_session(code: str, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def leave_session(code: str, pseudo: str) -> Dict[str, Any]:
     assert db is not None
     session = await get_session_or_404(code)
-    if current_pseudo not in session.get("players", []):
+    if pseudo not in session.get("players", []):
         return {"ok": True, "message": "Not in session"}
-    await db.sessions.update_one({"code": code}, {"$pull": {"players": current_pseudo}})
+    await db.sessions.update_one({"code": code}, {"$pull": {"players": pseudo}})
     return {"ok": True}
 
 
 @app.get("/sessions/{code}/players")
-async def list_players(code: str, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def list_players(code: str, pseudo: str) -> Dict[str, Any]:
     session = await get_session_or_404(code)
     return {"players": session.get("players", [])}
 
@@ -391,7 +339,7 @@ async def get_all_emojis():
 
 
 @app.post("/sessions/{code}/inventory")
-async def update_inventory(code: str, payload: InventoryUpdate, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def update_inventory(code: str, payload: InventoryUpdate, pseudo: str) -> Dict[str, Any]:
     assert db is not None
     await get_session_or_404(code)
     ops: Dict[str, Any] = {}
@@ -401,15 +349,15 @@ async def update_inventory(code: str, payload: InventoryUpdate, current_pseudo: 
         ops.setdefault("$pull", {})["inventory"] = {"$in": payload.remove}
     if not ops:
         return {"ok": True}
-    await db.player_states.update_one({"session_code": code, "pseudo": current_pseudo}, ops, upsert=True)
+    await db.player_states.update_one({"session_code": code, "pseudo": pseudo}, ops, upsert=True)
     return {"ok": True}
 
 
 @app.post("/sessions/{code}/rooms/progress")
-async def update_room_progress(code: str, payload: RoomProgressUpdate, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def update_room_progress(code: str, payload: RoomProgressUpdate, pseudo: str) -> Dict[str, Any]:
     assert db is not None
     session = await get_session_or_404(code)
-    if current_pseudo not in session.get("players", []):
+    if pseudo not in session.get("players", []):
         raise HTTPException(status_code=403, detail="Join the session first")
 
     room_key = str(payload.room)
@@ -430,7 +378,7 @@ async def update_room_progress(code: str, payload: RoomProgressUpdate, current_p
     new_state = {
         "completed": bool(payload.state.get("completed", False)),
         "data": payload.state.get("data", {}),
-        "updated_by": current_pseudo,
+        "updated_by": pseudo,
         "updated_at": datetime.now(timezone.utc),
     }
     updates = {"$set": {room_state_path: new_state}}
@@ -441,7 +389,7 @@ async def update_room_progress(code: str, payload: RoomProgressUpdate, current_p
 
     # Track per-player progress as well
     await db.player_states.update_one(
-        {"session_code": code, "pseudo": current_pseudo},
+        {"session_code": code, "pseudo": pseudo},
         {"$set": {"progress.current_room": min(payload.room + (1 if new_state["completed"] else 0), 6)}},
         upsert=True,
     )
@@ -450,7 +398,7 @@ async def update_room_progress(code: str, payload: RoomProgressUpdate, current_p
 
 
 @app.post("/sessions/{code}/final/submit")
-async def submit_final_answer(code: str, payload: FinalAnswer, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
+async def submit_final_answer(code: str, payload: FinalAnswer, pseudo: str) -> Dict[str, Any]:
     assert db is not None
     session = await get_session_or_404(code)
     if session.get("current_room", 1) < 6:
@@ -503,15 +451,7 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-async def authenticate_ws_token(token: str) -> str:
-    try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
-        pseudo: Optional[str] = payload.get("sub")
-        if not pseudo:
-            raise ValueError("no sub")
-        return pseudo
-    except Exception as e:
-        raise HTTPException(status_code=401, detail="Invalid token")
+# Fonction d'authentification WebSocket supprimée - plus nécessaire
 
 
 def encrypt_message(text: str) -> str:
@@ -526,16 +466,8 @@ def decrypt_message(token: str) -> str:
 
 
 @app.websocket("/ws/chat/{code}")
-async def websocket_endpoint(websocket: WebSocket, code: str, token: Optional[str] = None) -> None:
-    # Token can be passed as query param ?token=Bearer xxx or raw token
-    q_token = websocket.query_params.get("token") if token is None else token
-    if not q_token:
-        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-        return
-    if q_token.startswith("Bearer "):
-        q_token = q_token.split(" ", 1)[1]
-
-    pseudo = await authenticate_ws_token(q_token)
+async def websocket_endpoint(websocket: WebSocket, code: str, pseudo: str) -> None:
+    # Pseudo passé directement en paramètre de requête
 
     assert db is not None
     session = await db.sessions.find_one({"code": code})
@@ -575,10 +507,10 @@ async def websocket_endpoint(websocket: WebSocket, code: str, token: Optional[st
 
 
 @app.get("/sessions/{code}/chat/history", response_model=List[ChatMessagePublic])
-async def chat_history(code: str, current_pseudo: str = Depends(get_current_user)) -> List[ChatMessagePublic]:
+async def chat_history(code: str, pseudo: str) -> List[ChatMessagePublic]:
     assert db is not None
     session = await get_session_or_404(code)
-    if current_pseudo not in session.get("players", []) and current_pseudo != session.get("owner"):
+    if pseudo not in session.get("players", []) and pseudo != session.get("owner"):
         raise HTTPException(status_code=403, detail="Join the session first")
     cursor = db.messages.find({"session_id": code}).sort("created_at", 1)
     items: List[ChatMessagePublic] = []
@@ -601,12 +533,12 @@ async def health() -> Dict[str, str]:
 # -----------------------------
 
 @app.post("/sessions/{code}/rooms/{room}/timer/start", response_model=TimerInfo)
-async def start_room_timer(code: str, room: int, current_pseudo: str = Depends(get_current_user)) -> TimerInfo:
+async def start_room_timer(code: str, room: int, pseudo: str) -> TimerInfo:
     assert db is not None
     if room < 1 or room > 6:
         raise HTTPException(status_code=400, detail="Invalid room")
     session = await get_session_or_404(code)
-    if current_pseudo != session.get("owner"):
+    if pseudo != session.get("owner"):
         raise HTTPException(status_code=403, detail="Only owner can start timer")
     if ROOM_TIMER_SECONDS <= 0:
         raise HTTPException(status_code=400, detail="Room timers are disabled")
@@ -622,7 +554,7 @@ async def start_room_timer(code: str, room: int, current_pseudo: str = Depends(g
 
 
 @app.get("/sessions/{code}/rooms/{room}/timer", response_model=TimerInfo)
-async def get_room_timer(code: str, room: int, current_pseudo: str = Depends(get_current_user)) -> TimerInfo:
+async def get_room_timer(code: str, room: int, pseudo: str) -> TimerInfo:
     assert db is not None
     if room < 1 or room > 6:
         raise HTTPException(status_code=400, detail="Invalid room")
