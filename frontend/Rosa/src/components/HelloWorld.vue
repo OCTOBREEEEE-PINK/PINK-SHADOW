@@ -85,13 +85,13 @@
               v-model="playerName"
               @keyup.enter="handleSubmitName"
               type="text"
-              class="w-full px-4 py-3 border-2 border-pink-300 rounded-xl focus:outline-none focus:border-pink-500 transition-colors mb-4"
+              class="w-full px-4 py-3 border-2 border-pink-300 rounded-xl text-black focus:outline-none focus:border-pink-500 transition-colors mb-4"
               placeholder="Votre nom..."
               autofocus
             />
             <button
               @click="handleSubmitName"
-              class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-black px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
             >
               👥 Confirmer et Rejoindre
             </button>
@@ -228,11 +228,34 @@ const handleJoinTeam = () => {
   showNameInput.value = true;
 };
 
-const handleSubmitName = () => {
-  if (playerName.value.trim()) {
-    hasJoined.value = true;
+// const handleSubmitName = () => {
+//   if (playerName.value.trim()) {
+//     hasJoined.value = true;
+//   }
+// };
+
+const handleSubmitName = async () => {
+  if (!playerName.value.trim()) return;
+
+  try {
+    const response = await fetch('https://ton-backend.com/api/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: playerName.value })
+    });
+
+    if (!response.ok) throw new Error('Erreur lors de l’envoi du nom');
+
+    hasJoined.value = true; 
+    console.log('Nom envoyé avec succès !');
+  } catch (error) {
+    console.error(error);
+    alert('Impossible de rejoindre pour le moment.');
   }
 };
+
 
 const goBack = () => {
   if (currentScene.value > 0) {
