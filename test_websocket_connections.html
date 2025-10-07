@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Connexions WebSocket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .player {
+            background: #f0f0f0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .connected {
+            background: #d4edda;
+        }
+
+        .disconnected {
+            background: #f8d7da;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Test des Connexions WebSocket</h1>
+
+    <div>
+        <button onclick="simulatePlayer('Alice')">Simuler Alice</button>
+        <button onclick="simulatePlayer('Bob')">Simuler Bob</button>
+        <button onclick="simulatePlayer('Charlie')">Simuler Charlie</button>
+        <button onclick="simulatePlayer('Diana')">Simuler Diana</button>
+    </div>
+
+    <div>
+        <button onclick="fetchConnectedPlayers()">🔄 Actualiser la liste</button>
+        <button onclick="clearAll()">🗑️ Effacer tout</button>
+    </div>
+
+    <div id="status"></div>
+
+    <h2>Joueurs Connectés :</h2>
+    <div id="playersList"></div>
+
+    <h2>Réponse API :</h2>
+    <pre id="apiResponse"></pre>
+
+    <script>
+        const players = [];
+        const websockets = [];
+
+        async function simulatePlayer(name) {
+            try {
+                addStatus(`🔄 Simulation de ${name}...`, 'info');
+
+                // 1. S'inscrire
+                const registerResponse = await fetch('http://127.0.0.1:8000/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pseudo: name,
+                        password: 'defaultPassword123'
+                    })
+                });
+
+                if (!registerResponse.ok) {
+                    const error = await registerResponse.text();
+                    addStatus(`❌ Erreur inscription ${name}: ${error}`, 'error');
+                    return;
+                }
+
+                // 2. Se connecter
+                const loginResponse = await fetch('http://127.0.0.1:8000/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `username=${encodeURIComponent(name)}&password=defaultPassword123`
+                });
+
+                if (!loginResponse.ok) {
+                    addStatus(`❌ Erreur connexion ${name}`, 'error');
+                    return;
+                }
+
+                const loginData = await loginResponse.json();
+                const token = loginData.access_token;
+
+                // 3. Créer une session
+                const sessionResponse = await fetch('http://127.0.0.1:8000/sessions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        name: `Session de ${name}`
+                    })
+                });
+
+                if (!sessionResponse.ok) {
+                    addStatus(`❌ Erreur création session ${name}`, 'error');
+                    return;
+                }
+
+                const sessionData = await sessionResponse.json();
+                const sessionCode = sessionData.code;
+
+                // 4. Rejoindre la session
+                const joinResponse = await fetch(`http://127.0.0.1:8000/sessions/${sessionCode}/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!joinResponse.ok) {
+                    addStatus(`❌ Erreur jonction ${name}`, 'error');
+                    return;
+                }
+
+                // 5. Se connecter via WebSocket
+                const wsUrl = `ws://127.0.0.1:8000/ws/chat/${sessionCode}?token=${token}`;
+                const ws = new WebSocket(wsUrl);
+
+                ws.onopen = () => {
+                    addStatus(`✅ ${name} connecté avec succès !`, 'success');
+                    players.push({
+                        name,
+                        ws,
+                        sessionCode
+                    });
+                    updatePlayersList();
+                    fetchConnectedPlayers();
+                };
+
+                ws.onerror = (error) => {
+                    addStatus(`❌ Erreur WebSocket ${name}: ${error}`, 'error');
+                };
+
+                ws.onclose = () => {
+                    addStatus(`🔌 ${name} déconnecté`, 'info');
+                    const index = players.findIndex(p => p.name === name);
+                    if (index > -1) {
+                        players.splice(index, 1);
+                        updatePlayersList();
+                        fetchConnectedPlayers();
+                    }
+                };
+
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    console.log(`Message reçu pour ${name}:`, data);
+                    fetchConnectedPlayers(); // Actualiser la liste
+                };
+
+                websockets.push(ws);
+
+            } catch (error) {
+                addStatus(`❌ Erreur générale ${name}: ${error.message}`, 'error');
+            }
+        }
+
+        async function fetchConnectedPlayers() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/connected-players');
+                const data = await response.json();
+
+                document.getElementById('apiResponse').textContent = JSON.stringify(data, null, 2);
+                console.log('Données API:', data);
+            } catch (error) {
+                addStatus(`❌ Erreur récupération: ${error.message}`, 'error');
+            }
+        }
+
+        function updatePlayersList() {
+            const container = document.getElementById('playersList');
+            container.innerHTML = players.map(p =>
+                `<div class="player connected">✅ ${p.name} (Session: ${p.sessionCode})</div>`
+            ).join('');
+        }
+
+        function addStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            statusDiv.appendChild(div);
+            statusDiv.scrollTop = statusDiv.scrollHeight;
+        }
+
+        function clearAll() {
+            players.forEach(p => p.ws.close());
+            players.length = 0;
+            websockets.length = 0;
+            updatePlayersList();
+            document.getElementById('apiResponse').textContent = '';
+            document.getElementById('status').innerHTML = '';
+        }
+
+        // Charger la liste au démarrage
+        fetchConnectedPlayers();
+    </script>
+</body>
+
+</html>

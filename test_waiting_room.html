@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Salle d'Attente ROSA LAB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .mission-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e91e63, #f06292);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .countdown-section {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e91e63;
+        }
+
+        .countdown-text {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .countdown-time {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #e91e63, #f06292);
+            transition: width 1s ease;
+        }
+
+        .team-section {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e91e63;
+        }
+
+        .team-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .player-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f8bbd9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .waiting-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #e91e63;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .coop-message {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #856404;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #e91e63, #f06292);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .status-indicator {
+            margin-top: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-connected {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .test-controls {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .test-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">🌸 Salle d'Attente ROSA LAB</div>
+        <div class="mission-badge">Mission : Le Mal Silencieux</div>
+
+        <div class="countdown-section">
+            <div class="countdown-text">Début de la mission dans ⏰</div>
+            <div class="countdown-time" id="countdown">08:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <div class="team-title">👥 Équipe Connectée (<span id="playerCount">0</span> agents)</div>
+            <div id="playersContainer">
+                <div style="color: #666; font-style: italic; margin-bottom: 20px;">
+                    En attente d'autres agents...
+                </div>
+                <div class="waiting-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="coop-message">
+            <strong>Mode Coopératif :</strong> La mission démarrera automatiquement dans <span id="countdownText">08:00</span> ou dès que tous les agents seront prêts.
+        </div>
+
+        <button class="start-button" onclick="startMission()">
+            ▶️ Démarrer Maintenant
+        </button>
+
+        <div class="status-indicator status-connected" id="statusIndicator">
+            🟢 Connecté
+        </div>
+
+        <div class="test-controls">
+            <h3>Tests de Connexion</h3>
+            <button class="test-button" onclick="simulatePlayer('Alice')">Simuler Alice</button>
+            <button class="test-button" onclick="simulatePlayer('Bob')">Simuler Bob</button>
+            <button class="test-button" onclick="simulatePlayer('Charlie')">Simuler Charlie</button>
+            <button class="test-button" onclick="simulatePlayer('Diana')">Simuler Diana</button>
+            <button class="test-button" onclick="clearPlayers()">Effacer tout</button>
+            <button class="test-button" onclick="fetchPlayers()">Actualiser</button>
+        </div>
+    </div>
+
+    <script>
+        let countdown = 480; // 8 minutes
+        let countdownInterval;
+        let players = [];
+
+        // Démarrer le compte à rebours
+        function startCountdown() {
+            if (countdownInterval) return;
+
+            countdownInterval = setInterval(() => {
+                countdown--;
+                updateCountdown();
+
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    startMission();
+                }
+            }, 1000);
+        }
+
+        // Mettre à jour l'affichage du compte à rebours
+        function updateCountdown() {
+            const minutes = Math.floor(countdown / 60);
+            const seconds = countdown % 60;
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            document.getElementById('countdown').textContent = timeString;
+            document.getElementById('countdownText').textContent = timeString;
+
+            // Mettre à jour la barre de progression
+            const progress = ((480 - countdown) / 480) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        // Démarrer la mission
+        function startMission() {
+            alert('Mission démarrée ! Préparez-vous...');
+            clearInterval(countdownInterval);
+        }
+
+        // Simuler un joueur
+        async function simulatePlayer(name) {
+            try {
+                // Inscription
+                await fetch('http://127.0.0.1:8000/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pseudo: name,
+                        password: 'defaultPassword123'
+                    })
+                });
+
+                // Connexion
+                const loginResponse = await fetch('http://127.0.0.1:8000/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `username=${encodeURIComponent(name)}&password=defaultPassword123`
+                });
+
+                const loginData = await loginResponse.json();
+                const token = loginData.access_token;
+
+                // Créer une session
+                const sessionResponse = await fetch('http://127.0.0.1:8000/sessions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        name: `Session de ${name}`
+                    })
+                });
+
+                const sessionData = await sessionResponse.json();
+                const sessionCode = sessionData.code;
+
+                // Rejoindre la session
+                await fetch(`http://127.0.0.1:8000/sessions/${sessionCode}/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({})
+                });
+
+                // Connexion WebSocket
+                const ws = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${sessionCode}?token=${token}`);
+
+                ws.onopen = () => {
+                    players.push({
+                        name,
+                        ws,
+                        sessionCode
+                    });
+                    updatePlayersDisplay();
+                    console.log(`${name} connecté !`);
+                };
+
+                ws.onclose = () => {
+                    const index = players.findIndex(p => p.name === name);
+                    if (index > -1) {
+                        players.splice(index, 1);
+                        updatePlayersDisplay();
+                    }
+                };
+
+            } catch (error) {
+                console.error(`Erreur pour ${name}:`, error);
+            }
+        }
+
+        // Mettre à jour l'affichage des joueurs
+        function updatePlayersDisplay() {
+            const container = document.getElementById('playersContainer');
+            const count = document.getElementById('playerCount');
+
+            count.textContent = players.length;
+
+            if (players.length === 0) {
+                container.innerHTML = `
+                    <div style="color: #666; font-style: italic; margin-bottom: 20px;">
+                        En attente d'autres agents...
+                    </div>
+                    <div class="waiting-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="players-grid">
+                        ${players.map(p => `
+                            <div class="player-card">
+                                <span style="margin-right: 8px;">🌸</span>
+                                <span class="player-name">${p.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        // Récupérer les joueurs connectés
+        async function fetchPlayers() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/connected-players');
+                const data = await response.json();
+                console.log('Joueurs connectés:', data);
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        // Effacer tous les joueurs
+        function clearPlayers() {
+            players.forEach(p => p.ws.close());
+            players = [];
+            updatePlayersDisplay();
+        }
+
+        // Initialisation
+        startCountdown();
+        updateCountdown();
+        updatePlayersDisplay();
+
+        // Mettre à jour la liste des joueurs toutes les 5 secondes
+        setInterval(fetchPlayers, 5000);
+    </script>
+</body>
+
+</html>

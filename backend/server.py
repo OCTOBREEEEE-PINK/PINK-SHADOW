@@ -319,6 +319,77 @@ async def list_players(code: str, current_pseudo: str = Depends(get_current_user
     return {"players": session.get("players", [])}
 
 
+@app.get("/connected-players")
+async def get_connected_players() -> Dict[str, Any]:
+    """Retourne tous les joueurs actuellement connectés via WebSocket"""
+    connected_players = {}
+    for session_code, players in manager.active_connections.items():
+        connected_players[session_code] = list(players.keys())
+    
+    total_connected = sum(len(players) for players in connected_players.values())
+    
+    return {
+        "total_connected_players": total_connected,
+        "sessions": connected_players,
+        "all_players": [player for players in connected_players.values() for player in players],
+        "summary": f"{total_connected} joueur(s) connecté(s) sur {len(connected_players)} session(s)"
+    }
+
+# Timer global pour synchroniser tous les joueurs
+global_timer = {
+    "started_at": None,
+    "duration": 480,  # 8 minutes en secondes
+    "is_running": False
+}
+
+# Stockage des émojis des joueurs
+player_emojis = {}
+
+@app.get("/timer")
+async def get_timer() -> Dict[str, Any]:
+    """Retourne l'état du timer global"""
+    if not global_timer["is_running"] or not global_timer["started_at"]:
+        return {
+            "remaining_seconds": global_timer["duration"],
+            "is_running": False,
+            "started_at": None
+        }
+    
+    elapsed = (datetime.now() - global_timer["started_at"]).total_seconds()
+    remaining = max(0, global_timer["duration"] - elapsed)
+    
+    return {
+        "remaining_seconds": int(remaining),
+        "is_running": global_timer["is_running"],
+        "started_at": global_timer["started_at"].isoformat()
+    }
+
+@app.post("/timer/start")
+async def start_timer():
+    """Démarre le timer global"""
+    global_timer["started_at"] = datetime.now()
+    global_timer["is_running"] = True
+    return {"message": "Timer démarré", "started_at": global_timer["started_at"].isoformat()}
+
+@app.post("/timer/stop")
+async def stop_timer():
+    """Arrête le timer global"""
+    global_timer["is_running"] = False
+    global_timer["started_at"] = None
+    return {"message": "Timer arrêté"}
+
+@app.post("/players/{pseudo}/emoji")
+async def set_player_emoji(pseudo: str, emoji: dict):
+    """Définit l'émoji d'un joueur"""
+    player_emojis[pseudo] = emoji.get("emoji", "🌸")
+    return {"message": f"Émoji défini pour {pseudo}", "emoji": player_emojis[pseudo]}
+
+@app.get("/players/emojis")
+async def get_all_emojis():
+    """Retourne tous les émojis des joueurs"""
+    return {"emojis": player_emojis}
+
+
 @app.post("/sessions/{code}/inventory")
 async def update_inventory(code: str, payload: InventoryUpdate, current_pseudo: str = Depends(get_current_user)) -> Dict[str, Any]:
     assert db is not None

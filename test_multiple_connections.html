@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Connexions Multiples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .player {
+            background: #f0f0f0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .connected {
+            background: #d4edda;
+        }
+
+        .disconnected {
+            background: #f8d7da;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Test des Connexions Multiples</h1>
+
+    <div>
+        <button onclick="registerPlayer('Alice')">Inscrire Alice</button>
+        <button onclick="registerPlayer('Bob')">Inscrire Bob</button>
+        <button onclick="registerPlayer('Charlie')">Inscrire Charlie</button>
+        <button onclick="registerPlayer('Diana')">Inscrire Diana</button>
+    </div>
+
+    <div>
+        <button onclick="fetchConnectedPlayers()">🔄 Actualiser la liste</button>
+        <button onclick="clearPlayers()">🗑️ Effacer tout</button>
+    </div>
+
+    <h2>Joueurs Connectés :</h2>
+    <div id="playersList"></div>
+
+    <h2>Réponse API :</h2>
+    <pre id="apiResponse"></pre>
+
+    <script>
+        const players = [];
+
+        async function registerPlayer(name) {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pseudo: name,
+                        password: 'defaultPassword123'
+                    })
+                });
+
+                if (response.ok) {
+                    players.push(name);
+                    updatePlayersList();
+                    console.log(`${name} inscrit avec succès`);
+                } else {
+                    const error = await response.text();
+                    console.error(`Erreur pour ${name}:`, error);
+                }
+            } catch (error) {
+                console.error(`Erreur de connexion pour ${name}:`, error);
+            }
+        }
+
+        async function fetchConnectedPlayers() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/connected-players');
+                const data = await response.json();
+
+                document.getElementById('apiResponse').textContent = JSON.stringify(data, null, 2);
+
+                // Note: Les joueurs ne seront visibles que s'ils sont connectés via WebSocket
+                // Pour ce test, on affiche juste les données de l'API
+                console.log('Données API:', data);
+            } catch (error) {
+                console.error('Erreur lors de la récupération:', error);
+                document.getElementById('apiResponse').textContent = 'Erreur: ' + error.message;
+            }
+        }
+
+        function updatePlayersList() {
+            const container = document.getElementById('playersList');
+            container.innerHTML = players.map(name =>
+                `<div class="player connected">✅ ${name}</div>`
+            ).join('');
+        }
+
+        function clearPlayers() {
+            players.length = 0;
+            updatePlayersList();
+            document.getElementById('apiResponse').textContent = '';
+        }
+
+        // Charger la liste au démarrage
+        fetchConnectedPlayers();
+    </script>
+</body>
+
+</html>
