@@ -60,12 +60,62 @@ async def on_startup() -> None:
     await db.users.create_index("pseudo", unique=True)
     await db.sessions.create_index("code", unique=True)
     await db.messages.create_index([("session_id", 1), ("created_at", 1)])
+    
+    # Créer une session par défaut
+    print("🚀 Création de la session par défaut...")
+    
+    # Créer la session par défaut (sans créer d'utilisateur)
+    default_session_code = "DEFAULT"
+    default_session_name = "Session par défaut"
+    
+    existing_session = await db.sessions.find_one({"code": default_session_code})
+    if not existing_session:
+        session_doc = {
+            "name": default_session_name,
+            "code": default_session_code,
+            "owner": "system",  # Propriétaire système, pas un vrai utilisateur
+            "players": [],
+            "current_room": 1,
+            "room_states": DEFAULT_ROOM_STATES.copy(),
+            "final_answer_hash": None,
+            "created_at": datetime.now(timezone.utc),
+            "finished": False,
+        }
+        await db.sessions.insert_one(session_doc)
+        print(f"  ✓ Session par défaut créée (code: {default_session_code})")
+    else:
+        print(f"  ℹ️  Session par défaut existe déjà (code: {default_session_code})")
+    
+    print("✅ Initialisation terminée")
 
 
 @app.on_event("shutdown")
 async def on_shutdown() -> None:
-    if mongo_client is not None:
-        mongo_client.close()
+    """Vide la base de données MongoDB lors de l'arrêt du serveur"""
+    if mongo_client is not None and db is not None:
+        try:
+            # Vider toutes les collections
+            print("🗑️  Vidage de la base de données MongoDB...")
+            
+            # Supprimer tous les documents de chaque collection
+            await db.users.delete_many({})
+            print("  ✓ Collection 'users' vidée")
+            
+            await db.sessions.delete_many({})
+            print("  ✓ Collection 'sessions' vidée")
+            
+            await db.messages.delete_many({})
+            print("  ✓ Collection 'messages' vidée")
+            
+            await db.player_states.delete_many({})
+            print("  ✓ Collection 'player_states' vidée")
+            
+            print("✅ Base de données vidée avec succès")
+        except Exception as e:
+            print(f"❌ Erreur lors du vidage de la base de données: {e}")
+        finally:
+            mongo_client.close()
+            print("🔌 Connexion MongoDB fermée")
 
 
 # -----------------------------
@@ -526,6 +576,31 @@ async def chat_history(code: str, pseudo: str) -> List[ChatMessagePublic]:
 @app.get("/healthz")
 async def health() -> Dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/config")
+async def get_config() -> Dict[str, Any]:
+    """Retourne la configuration du serveur pour le frontend"""
+    import socket
+    
+    # Récupérer l'adresse IP locale
+    hostname = socket.gethostname()
+    try:
+        # Récupérer l'IP en se connectant à un serveur externe (sans vraiment envoyer de données)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        local_ip = "127.0.0.1"
+    
+    return {
+        "hostname": hostname,
+        "local_ip": local_ip,
+        "api_url": f"http://{local_ip}:8000",
+        "ws_url": f"ws://{local_ip}:8000",
+        "port": 8000
+    }
 
 
 # -----------------------------

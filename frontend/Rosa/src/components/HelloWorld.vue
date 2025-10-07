@@ -400,21 +400,9 @@ const handleSubmitName = async () => {
 
     if (!registerResponse.ok) throw new Error('Erreur lors de l\'inscription');
 
-    // 2. Créer une session de jeu
-    const sessionResponse = await fetch(`${API_BASE_URL}/sessions?pseudo=${encodeURIComponent(playerName.value)}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: `Session de ${playerName.value}` }),
-    });
-
-    if (!sessionResponse.ok) throw new Error('Erreur lors de la création de session');
-
-    const sessionData = await sessionResponse.json();
-    const sessionCode = sessionData.code;
-
-    // 3. Rejoindre la session
+    // 2. Rejoindre la session par défaut "DEFAULT"
+    const sessionCode = "DEFAULT";
+    
     const joinResponse = await fetch(`${API_BASE_URL}/sessions/${sessionCode}/join?pseudo=${encodeURIComponent(playerName.value)}`, {
       method: 'POST',
       headers: {
@@ -425,10 +413,10 @@ const handleSubmitName = async () => {
 
     if (!joinResponse.ok) throw new Error('Erreur lors de la jonction à la session');
 
-    // 4. Enregistrer l'émoji choisi
+    // 3. Enregistrer l'émoji choisi
     await setPlayerEmoji(playerName.value, selectedEmoji.value);
     
-    // 5. Se connecter via WebSocket
+    // 4. Se connecter via WebSocket
     await connectWebSocket(sessionCode, playerName.value);
 
     hasJoined.value = true; 
