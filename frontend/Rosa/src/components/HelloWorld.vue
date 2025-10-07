@@ -245,7 +245,10 @@ const handleSubmitName = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ pseudo: playerName.value, password: 'defaultPassword123' }),
+      body: JSON.stringify({ 
+        pseudo: playerName.value, 
+        password: 'defaultPassword123' 
+      }),
     });
 
     if (!response.ok) throw new Error('Erreur lors de l’envoi du nom');
