@@ -237,13 +237,15 @@ const handleJoinTeam = () => {
 const handleSubmitName = async () => {
   if (!playerName.value.trim()) return;
 
+  console.log('Nom du joueur :', playerName.value);
+
   try {
-    const response = await fetch('https://ton-backend.com/api/join', {
+    const response = await fetch('http://127.0.0.1:8000/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name: playerName.value })
+      body: JSON.stringify({ pseudo: playerName.value, password: 'defaultPassword123' }),
     });
 
     if (!response.ok) throw new Error('Erreur lors de l’envoi du nom');
