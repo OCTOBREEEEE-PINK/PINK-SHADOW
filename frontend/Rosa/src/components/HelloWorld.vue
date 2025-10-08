@@ -234,8 +234,24 @@
             </div>
           </div>
           
+          <!-- Message de redirection -->
+          <div v-if="isRedirecting" class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-400 p-4 mb-4 rounded-lg shadow-lg">
+            <div class="flex items-center justify-center">
+              <div class="text-center">
+                <div class="text-2xl mb-2">🚀</div>
+                <h3 class="text-lg font-bold text-green-800 mb-2">Mission Démarrée !</h3>
+                <p class="text-green-700 text-sm mb-2">Tous les agents sont prêts. Redirection vers la salle de jeu...</p>
+                <div class="flex items-center justify-center space-x-2">
+                  <span class="text-green-600 font-semibold">Redirection dans :</span>
+                  <span class="text-2xl font-bold text-green-800 animate-pulse">{{ redirectCountdown }}</span>
+                  <span class="text-green-600 font-semibold">secondes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <!-- Indicateur d'attente amélioré -->
-          <div class="flex justify-center">
+          <div v-if="!isRedirecting" class="flex justify-center">
             <div class="flex space-x-1">
               <div class="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
               <div class="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
@@ -310,6 +326,8 @@ const isConnected = ref(false);
 const countdown = ref(480); // 8 minutes en secondes
 const countdownInterval = ref(null);
 const missionStarted = ref(false);
+const isRedirecting = ref(false);
+const redirectCountdown = ref(0);
 const timerSyncInterval = ref(null);
 const selectedEmoji = ref('🌸');
 const playerEmojis = ref({}); // Stocke les émojis de chaque joueur
@@ -453,9 +471,15 @@ const fetchConnectedPlayers = async () => {
     await fetchPlayerEmojis();
     
     // Vérifier si on a 5 joueurs ou plus pour démarrer automatiquement
-    if (connectedPlayers.value.length >= 5 && !missionStarted.value ) {
+    if (connectedPlayers.value.length >= 5 && !missionStarted.value) {
       console.log('5 joueurs connectés ! Démarrage automatique de la mission...');
-      startMission();
+      
+      // Remettre le chrono à 0 immédiatement
+      countdown.value = 0;
+      stopCountdown();
+      
+      // Appeler l'endpoint backend pour démarrer la mission pour tous les joueurs
+      startMissionForAllPlayers();
     } else if (connectedPlayers.value.length < 5 && countdown.value === 0 && !missionStarted.value) {
       // Si le timer est à 0 mais qu'on n'a pas assez de joueurs, redémarrer le timer
       console.log('Pas assez de joueurs, redémarrage du timer...');
@@ -545,6 +569,13 @@ const connectWebSocket = (sessionCode, pseudo) => {
       websocket.value.onmessage = (event) => {
         const data = JSON.parse(event.data);
         console.log('Message WebSocket reçu:', data);
+        
+        // Traiter les messages de démarrage de mission
+        if (data.type === 'mission_start') {
+          console.log('🚀 Message de démarrage de mission reçu:', data);
+          handleMissionStart(data);
+        }
+        
         // Ne pas appeler fetchConnectedPlayers à chaque message pour éviter la boucle
         // La liste sera mise à jour par le setInterval
       };
@@ -635,7 +666,80 @@ const stopCountdown = () => {
   }
 };
 
-// Démarrer la mission
+// Gérer le démarrage de mission reçu via WebSocket
+const handleMissionStart = (data) => {
+  console.log('🎯 Démarrage de mission synchronisé reçu:', data);
+  
+  // Protection contre les appels multiples
+  if (missionStarted.value) {
+    console.log('Mission déjà démarrée, redirection ignorée');
+    return;
+  }
+  
+  missionStarted.value = true;
+  isRedirecting.value = true;
+  redirectCountdown.value = data.countdown || 3;
+  stopCountdown();
+  console.log('Mission démarrée via WebSocket !');
+  
+  // Sauvegarder les infos du joueur pour le puzzle
+  sessionStorage.setItem('playerName', playerName.value);
+  sessionStorage.setItem('sessionCode', 'DEFAULT');
+  sessionStorage.setItem('playerEmoji', selectedEmoji.value);
+  
+  // Countdown de redirection synchronisé
+  const redirectInterval = setInterval(() => {
+    redirectCountdown.value--;
+    console.log(`⏰ Redirection dans ${redirectCountdown.value} secondes...`);
+    
+    if (redirectCountdown.value <= 0) {
+      clearInterval(redirectInterval);
+      
+      // Rediriger vers la première salle de jeu (puzzle)
+      console.log('🚀 Redirection vers la salle de jeu...');
+      console.log('Router disponible:', !!router);
+      console.log('Chemin actuel:', router.currentRoute.value.path);
+      
+      router.push(data.redirect_to || '/gamepuzzle').then(() => {
+        console.log('✅ Redirection réussie vers /gamepuzzle');
+        isRedirecting.value = false;
+      }).catch((error) => {
+        console.error('❌ Erreur lors de la redirection:', error);
+        isRedirecting.value = false;
+      });
+    }
+  }, 1000);
+};
+
+// Démarrer la mission pour tous les joueurs via le backend
+const startMissionForAllPlayers = async () => {
+  try {
+    console.log('🚀 Appel de l\'endpoint backend pour démarrer la mission...');
+    
+    const response = await fetch(`${API_BASE_URL}/sessions/DEFAULT/start-mission?pseudo=${encodeURIComponent(playerName.value)}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Erreur backend: ${errorData.detail || 'Erreur inconnue'}`);
+    }
+    
+    const data = await response.json();
+    console.log('✅ Mission démarrée côté backend:', data);
+    
+    // La redirection sera gérée par le message WebSocket
+  } catch (error) {
+    console.error('❌ Erreur lors du démarrage de la mission:', error);
+    // Fallback : démarrer la mission localement
+    startMission();
+  }
+};
+
+// Démarrer la mission (fonction locale de fallback)
 const startMission = () => {
   // Protection contre les appels multiples
   if (missionStarted.value) {
@@ -644,6 +748,8 @@ const startMission = () => {
   }
   
   missionStarted.value = true;
+  isRedirecting.value = true;
+  redirectCountdown.value = 3; // 3 secondes de countdown
   stopCountdown();
   console.log('Mission démarrée !');
   
@@ -652,16 +758,28 @@ const startMission = () => {
   sessionStorage.setItem('sessionCode', 'DEFAULT');
   sessionStorage.setItem('playerEmoji', selectedEmoji.value);
   
-  // Rediriger vers la première salle de jeu (puzzle)
-  console.log('Redirection vers la salle de jeu...');
-  console.log('Router disponible:', !!router);
-  console.log('Chemin actuel:', router.currentRoute.value.path);
-  
-  router.push('/gamepuzzle').then(() => {
-    console.log('Redirection réussie vers /gamepuzzle');
-  }).catch((error) => {
-    console.error('Erreur lors de la redirection:', error);
-  });
+  // Countdown de redirection pour tous les joueurs
+  const redirectInterval = setInterval(() => {
+    redirectCountdown.value--;
+    console.log(`⏰ Redirection dans ${redirectCountdown.value} secondes...`);
+    
+    if (redirectCountdown.value <= 0) {
+      clearInterval(redirectInterval);
+      
+      // Rediriger vers la première salle de jeu (puzzle)
+      console.log('🚀 Redirection vers la salle de jeu...');
+      console.log('Router disponible:', !!router);
+      console.log('Chemin actuel:', router.currentRoute.value.path);
+      
+      router.push('/gamepuzzle').then(() => {
+        console.log('✅ Redirection réussie vers /gamepuzzle');
+        isRedirecting.value = false;
+      }).catch((error) => {
+        console.error('❌ Erreur lors de la redirection:', error);
+        isRedirecting.value = false;
+      });
+    }
+  }, 1000);
 };
 
 // Fonction pour basculer l'affichage de la liste des joueurs
@@ -709,6 +827,8 @@ const disconnect = () => {
   connectedPlayers.value = [];
   isConnected.value = false;
   missionStarted.value = false;
+  isRedirecting.value = false;
+  redirectCountdown.value = 0;
   playerName.value = '';
   selectedEmoji.value = '🌸';
   

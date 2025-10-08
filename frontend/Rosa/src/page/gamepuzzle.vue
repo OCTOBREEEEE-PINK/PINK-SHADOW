@@ -391,7 +391,15 @@ const connectWebSocket = () => {
   
   websocket.value.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log('Message reçu:', data);
+    console.log('Message reçu dans gamepuzzle:', data);
+    
+    // Traiter les messages de démarrage de mission
+    if (data.type === 'mission_start') {
+      console.log('🚀 Message de démarrage de mission reçu dans gamepuzzle:', data);
+      return; // Ne pas ajouter ce message au chat
+    }
+    
+    // Ajouter le message au chat
     messages.value.push(data);
     scrollToBottom();
   };
@@ -438,11 +446,38 @@ const formatTime = (timestamp) => {
   return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 };
 
+// Récupérer les émojis des joueurs
+const playerEmojis = ref({});
+
+const fetchPlayerEmojis = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/players/emojis`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des émojis');
+    
+    const data = await response.json();
+    playerEmojis.value = data.emojis || {};
+    console.log('😊 Émojis des joueurs dans gamepuzzle:', playerEmojis.value);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des émojis:', error);
+  }
+};
+
 const getPlayerEmoji = (name) => {
-  // Hash simple pour générer un emoji basé sur le nom
-  const emojis = ['🌸', '🌺', '🌼', '🌷', '💐', '🌹', '🌻', '🍀'];
-  const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return emojis[hash % emojis.length];
+  // Si l'émoji est enregistré, le retourner
+  if (playerEmojis.value[name]) {
+    return playerEmojis.value[name];
+  }
+  
+  // Sinon, utiliser un hash déterministe basé sur le nom
+  const emojis = ['🌸', '🌺', '🌼', '🌷', '💐', '🌹', '🌻', '🍀', '🌱', '🌾', '🎭', '🎨'];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = ((hash << 5) - hash) + name.charCodeAt(i);
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  
+  const index = Math.abs(hash) % emojis.length;
+  return emojis[index];
 };
 
 const closeVictoryModal = () => {
@@ -452,11 +487,15 @@ const closeVictoryModal = () => {
 // Récupérer les joueurs connectés
 const fetchConnectedPlayers = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/connected-players`);
+    const response = await fetch(`${API_BASE_URL}/sessions/${sessionCode.value}/players`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des joueurs');
+    
     const data = await response.json();
-    connectedPlayers.value = data.all_players || [];
+    connectedPlayers.value = data.players || [];
+    console.log('👥 Joueurs connectés dans gamepuzzle:', connectedPlayers.value);
   } catch (error) {
     console.error('Erreur lors de la récupération des joueurs:', error);
+    connectedPlayers.value = [];
   }
 };
 
@@ -468,9 +507,13 @@ onMounted(() => {
   connectWebSocket();
   console.log('👥 Récupération des joueurs...');
   fetchConnectedPlayers();
+  console.log('😊 Récupération des émojis...');
+  fetchPlayerEmojis();
   
   // Mettre à jour la liste des joueurs toutes les 10 secondes
   setInterval(fetchConnectedPlayers, 10000);
+  // Mettre à jour les émojis toutes les 15 secondes
+  setInterval(fetchPlayerEmojis, 15000);
   console.log('✅ GamePuzzle complètement initialisé !');
 });
 

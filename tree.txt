@@ -1,0 +1,4619 @@
+.
+├── CHANGELOG_DISCONNECT.md
+├── CHEATSHEET.md
+├── CONFIGURATION.md
+├── FIX_ROUTER_PARAMS.md
+├── INTEGRATION_IMAGES_PUZZLE.md
+├── LICENSE
+├── PUZZLE_SYSTEM.md
+├── QUICKSTART.md
+├── README.md
+├── VERIFICATION_PUZZLE.md
+├── backend
+│   ├── Dockerfile
+│   ├── api-smoke.http
+│   ├── docker-compose.yml
+│   ├── requirements-dev.txt
+│   ├── requirements.txt
+│   ├── scripts
+│   │   ├── dev.sh
+│   │   ├── show_ip.sh
+│   │   ├── start_server.sh
+│   │   ├── test_auto_config.sh
+│   │   ├── test_disconnect.sh
+│   │   └── up_mongo.sh
+│   └── server.py
+├── env
+│   ├── bin
+│   │   ├── Activate.ps1
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── dotenv
+│   │   ├── fastapi
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.9
+│   │   ├── pyrsa-decrypt
+│   │   ├── pyrsa-encrypt
+│   │   ├── pyrsa-keygen
+│   │   ├── pyrsa-priv2pub
+│   │   ├── pyrsa-sign
+│   │   ├── pyrsa-verify
+│   │   ├── python -> python3
+│   │   ├── python3 -> /Library/Developer/CommandLineTools/usr/bin/python3
+│   │   ├── python3.9 -> python3
+│   │   ├── uvicorn
+│   │   ├── watchfiles
+│   │   └── websockets
+│   ├── include
+│   ├── lib
+│   │   └── python3.9
+│   │       └── site-packages
+│   │           ├── _cffi_backend.cpython-39-darwin.so
+│   │           ├── _distutils_hack
+│   │           │   ├── __init__.py
+│   │           │   └── override.py
+│   │           ├── _yaml
+│   │           │   └── __init__.py
+│   │           ├── annotated_types
+│   │           │   ├── __init__.py
+│   │           │   ├── py.typed
+│   │           │   └── test_cases.py
+│   │           ├── annotated_types-0.7.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── anyio
+│   │           │   ├── __init__.py
+│   │           │   ├── _backends
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _asyncio.py
+│   │           │   │   └── _trio.py
+│   │           │   ├── _core
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _asyncio_selector_thread.py
+│   │           │   │   ├── _contextmanagers.py
+│   │           │   │   ├── _eventloop.py
+│   │           │   │   ├── _exceptions.py
+│   │           │   │   ├── _fileio.py
+│   │           │   │   ├── _resources.py
+│   │           │   │   ├── _signals.py
+│   │           │   │   ├── _sockets.py
+│   │           │   │   ├── _streams.py
+│   │           │   │   ├── _subprocesses.py
+│   │           │   │   ├── _synchronization.py
+│   │           │   │   ├── _tasks.py
+│   │           │   │   ├── _tempfile.py
+│   │           │   │   ├── _testing.py
+│   │           │   │   └── _typedattr.py
+│   │           │   ├── abc
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _eventloop.py
+│   │           │   │   ├── _resources.py
+│   │           │   │   ├── _sockets.py
+│   │           │   │   ├── _streams.py
+│   │           │   │   ├── _subprocesses.py
+│   │           │   │   ├── _tasks.py
+│   │           │   │   └── _testing.py
+│   │           │   ├── from_thread.py
+│   │           │   ├── lowlevel.py
+│   │           │   ├── py.typed
+│   │           │   ├── pytest_plugin.py
+│   │           │   ├── streams
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── buffered.py
+│   │           │   │   ├── file.py
+│   │           │   │   ├── memory.py
+│   │           │   │   ├── stapled.py
+│   │           │   │   ├── text.py
+│   │           │   │   └── tls.py
+│   │           │   ├── to_interpreter.py
+│   │           │   ├── to_process.py
+│   │           │   └── to_thread.py
+│   │           ├── anyio-4.11.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   ├── licenses
+│   │           │   │   └── LICENSE
+│   │           │   └── top_level.txt
+│   │           ├── bcrypt
+│   │           │   ├── __init__.py
+│   │           │   ├── __init__.pyi
+│   │           │   ├── _bcrypt.abi3.so
+│   │           │   └── py.typed
+│   │           ├── bcrypt-5.0.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── bson
+│   │           │   ├── __init__.py
+│   │           │   ├── _cbson.cpython-38-darwin.so
+│   │           │   ├── _cbson.cpython-39-darwin.so
+│   │           │   ├── _cbsonmodule.c
+│   │           │   ├── _cbsonmodule.h
+│   │           │   ├── _helpers.py
+│   │           │   ├── binary.py
+│   │           │   ├── bson-endian.h
+│   │           │   ├── buffer.c
+│   │           │   ├── buffer.h
+│   │           │   ├── code.py
+│   │           │   ├── codec_options.py
+│   │           │   ├── datetime_ms.py
+│   │           │   ├── dbref.py
+│   │           │   ├── decimal128.py
+│   │           │   ├── errors.py
+│   │           │   ├── int64.py
+│   │           │   ├── json_util.py
+│   │           │   ├── max_key.py
+│   │           │   ├── min_key.py
+│   │           │   ├── objectid.py
+│   │           │   ├── py.typed
+│   │           │   ├── raw_bson.py
+│   │           │   ├── regex.py
+│   │           │   ├── son.py
+│   │           │   ├── time64.c
+│   │           │   ├── time64.h
+│   │           │   ├── time64_config.h
+│   │           │   ├── time64_limits.h
+│   │           │   ├── timestamp.py
+│   │           │   ├── typings.py
+│   │           │   └── tz_util.py
+│   │           ├── cffi
+│   │           │   ├── __init__.py
+│   │           │   ├── _cffi_errors.h
+│   │           │   ├── _cffi_include.h
+│   │           │   ├── _embedding.h
+│   │           │   ├── _imp_emulation.py
+│   │           │   ├── _shimmed_dist_utils.py
+│   │           │   ├── api.py
+│   │           │   ├── backend_ctypes.py
+│   │           │   ├── cffi_opcode.py
+│   │           │   ├── commontypes.py
+│   │           │   ├── cparser.py
+│   │           │   ├── error.py
+│   │           │   ├── ffiplatform.py
+│   │           │   ├── lock.py
+│   │           │   ├── model.py
+│   │           │   ├── parse_c_type.h
+│   │           │   ├── pkgconfig.py
+│   │           │   ├── recompiler.py
+│   │           │   ├── setuptools_ext.py
+│   │           │   ├── vengine_cpy.py
+│   │           │   ├── vengine_gen.py
+│   │           │   └── verifier.py
+│   │           ├── cffi-2.0.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   ├── licenses
+│   │           │   │   ├── AUTHORS
+│   │           │   │   └── LICENSE
+│   │           │   └── top_level.txt
+│   │           ├── click
+│   │           │   ├── __init__.py
+│   │           │   ├── _compat.py
+│   │           │   ├── _termui_impl.py
+│   │           │   ├── _textwrap.py
+│   │           │   ├── _winconsole.py
+│   │           │   ├── core.py
+│   │           │   ├── decorators.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── formatting.py
+│   │           │   ├── globals.py
+│   │           │   ├── parser.py
+│   │           │   ├── py.typed
+│   │           │   ├── shell_completion.py
+│   │           │   ├── termui.py
+│   │           │   ├── testing.py
+│   │           │   ├── types.py
+│   │           │   └── utils.py
+│   │           ├── click-8.1.8.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE.txt
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   └── WHEEL
+│   │           ├── cryptography
+│   │           │   ├── __about__.py
+│   │           │   ├── __init__.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── fernet.py
+│   │           │   ├── hazmat
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _oid.py
+│   │           │   │   ├── backends
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   └── openssl
+│   │           │   │   │       ├── __init__.py
+│   │           │   │   │       └── backend.py
+│   │           │   │   ├── bindings
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _rust
+│   │           │   │   │   │   ├── __init__.pyi
+│   │           │   │   │   │   ├── _openssl.pyi
+│   │           │   │   │   │   ├── asn1.pyi
+│   │           │   │   │   │   ├── exceptions.pyi
+│   │           │   │   │   │   ├── ocsp.pyi
+│   │           │   │   │   │   ├── openssl
+│   │           │   │   │   │   │   ├── __init__.pyi
+│   │           │   │   │   │   │   ├── aead.pyi
+│   │           │   │   │   │   │   ├── ciphers.pyi
+│   │           │   │   │   │   │   ├── cmac.pyi
+│   │           │   │   │   │   │   ├── dh.pyi
+│   │           │   │   │   │   │   ├── dsa.pyi
+│   │           │   │   │   │   │   ├── ec.pyi
+│   │           │   │   │   │   │   ├── ed25519.pyi
+│   │           │   │   │   │   │   ├── ed448.pyi
+│   │           │   │   │   │   │   ├── hashes.pyi
+│   │           │   │   │   │   │   ├── hmac.pyi
+│   │           │   │   │   │   │   ├── kdf.pyi
+│   │           │   │   │   │   │   ├── keys.pyi
+│   │           │   │   │   │   │   ├── poly1305.pyi
+│   │           │   │   │   │   │   ├── rsa.pyi
+│   │           │   │   │   │   │   ├── x25519.pyi
+│   │           │   │   │   │   │   └── x448.pyi
+│   │           │   │   │   │   ├── pkcs12.pyi
+│   │           │   │   │   │   ├── pkcs7.pyi
+│   │           │   │   │   │   ├── test_support.pyi
+│   │           │   │   │   │   └── x509.pyi
+│   │           │   │   │   ├── _rust.abi3.so
+│   │           │   │   │   └── openssl
+│   │           │   │   │       ├── __init__.py
+│   │           │   │   │       ├── _conditional.py
+│   │           │   │   │       └── binding.py
+│   │           │   │   ├── decrepit
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   └── ciphers
+│   │           │   │   │       ├── __init__.py
+│   │           │   │   │       └── algorithms.py
+│   │           │   │   └── primitives
+│   │           │   │       ├── __init__.py
+│   │           │   │       ├── _asymmetric.py
+│   │           │   │       ├── _cipheralgorithm.py
+│   │           │   │       ├── _serialization.py
+│   │           │   │       ├── asymmetric
+│   │           │   │       │   ├── __init__.py
+│   │           │   │       │   ├── dh.py
+│   │           │   │       │   ├── dsa.py
+│   │           │   │       │   ├── ec.py
+│   │           │   │       │   ├── ed25519.py
+│   │           │   │       │   ├── ed448.py
+│   │           │   │       │   ├── padding.py
+│   │           │   │       │   ├── rsa.py
+│   │           │   │       │   ├── types.py
+│   │           │   │       │   ├── utils.py
+│   │           │   │       │   ├── x25519.py
+│   │           │   │       │   └── x448.py
+│   │           │   │       ├── ciphers
+│   │           │   │       │   ├── __init__.py
+│   │           │   │       │   ├── aead.py
+│   │           │   │       │   ├── algorithms.py
+│   │           │   │       │   ├── base.py
+│   │           │   │       │   └── modes.py
+│   │           │   │       ├── cmac.py
+│   │           │   │       ├── constant_time.py
+│   │           │   │       ├── hashes.py
+│   │           │   │       ├── hmac.py
+│   │           │   │       ├── kdf
+│   │           │   │       │   ├── __init__.py
+│   │           │   │       │   ├── concatkdf.py
+│   │           │   │       │   ├── hkdf.py
+│   │           │   │       │   ├── kbkdf.py
+│   │           │   │       │   ├── pbkdf2.py
+│   │           │   │       │   ├── scrypt.py
+│   │           │   │       │   └── x963kdf.py
+│   │           │   │       ├── keywrap.py
+│   │           │   │       ├── padding.py
+│   │           │   │       ├── poly1305.py
+│   │           │   │       ├── serialization
+│   │           │   │       │   ├── __init__.py
+│   │           │   │       │   ├── base.py
+│   │           │   │       │   ├── pkcs12.py
+│   │           │   │       │   ├── pkcs7.py
+│   │           │   │       │   └── ssh.py
+│   │           │   │       └── twofactor
+│   │           │   │           ├── __init__.py
+│   │           │   │           ├── hotp.py
+│   │           │   │           └── totp.py
+│   │           │   ├── py.typed
+│   │           │   ├── utils.py
+│   │           │   └── x509
+│   │           │       ├── __init__.py
+│   │           │       ├── base.py
+│   │           │       ├── certificate_transparency.py
+│   │           │       ├── extensions.py
+│   │           │       ├── general_name.py
+│   │           │       ├── name.py
+│   │           │       ├── ocsp.py
+│   │           │       ├── oid.py
+│   │           │       └── verification.py
+│   │           ├── cryptography-43.0.3.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   └── license_files
+│   │           │       ├── LICENSE
+│   │           │       ├── LICENSE.APACHE
+│   │           │       └── LICENSE.BSD
+│   │           ├── distutils-precedence.pth
+│   │           ├── dns
+│   │           │   ├── __init__.py
+│   │           │   ├── _asyncbackend.py
+│   │           │   ├── _asyncio_backend.py
+│   │           │   ├── _ddr.py
+│   │           │   ├── _features.py
+│   │           │   ├── _immutable_ctx.py
+│   │           │   ├── _trio_backend.py
+│   │           │   ├── asyncbackend.py
+│   │           │   ├── asyncquery.py
+│   │           │   ├── asyncresolver.py
+│   │           │   ├── dnssec.py
+│   │           │   ├── dnssecalgs
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── base.py
+│   │           │   │   ├── cryptography.py
+│   │           │   │   ├── dsa.py
+│   │           │   │   ├── ecdsa.py
+│   │           │   │   ├── eddsa.py
+│   │           │   │   └── rsa.py
+│   │           │   ├── dnssectypes.py
+│   │           │   ├── e164.py
+│   │           │   ├── edns.py
+│   │           │   ├── entropy.py
+│   │           │   ├── enum.py
+│   │           │   ├── exception.py
+│   │           │   ├── flags.py
+│   │           │   ├── grange.py
+│   │           │   ├── immutable.py
+│   │           │   ├── inet.py
+│   │           │   ├── ipv4.py
+│   │           │   ├── ipv6.py
+│   │           │   ├── message.py
+│   │           │   ├── name.py
+│   │           │   ├── namedict.py
+│   │           │   ├── nameserver.py
+│   │           │   ├── node.py
+│   │           │   ├── opcode.py
+│   │           │   ├── py.typed
+│   │           │   ├── query.py
+│   │           │   ├── quic
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _asyncio.py
+│   │           │   │   ├── _common.py
+│   │           │   │   ├── _sync.py
+│   │           │   │   └── _trio.py
+│   │           │   ├── rcode.py
+│   │           │   ├── rdata.py
+│   │           │   ├── rdataclass.py
+│   │           │   ├── rdataset.py
+│   │           │   ├── rdatatype.py
+│   │           │   ├── rdtypes
+│   │           │   │   ├── ANY
+│   │           │   │   │   ├── AFSDB.py
+│   │           │   │   │   ├── AMTRELAY.py
+│   │           │   │   │   ├── AVC.py
+│   │           │   │   │   ├── CAA.py
+│   │           │   │   │   ├── CDNSKEY.py
+│   │           │   │   │   ├── CDS.py
+│   │           │   │   │   ├── CERT.py
+│   │           │   │   │   ├── CNAME.py
+│   │           │   │   │   ├── CSYNC.py
+│   │           │   │   │   ├── DLV.py
+│   │           │   │   │   ├── DNAME.py
+│   │           │   │   │   ├── DNSKEY.py
+│   │           │   │   │   ├── DS.py
+│   │           │   │   │   ├── EUI48.py
+│   │           │   │   │   ├── EUI64.py
+│   │           │   │   │   ├── GPOS.py
+│   │           │   │   │   ├── HINFO.py
+│   │           │   │   │   ├── HIP.py
+│   │           │   │   │   ├── ISDN.py
+│   │           │   │   │   ├── L32.py
+│   │           │   │   │   ├── L64.py
+│   │           │   │   │   ├── LOC.py
+│   │           │   │   │   ├── LP.py
+│   │           │   │   │   ├── MX.py
+│   │           │   │   │   ├── NID.py
+│   │           │   │   │   ├── NINFO.py
+│   │           │   │   │   ├── NS.py
+│   │           │   │   │   ├── NSEC.py
+│   │           │   │   │   ├── NSEC3.py
+│   │           │   │   │   ├── NSEC3PARAM.py
+│   │           │   │   │   ├── OPENPGPKEY.py
+│   │           │   │   │   ├── OPT.py
+│   │           │   │   │   ├── PTR.py
+│   │           │   │   │   ├── RESINFO.py
+│   │           │   │   │   ├── RP.py
+│   │           │   │   │   ├── RRSIG.py
+│   │           │   │   │   ├── RT.py
+│   │           │   │   │   ├── SMIMEA.py
+│   │           │   │   │   ├── SOA.py
+│   │           │   │   │   ├── SPF.py
+│   │           │   │   │   ├── SSHFP.py
+│   │           │   │   │   ├── TKEY.py
+│   │           │   │   │   ├── TLSA.py
+│   │           │   │   │   ├── TSIG.py
+│   │           │   │   │   ├── TXT.py
+│   │           │   │   │   ├── URI.py
+│   │           │   │   │   ├── WALLET.py
+│   │           │   │   │   ├── X25.py
+│   │           │   │   │   ├── ZONEMD.py
+│   │           │   │   │   └── __init__.py
+│   │           │   │   ├── CH
+│   │           │   │   │   ├── A.py
+│   │           │   │   │   └── __init__.py
+│   │           │   │   ├── IN
+│   │           │   │   │   ├── A.py
+│   │           │   │   │   ├── AAAA.py
+│   │           │   │   │   ├── APL.py
+│   │           │   │   │   ├── DHCID.py
+│   │           │   │   │   ├── HTTPS.py
+│   │           │   │   │   ├── IPSECKEY.py
+│   │           │   │   │   ├── KX.py
+│   │           │   │   │   ├── NAPTR.py
+│   │           │   │   │   ├── NSAP.py
+│   │           │   │   │   ├── NSAP_PTR.py
+│   │           │   │   │   ├── PX.py
+│   │           │   │   │   ├── SRV.py
+│   │           │   │   │   ├── SVCB.py
+│   │           │   │   │   ├── WKS.py
+│   │           │   │   │   └── __init__.py
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── dnskeybase.py
+│   │           │   │   ├── dsbase.py
+│   │           │   │   ├── euibase.py
+│   │           │   │   ├── mxbase.py
+│   │           │   │   ├── nsbase.py
+│   │           │   │   ├── svcbbase.py
+│   │           │   │   ├── tlsabase.py
+│   │           │   │   ├── txtbase.py
+│   │           │   │   └── util.py
+│   │           │   ├── renderer.py
+│   │           │   ├── resolver.py
+│   │           │   ├── reversename.py
+│   │           │   ├── rrset.py
+│   │           │   ├── serial.py
+│   │           │   ├── set.py
+│   │           │   ├── tokenizer.py
+│   │           │   ├── transaction.py
+│   │           │   ├── tsig.py
+│   │           │   ├── tsigkeyring.py
+│   │           │   ├── ttl.py
+│   │           │   ├── update.py
+│   │           │   ├── version.py
+│   │           │   ├── versioned.py
+│   │           │   ├── win32util.py
+│   │           │   ├── wire.py
+│   │           │   ├── xfr.py
+│   │           │   ├── zone.py
+│   │           │   ├── zonefile.py
+│   │           │   └── zonetypes.py
+│   │           ├── dnspython-2.7.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── dotenv
+│   │           │   ├── __init__.py
+│   │           │   ├── __main__.py
+│   │           │   ├── cli.py
+│   │           │   ├── ipython.py
+│   │           │   ├── main.py
+│   │           │   ├── parser.py
+│   │           │   ├── py.typed
+│   │           │   ├── variables.py
+│   │           │   └── version.py
+│   │           ├── ecdsa
+│   │           │   ├── __init__.py
+│   │           │   ├── _compat.py
+│   │           │   ├── _rwlock.py
+│   │           │   ├── _sha3.py
+│   │           │   ├── _version.py
+│   │           │   ├── curves.py
+│   │           │   ├── der.py
+│   │           │   ├── ecdh.py
+│   │           │   ├── ecdsa.py
+│   │           │   ├── eddsa.py
+│   │           │   ├── ellipticcurve.py
+│   │           │   ├── errors.py
+│   │           │   ├── keys.py
+│   │           │   ├── numbertheory.py
+│   │           │   ├── rfc6979.py
+│   │           │   ├── ssh.py
+│   │           │   ├── test_curves.py
+│   │           │   ├── test_der.py
+│   │           │   ├── test_ecdh.py
+│   │           │   ├── test_ecdsa.py
+│   │           │   ├── test_eddsa.py
+│   │           │   ├── test_ellipticcurve.py
+│   │           │   ├── test_jacobi.py
+│   │           │   ├── test_keys.py
+│   │           │   ├── test_malformed_sigs.py
+│   │           │   ├── test_numbertheory.py
+│   │           │   ├── test_pyecdsa.py
+│   │           │   ├── test_rw_lock.py
+│   │           │   ├── test_sha3.py
+│   │           │   └── util.py
+│   │           ├── ecdsa-0.19.1.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── exceptiongroup
+│   │           │   ├── __init__.py
+│   │           │   ├── _catch.py
+│   │           │   ├── _exceptions.py
+│   │           │   ├── _formatting.py
+│   │           │   ├── _suppress.py
+│   │           │   ├── _version.py
+│   │           │   └── py.typed
+│   │           ├── exceptiongroup-1.3.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── fastapi
+│   │           │   ├── __init__.py
+│   │           │   ├── __main__.py
+│   │           │   ├── _compat.py
+│   │           │   ├── applications.py
+│   │           │   ├── background.py
+│   │           │   ├── cli.py
+│   │           │   ├── concurrency.py
+│   │           │   ├── datastructures.py
+│   │           │   ├── dependencies
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── models.py
+│   │           │   │   └── utils.py
+│   │           │   ├── encoders.py
+│   │           │   ├── exception_handlers.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── logger.py
+│   │           │   ├── middleware
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── cors.py
+│   │           │   │   ├── gzip.py
+│   │           │   │   ├── httpsredirect.py
+│   │           │   │   ├── trustedhost.py
+│   │           │   │   └── wsgi.py
+│   │           │   ├── openapi
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── constants.py
+│   │           │   │   ├── docs.py
+│   │           │   │   ├── models.py
+│   │           │   │   └── utils.py
+│   │           │   ├── param_functions.py
+│   │           │   ├── params.py
+│   │           │   ├── py.typed
+│   │           │   ├── requests.py
+│   │           │   ├── responses.py
+│   │           │   ├── routing.py
+│   │           │   ├── security
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── api_key.py
+│   │           │   │   ├── base.py
+│   │           │   │   ├── http.py
+│   │           │   │   ├── oauth2.py
+│   │           │   │   ├── open_id_connect_url.py
+│   │           │   │   └── utils.py
+│   │           │   ├── staticfiles.py
+│   │           │   ├── templating.py
+│   │           │   ├── testclient.py
+│   │           │   ├── types.py
+│   │           │   ├── utils.py
+│   │           │   └── websockets.py
+│   │           ├── fastapi-0.115.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── gridfs
+│   │           │   ├── __init__.py
+│   │           │   ├── asynchronous
+│   │           │   │   └── grid_file.py
+│   │           │   ├── errors.py
+│   │           │   ├── grid_file.py
+│   │           │   ├── grid_file_shared.py
+│   │           │   ├── py.typed
+│   │           │   └── synchronous
+│   │           │       └── grid_file.py
+│   │           ├── h11
+│   │           │   ├── __init__.py
+│   │           │   ├── _abnf.py
+│   │           │   ├── _connection.py
+│   │           │   ├── _events.py
+│   │           │   ├── _headers.py
+│   │           │   ├── _readers.py
+│   │           │   ├── _receivebuffer.py
+│   │           │   ├── _state.py
+│   │           │   ├── _util.py
+│   │           │   ├── _version.py
+│   │           │   ├── _writers.py
+│   │           │   └── py.typed
+│   │           ├── h11-0.16.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── licenses
+│   │           │   │   └── LICENSE.txt
+│   │           │   └── top_level.txt
+│   │           ├── httptools
+│   │           │   ├── __init__.py
+│   │           │   ├── _version.py
+│   │           │   └── parser
+│   │           │       ├── __init__.py
+│   │           │       ├── cparser.pxd
+│   │           │       ├── errors.py
+│   │           │       ├── parser.cpython-39-darwin.so
+│   │           │       ├── parser.pyx
+│   │           │       ├── python.pxd
+│   │           │       ├── url_cparser.pxd
+│   │           │       ├── url_parser.cpython-39-darwin.so
+│   │           │       └── url_parser.pyx
+│   │           ├── httptools-0.6.4.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── idna
+│   │           │   ├── __init__.py
+│   │           │   ├── codec.py
+│   │           │   ├── compat.py
+│   │           │   ├── core.py
+│   │           │   ├── idnadata.py
+│   │           │   ├── intranges.py
+│   │           │   ├── package_data.py
+│   │           │   ├── py.typed
+│   │           │   └── uts46data.py
+│   │           ├── idna-3.10.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE.md
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   └── WHEEL
+│   │           ├── jose
+│   │           │   ├── __init__.py
+│   │           │   ├── backends
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _asn1.py
+│   │           │   │   ├── base.py
+│   │           │   │   ├── cryptography_backend.py
+│   │           │   │   ├── ecdsa_backend.py
+│   │           │   │   ├── native.py
+│   │           │   │   └── rsa_backend.py
+│   │           │   ├── constants.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── jwe.py
+│   │           │   ├── jwk.py
+│   │           │   ├── jws.py
+│   │           │   ├── jwt.py
+│   │           │   └── utils.py
+│   │           ├── motor
+│   │           │   ├── __init__.py
+│   │           │   ├── _version.py
+│   │           │   ├── aiohttp
+│   │           │   │   └── __init__.py
+│   │           │   ├── core.py
+│   │           │   ├── core.pyi
+│   │           │   ├── docstrings.py
+│   │           │   ├── frameworks
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── asyncio
+│   │           │   │   │   └── __init__.py
+│   │           │   │   └── tornado
+│   │           │   │       └── __init__.py
+│   │           │   ├── metaprogramming.py
+│   │           │   ├── motor_asyncio.py
+│   │           │   ├── motor_asyncio.pyi
+│   │           │   ├── motor_common.py
+│   │           │   ├── motor_gridfs.py
+│   │           │   ├── motor_gridfs.pyi
+│   │           │   ├── motor_tornado.py
+│   │           │   ├── motor_tornado.pyi
+│   │           │   ├── py.typed
+│   │           │   └── web.py
+│   │           ├── motor-3.6.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── multipart
+│   │           │   ├── __init__.py
+│   │           │   ├── decoders.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── multipart.py
+│   │           │   └── py.typed
+│   │           ├── passlib
+│   │           │   ├── __init__.py
+│   │           │   ├── _data
+│   │           │   │   └── wordsets
+│   │           │   │       ├── bip39.txt
+│   │           │   │       ├── eff_long.txt
+│   │           │   │       ├── eff_prefixed.txt
+│   │           │   │       └── eff_short.txt
+│   │           │   ├── apache.py
+│   │           │   ├── apps.py
+│   │           │   ├── context.py
+│   │           │   ├── crypto
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _blowfish
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _gen_files.py
+│   │           │   │   │   ├── base.py
+│   │           │   │   │   └── unrolled.py
+│   │           │   │   ├── _md4.py
+│   │           │   │   ├── des.py
+│   │           │   │   ├── digest.py
+│   │           │   │   └── scrypt
+│   │           │   │       ├── __init__.py
+│   │           │   │       ├── _builtin.py
+│   │           │   │       ├── _gen_files.py
+│   │           │   │       └── _salsa.py
+│   │           │   ├── exc.py
+│   │           │   ├── ext
+│   │           │   │   ├── __init__.py
+│   │           │   │   └── django
+│   │           │   │       ├── __init__.py
+│   │           │   │       ├── models.py
+│   │           │   │       └── utils.py
+│   │           │   ├── handlers
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── argon2.py
+│   │           │   │   ├── bcrypt.py
+│   │           │   │   ├── cisco.py
+│   │           │   │   ├── des_crypt.py
+│   │           │   │   ├── digests.py
+│   │           │   │   ├── django.py
+│   │           │   │   ├── fshp.py
+│   │           │   │   ├── ldap_digests.py
+│   │           │   │   ├── md5_crypt.py
+│   │           │   │   ├── misc.py
+│   │           │   │   ├── mssql.py
+│   │           │   │   ├── mysql.py
+│   │           │   │   ├── oracle.py
+│   │           │   │   ├── pbkdf2.py
+│   │           │   │   ├── phpass.py
+│   │           │   │   ├── postgres.py
+│   │           │   │   ├── roundup.py
+│   │           │   │   ├── scram.py
+│   │           │   │   ├── scrypt.py
+│   │           │   │   ├── sha1_crypt.py
+│   │           │   │   ├── sha2_crypt.py
+│   │           │   │   ├── sun_md5_crypt.py
+│   │           │   │   └── windows.py
+│   │           │   ├── hash.py
+│   │           │   ├── hosts.py
+│   │           │   ├── ifc.py
+│   │           │   ├── pwd.py
+│   │           │   ├── registry.py
+│   │           │   ├── tests
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── __main__.py
+│   │           │   │   ├── _test_bad_register.py
+│   │           │   │   ├── backports.py
+│   │           │   │   ├── sample1.cfg
+│   │           │   │   ├── sample1b.cfg
+│   │           │   │   ├── sample1c.cfg
+│   │           │   │   ├── sample_config_1s.cfg
+│   │           │   │   ├── test_apache.py
+│   │           │   │   ├── test_apps.py
+│   │           │   │   ├── test_context.py
+│   │           │   │   ├── test_context_deprecated.py
+│   │           │   │   ├── test_crypto_builtin_md4.py
+│   │           │   │   ├── test_crypto_des.py
+│   │           │   │   ├── test_crypto_digest.py
+│   │           │   │   ├── test_crypto_scrypt.py
+│   │           │   │   ├── test_ext_django.py
+│   │           │   │   ├── test_ext_django_source.py
+│   │           │   │   ├── test_handlers.py
+│   │           │   │   ├── test_handlers_argon2.py
+│   │           │   │   ├── test_handlers_bcrypt.py
+│   │           │   │   ├── test_handlers_cisco.py
+│   │           │   │   ├── test_handlers_django.py
+│   │           │   │   ├── test_handlers_pbkdf2.py
+│   │           │   │   ├── test_handlers_scrypt.py
+│   │           │   │   ├── test_hosts.py
+│   │           │   │   ├── test_pwd.py
+│   │           │   │   ├── test_registry.py
+│   │           │   │   ├── test_totp.py
+│   │           │   │   ├── test_utils.py
+│   │           │   │   ├── test_utils_handlers.py
+│   │           │   │   ├── test_utils_md4.py
+│   │           │   │   ├── test_utils_pbkdf2.py
+│   │           │   │   ├── test_win32.py
+│   │           │   │   ├── tox_support.py
+│   │           │   │   └── utils.py
+│   │           │   ├── totp.py
+│   │           │   ├── utils
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── binary.py
+│   │           │   │   ├── compat
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   └── _ordered_dict.py
+│   │           │   │   ├── decor.py
+│   │           │   │   ├── des.py
+│   │           │   │   ├── handlers.py
+│   │           │   │   ├── md4.py
+│   │           │   │   └── pbkdf2.py
+│   │           │   └── win32.py
+│   │           ├── passlib-1.7.4.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   ├── top_level.txt
+│   │           │   └── zip-safe
+│   │           ├── pip
+│   │           │   ├── __init__.py
+│   │           │   ├── __main__.py
+│   │           │   ├── _internal
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── build_env.py
+│   │           │   │   ├── cache.py
+│   │           │   │   ├── cli
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── autocompletion.py
+│   │           │   │   │   ├── base_command.py
+│   │           │   │   │   ├── cmdoptions.py
+│   │           │   │   │   ├── command_context.py
+│   │           │   │   │   ├── main.py
+│   │           │   │   │   ├── main_parser.py
+│   │           │   │   │   ├── parser.py
+│   │           │   │   │   ├── progress_bars.py
+│   │           │   │   │   ├── req_command.py
+│   │           │   │   │   ├── spinners.py
+│   │           │   │   │   └── status_codes.py
+│   │           │   │   ├── commands
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── cache.py
+│   │           │   │   │   ├── check.py
+│   │           │   │   │   ├── completion.py
+│   │           │   │   │   ├── configuration.py
+│   │           │   │   │   ├── debug.py
+│   │           │   │   │   ├── download.py
+│   │           │   │   │   ├── freeze.py
+│   │           │   │   │   ├── hash.py
+│   │           │   │   │   ├── help.py
+│   │           │   │   │   ├── index.py
+│   │           │   │   │   ├── install.py
+│   │           │   │   │   ├── list.py
+│   │           │   │   │   ├── search.py
+│   │           │   │   │   ├── show.py
+│   │           │   │   │   ├── uninstall.py
+│   │           │   │   │   └── wheel.py
+│   │           │   │   ├── configuration.py
+│   │           │   │   ├── distributions
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── base.py
+│   │           │   │   │   ├── installed.py
+│   │           │   │   │   ├── sdist.py
+│   │           │   │   │   └── wheel.py
+│   │           │   │   ├── exceptions.py
+│   │           │   │   ├── index
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── collector.py
+│   │           │   │   │   ├── package_finder.py
+│   │           │   │   │   └── sources.py
+│   │           │   │   ├── locations
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _distutils.py
+│   │           │   │   │   ├── _sysconfig.py
+│   │           │   │   │   └── base.py
+│   │           │   │   ├── main.py
+│   │           │   │   ├── metadata
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── base.py
+│   │           │   │   │   └── pkg_resources.py
+│   │           │   │   ├── models
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── candidate.py
+│   │           │   │   │   ├── direct_url.py
+│   │           │   │   │   ├── format_control.py
+│   │           │   │   │   ├── index.py
+│   │           │   │   │   ├── link.py
+│   │           │   │   │   ├── scheme.py
+│   │           │   │   │   ├── search_scope.py
+│   │           │   │   │   ├── selection_prefs.py
+│   │           │   │   │   ├── target_python.py
+│   │           │   │   │   └── wheel.py
+│   │           │   │   ├── network
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── auth.py
+│   │           │   │   │   ├── cache.py
+│   │           │   │   │   ├── download.py
+│   │           │   │   │   ├── lazy_wheel.py
+│   │           │   │   │   ├── session.py
+│   │           │   │   │   ├── utils.py
+│   │           │   │   │   └── xmlrpc.py
+│   │           │   │   ├── operations
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── build
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── metadata.py
+│   │           │   │   │   │   ├── metadata_legacy.py
+│   │           │   │   │   │   ├── wheel.py
+│   │           │   │   │   │   └── wheel_legacy.py
+│   │           │   │   │   ├── check.py
+│   │           │   │   │   ├── freeze.py
+│   │           │   │   │   ├── install
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── editable_legacy.py
+│   │           │   │   │   │   ├── legacy.py
+│   │           │   │   │   │   └── wheel.py
+│   │           │   │   │   └── prepare.py
+│   │           │   │   ├── pyproject.py
+│   │           │   │   ├── req
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── constructors.py
+│   │           │   │   │   ├── req_file.py
+│   │           │   │   │   ├── req_install.py
+│   │           │   │   │   ├── req_set.py
+│   │           │   │   │   ├── req_tracker.py
+│   │           │   │   │   └── req_uninstall.py
+│   │           │   │   ├── resolution
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── base.py
+│   │           │   │   │   ├── legacy
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   └── resolver.py
+│   │           │   │   │   └── resolvelib
+│   │           │   │   │       ├── __init__.py
+│   │           │   │   │       ├── base.py
+│   │           │   │   │       ├── candidates.py
+│   │           │   │   │       ├── factory.py
+│   │           │   │   │       ├── found_candidates.py
+│   │           │   │   │       ├── provider.py
+│   │           │   │   │       ├── reporter.py
+│   │           │   │   │       ├── requirements.py
+│   │           │   │   │       └── resolver.py
+│   │           │   │   ├── self_outdated_check.py
+│   │           │   │   ├── utils
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _log.py
+│   │           │   │   │   ├── appdirs.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── compatibility_tags.py
+│   │           │   │   │   ├── datetime.py
+│   │           │   │   │   ├── deprecation.py
+│   │           │   │   │   ├── direct_url_helpers.py
+│   │           │   │   │   ├── distutils_args.py
+│   │           │   │   │   ├── encoding.py
+│   │           │   │   │   ├── entrypoints.py
+│   │           │   │   │   ├── filesystem.py
+│   │           │   │   │   ├── filetypes.py
+│   │           │   │   │   ├── glibc.py
+│   │           │   │   │   ├── hashes.py
+│   │           │   │   │   ├── inject_securetransport.py
+│   │           │   │   │   ├── logging.py
+│   │           │   │   │   ├── misc.py
+│   │           │   │   │   ├── models.py
+│   │           │   │   │   ├── packaging.py
+│   │           │   │   │   ├── parallel.py
+│   │           │   │   │   ├── pkg_resources.py
+│   │           │   │   │   ├── setuptools_build.py
+│   │           │   │   │   ├── subprocess.py
+│   │           │   │   │   ├── temp_dir.py
+│   │           │   │   │   ├── unpacking.py
+│   │           │   │   │   ├── urls.py
+│   │           │   │   │   ├── virtualenv.py
+│   │           │   │   │   └── wheel.py
+│   │           │   │   ├── vcs
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── bazaar.py
+│   │           │   │   │   ├── git.py
+│   │           │   │   │   ├── mercurial.py
+│   │           │   │   │   ├── subversion.py
+│   │           │   │   │   └── versioncontrol.py
+│   │           │   │   └── wheel_builder.py
+│   │           │   ├── _vendor
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── appdirs.py
+│   │           │   │   ├── cachecontrol
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _cmd.py
+│   │           │   │   │   ├── adapter.py
+│   │           │   │   │   ├── cache.py
+│   │           │   │   │   ├── caches
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── file_cache.py
+│   │           │   │   │   │   └── redis_cache.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── controller.py
+│   │           │   │   │   ├── filewrapper.py
+│   │           │   │   │   ├── heuristics.py
+│   │           │   │   │   ├── serialize.py
+│   │           │   │   │   └── wrapper.py
+│   │           │   │   ├── certifi
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── __main__.py
+│   │           │   │   │   ├── cacert.pem
+│   │           │   │   │   └── core.py
+│   │           │   │   ├── chardet
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── big5freq.py
+│   │           │   │   │   ├── big5prober.py
+│   │           │   │   │   ├── chardistribution.py
+│   │           │   │   │   ├── charsetgroupprober.py
+│   │           │   │   │   ├── charsetprober.py
+│   │           │   │   │   ├── cli
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   └── chardetect.py
+│   │           │   │   │   ├── codingstatemachine.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── cp949prober.py
+│   │           │   │   │   ├── enums.py
+│   │           │   │   │   ├── escprober.py
+│   │           │   │   │   ├── escsm.py
+│   │           │   │   │   ├── eucjpprober.py
+│   │           │   │   │   ├── euckrfreq.py
+│   │           │   │   │   ├── euckrprober.py
+│   │           │   │   │   ├── euctwfreq.py
+│   │           │   │   │   ├── euctwprober.py
+│   │           │   │   │   ├── gb2312freq.py
+│   │           │   │   │   ├── gb2312prober.py
+│   │           │   │   │   ├── hebrewprober.py
+│   │           │   │   │   ├── jisfreq.py
+│   │           │   │   │   ├── jpcntx.py
+│   │           │   │   │   ├── langbulgarianmodel.py
+│   │           │   │   │   ├── langgreekmodel.py
+│   │           │   │   │   ├── langhebrewmodel.py
+│   │           │   │   │   ├── langhungarianmodel.py
+│   │           │   │   │   ├── langrussianmodel.py
+│   │           │   │   │   ├── langthaimodel.py
+│   │           │   │   │   ├── langturkishmodel.py
+│   │           │   │   │   ├── latin1prober.py
+│   │           │   │   │   ├── mbcharsetprober.py
+│   │           │   │   │   ├── mbcsgroupprober.py
+│   │           │   │   │   ├── mbcssm.py
+│   │           │   │   │   ├── metadata
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   └── languages.py
+│   │           │   │   │   ├── sbcharsetprober.py
+│   │           │   │   │   ├── sbcsgroupprober.py
+│   │           │   │   │   ├── sjisprober.py
+│   │           │   │   │   ├── universaldetector.py
+│   │           │   │   │   ├── utf8prober.py
+│   │           │   │   │   └── version.py
+│   │           │   │   ├── colorama
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── ansi.py
+│   │           │   │   │   ├── ansitowin32.py
+│   │           │   │   │   ├── initialise.py
+│   │           │   │   │   ├── win32.py
+│   │           │   │   │   └── winterm.py
+│   │           │   │   ├── distlib
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _backport
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── misc.py
+│   │           │   │   │   │   ├── shutil.py
+│   │           │   │   │   │   ├── sysconfig.cfg
+│   │           │   │   │   │   ├── sysconfig.py
+│   │           │   │   │   │   └── tarfile.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── database.py
+│   │           │   │   │   ├── index.py
+│   │           │   │   │   ├── locators.py
+│   │           │   │   │   ├── manifest.py
+│   │           │   │   │   ├── markers.py
+│   │           │   │   │   ├── metadata.py
+│   │           │   │   │   ├── resources.py
+│   │           │   │   │   ├── scripts.py
+│   │           │   │   │   ├── t32.exe
+│   │           │   │   │   ├── t64.exe
+│   │           │   │   │   ├── util.py
+│   │           │   │   │   ├── version.py
+│   │           │   │   │   ├── w32.exe
+│   │           │   │   │   ├── w64.exe
+│   │           │   │   │   └── wheel.py
+│   │           │   │   ├── distro.py
+│   │           │   │   ├── html5lib
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _ihatexml.py
+│   │           │   │   │   ├── _inputstream.py
+│   │           │   │   │   ├── _tokenizer.py
+│   │           │   │   │   ├── _trie
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── _base.py
+│   │           │   │   │   │   └── py.py
+│   │           │   │   │   ├── _utils.py
+│   │           │   │   │   ├── constants.py
+│   │           │   │   │   ├── filters
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── alphabeticalattributes.py
+│   │           │   │   │   │   ├── base.py
+│   │           │   │   │   │   ├── inject_meta_charset.py
+│   │           │   │   │   │   ├── lint.py
+│   │           │   │   │   │   ├── optionaltags.py
+│   │           │   │   │   │   ├── sanitizer.py
+│   │           │   │   │   │   └── whitespace.py
+│   │           │   │   │   ├── html5parser.py
+│   │           │   │   │   ├── serializer.py
+│   │           │   │   │   ├── treeadapters
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── genshi.py
+│   │           │   │   │   │   └── sax.py
+│   │           │   │   │   ├── treebuilders
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── base.py
+│   │           │   │   │   │   ├── dom.py
+│   │           │   │   │   │   ├── etree.py
+│   │           │   │   │   │   └── etree_lxml.py
+│   │           │   │   │   └── treewalkers
+│   │           │   │   │       ├── __init__.py
+│   │           │   │   │       ├── base.py
+│   │           │   │   │       ├── dom.py
+│   │           │   │   │       ├── etree.py
+│   │           │   │   │       ├── etree_lxml.py
+│   │           │   │   │       └── genshi.py
+│   │           │   │   ├── idna
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── codec.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── core.py
+│   │           │   │   │   ├── idnadata.py
+│   │           │   │   │   ├── intranges.py
+│   │           │   │   │   ├── package_data.py
+│   │           │   │   │   └── uts46data.py
+│   │           │   │   ├── msgpack
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _version.py
+│   │           │   │   │   ├── exceptions.py
+│   │           │   │   │   ├── ext.py
+│   │           │   │   │   └── fallback.py
+│   │           │   │   ├── packaging
+│   │           │   │   │   ├── __about__.py
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _manylinux.py
+│   │           │   │   │   ├── _musllinux.py
+│   │           │   │   │   ├── _structures.py
+│   │           │   │   │   ├── markers.py
+│   │           │   │   │   ├── requirements.py
+│   │           │   │   │   ├── specifiers.py
+│   │           │   │   │   ├── tags.py
+│   │           │   │   │   ├── utils.py
+│   │           │   │   │   └── version.py
+│   │           │   │   ├── pep517
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── build.py
+│   │           │   │   │   ├── check.py
+│   │           │   │   │   ├── colorlog.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── dirtools.py
+│   │           │   │   │   ├── envbuild.py
+│   │           │   │   │   ├── in_process
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   └── _in_process.py
+│   │           │   │   │   ├── meta.py
+│   │           │   │   │   └── wrappers.py
+│   │           │   │   ├── pkg_resources
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   └── py31compat.py
+│   │           │   │   ├── progress
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── bar.py
+│   │           │   │   │   ├── counter.py
+│   │           │   │   │   └── spinner.py
+│   │           │   │   ├── pyparsing.py
+│   │           │   │   ├── requests
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── __version__.py
+│   │           │   │   │   ├── _internal_utils.py
+│   │           │   │   │   ├── adapters.py
+│   │           │   │   │   ├── api.py
+│   │           │   │   │   ├── auth.py
+│   │           │   │   │   ├── certs.py
+│   │           │   │   │   ├── compat.py
+│   │           │   │   │   ├── cookies.py
+│   │           │   │   │   ├── exceptions.py
+│   │           │   │   │   ├── help.py
+│   │           │   │   │   ├── hooks.py
+│   │           │   │   │   ├── models.py
+│   │           │   │   │   ├── packages.py
+│   │           │   │   │   ├── sessions.py
+│   │           │   │   │   ├── status_codes.py
+│   │           │   │   │   ├── structures.py
+│   │           │   │   │   └── utils.py
+│   │           │   │   ├── resolvelib
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── compat
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   └── collections_abc.py
+│   │           │   │   │   ├── providers.py
+│   │           │   │   │   ├── reporters.py
+│   │           │   │   │   ├── resolvers.py
+│   │           │   │   │   └── structs.py
+│   │           │   │   ├── six.py
+│   │           │   │   ├── tenacity
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _asyncio.py
+│   │           │   │   │   ├── _utils.py
+│   │           │   │   │   ├── after.py
+│   │           │   │   │   ├── before.py
+│   │           │   │   │   ├── before_sleep.py
+│   │           │   │   │   ├── nap.py
+│   │           │   │   │   ├── retry.py
+│   │           │   │   │   ├── stop.py
+│   │           │   │   │   ├── tornadoweb.py
+│   │           │   │   │   └── wait.py
+│   │           │   │   ├── tomli
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _parser.py
+│   │           │   │   │   └── _re.py
+│   │           │   │   ├── urllib3
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _collections.py
+│   │           │   │   │   ├── _version.py
+│   │           │   │   │   ├── connection.py
+│   │           │   │   │   ├── connectionpool.py
+│   │           │   │   │   ├── contrib
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── _appengine_environ.py
+│   │           │   │   │   │   ├── _securetransport
+│   │           │   │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   │   ├── bindings.py
+│   │           │   │   │   │   │   └── low_level.py
+│   │           │   │   │   │   ├── appengine.py
+│   │           │   │   │   │   ├── ntlmpool.py
+│   │           │   │   │   │   ├── pyopenssl.py
+│   │           │   │   │   │   ├── securetransport.py
+│   │           │   │   │   │   └── socks.py
+│   │           │   │   │   ├── exceptions.py
+│   │           │   │   │   ├── fields.py
+│   │           │   │   │   ├── filepost.py
+│   │           │   │   │   ├── packages
+│   │           │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   ├── backports
+│   │           │   │   │   │   │   ├── __init__.py
+│   │           │   │   │   │   │   └── makefile.py
+│   │           │   │   │   │   ├── six.py
+│   │           │   │   │   │   └── ssl_match_hostname
+│   │           │   │   │   │       ├── __init__.py
+│   │           │   │   │   │       └── _implementation.py
+│   │           │   │   │   ├── poolmanager.py
+│   │           │   │   │   ├── request.py
+│   │           │   │   │   ├── response.py
+│   │           │   │   │   └── util
+│   │           │   │   │       ├── __init__.py
+│   │           │   │   │       ├── connection.py
+│   │           │   │   │       ├── proxy.py
+│   │           │   │   │       ├── queue.py
+│   │           │   │   │       ├── request.py
+│   │           │   │   │       ├── response.py
+│   │           │   │   │       ├── retry.py
+│   │           │   │   │       ├── ssl_.py
+│   │           │   │   │       ├── ssltransport.py
+│   │           │   │   │       ├── timeout.py
+│   │           │   │   │       ├── url.py
+│   │           │   │   │       └── wait.py
+│   │           │   │   ├── vendor.txt
+│   │           │   │   └── webencodings
+│   │           │   │       ├── __init__.py
+│   │           │   │       ├── labels.py
+│   │           │   │       ├── mklabels.py
+│   │           │   │       ├── tests.py
+│   │           │   │       └── x_user_defined.py
+│   │           │   └── py.typed
+│   │           ├── pip-21.2.4.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE.txt
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   └── top_level.txt
+│   │           ├── pkg_resources
+│   │           │   ├── __init__.py
+│   │           │   ├── _vendor
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── appdirs.py
+│   │           │   │   ├── packaging
+│   │           │   │   │   ├── __about__.py
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _compat.py
+│   │           │   │   │   ├── _structures.py
+│   │           │   │   │   ├── _typing.py
+│   │           │   │   │   ├── markers.py
+│   │           │   │   │   ├── requirements.py
+│   │           │   │   │   ├── specifiers.py
+│   │           │   │   │   ├── tags.py
+│   │           │   │   │   ├── utils.py
+│   │           │   │   │   └── version.py
+│   │           │   │   └── pyparsing.py
+│   │           │   ├── extern
+│   │           │   │   └── __init__.py
+│   │           │   └── tests
+│   │           │       └── data
+│   │           │           └── my-test-package-source
+│   │           │               └── setup.py
+│   │           ├── pyasn1
+│   │           │   ├── __init__.py
+│   │           │   ├── codec
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── ber
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── decoder.py
+│   │           │   │   │   ├── encoder.py
+│   │           │   │   │   └── eoo.py
+│   │           │   │   ├── cer
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── decoder.py
+│   │           │   │   │   └── encoder.py
+│   │           │   │   ├── der
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── decoder.py
+│   │           │   │   │   └── encoder.py
+│   │           │   │   ├── native
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── decoder.py
+│   │           │   │   │   └── encoder.py
+│   │           │   │   └── streaming.py
+│   │           │   ├── compat
+│   │           │   │   ├── __init__.py
+│   │           │   │   └── integer.py
+│   │           │   ├── debug.py
+│   │           │   ├── error.py
+│   │           │   └── type
+│   │           │       ├── __init__.py
+│   │           │       ├── base.py
+│   │           │       ├── char.py
+│   │           │       ├── constraint.py
+│   │           │       ├── error.py
+│   │           │       ├── namedtype.py
+│   │           │       ├── namedval.py
+│   │           │       ├── opentype.py
+│   │           │       ├── tag.py
+│   │           │       ├── tagmap.py
+│   │           │       ├── univ.py
+│   │           │       └── useful.py
+│   │           ├── pyasn1-0.6.1.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE.rst
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── top_level.txt
+│   │           │   └── zip-safe
+│   │           ├── pycparser
+│   │           │   ├── __init__.py
+│   │           │   ├── _ast_gen.py
+│   │           │   ├── _build_tables.py
+│   │           │   ├── _c_ast.cfg
+│   │           │   ├── ast_transforms.py
+│   │           │   ├── c_ast.py
+│   │           │   ├── c_generator.py
+│   │           │   ├── c_lexer.py
+│   │           │   ├── c_parser.py
+│   │           │   ├── lextab.py
+│   │           │   ├── ply
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── cpp.py
+│   │           │   │   ├── ctokens.py
+│   │           │   │   ├── lex.py
+│   │           │   │   ├── yacc.py
+│   │           │   │   └── ygen.py
+│   │           │   ├── plyparser.py
+│   │           │   └── yacctab.py
+│   │           ├── pycparser-2.23.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── pydantic
+│   │           │   ├── __init__.py
+│   │           │   ├── _internal
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _config.py
+│   │           │   │   ├── _core_metadata.py
+│   │           │   │   ├── _core_utils.py
+│   │           │   │   ├── _dataclasses.py
+│   │           │   │   ├── _decorators.py
+│   │           │   │   ├── _decorators_v1.py
+│   │           │   │   ├── _discriminated_union.py
+│   │           │   │   ├── _docs_extraction.py
+│   │           │   │   ├── _fields.py
+│   │           │   │   ├── _forward_ref.py
+│   │           │   │   ├── _generate_schema.py
+│   │           │   │   ├── _generics.py
+│   │           │   │   ├── _git.py
+│   │           │   │   ├── _import_utils.py
+│   │           │   │   ├── _internal_dataclass.py
+│   │           │   │   ├── _known_annotated_metadata.py
+│   │           │   │   ├── _mock_val_ser.py
+│   │           │   │   ├── _model_construction.py
+│   │           │   │   ├── _repr.py
+│   │           │   │   ├── _schema_generation_shared.py
+│   │           │   │   ├── _serializers.py
+│   │           │   │   ├── _signature.py
+│   │           │   │   ├── _std_types_schema.py
+│   │           │   │   ├── _typing_extra.py
+│   │           │   │   ├── _utils.py
+│   │           │   │   ├── _validate_call.py
+│   │           │   │   └── _validators.py
+│   │           │   ├── _migration.py
+│   │           │   ├── alias_generators.py
+│   │           │   ├── aliases.py
+│   │           │   ├── annotated_handlers.py
+│   │           │   ├── class_validators.py
+│   │           │   ├── color.py
+│   │           │   ├── config.py
+│   │           │   ├── dataclasses.py
+│   │           │   ├── datetime_parse.py
+│   │           │   ├── decorator.py
+│   │           │   ├── deprecated
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── class_validators.py
+│   │           │   │   ├── config.py
+│   │           │   │   ├── copy_internals.py
+│   │           │   │   ├── decorator.py
+│   │           │   │   ├── json.py
+│   │           │   │   ├── parse.py
+│   │           │   │   └── tools.py
+│   │           │   ├── env_settings.py
+│   │           │   ├── error_wrappers.py
+│   │           │   ├── errors.py
+│   │           │   ├── experimental
+│   │           │   │   ├── __init__.py
+│   │           │   │   └── pipeline.py
+│   │           │   ├── fields.py
+│   │           │   ├── functional_serializers.py
+│   │           │   ├── functional_validators.py
+│   │           │   ├── generics.py
+│   │           │   ├── json.py
+│   │           │   ├── json_schema.py
+│   │           │   ├── main.py
+│   │           │   ├── mypy.py
+│   │           │   ├── networks.py
+│   │           │   ├── parse.py
+│   │           │   ├── plugin
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _loader.py
+│   │           │   │   └── _schema_validator.py
+│   │           │   ├── py.typed
+│   │           │   ├── root_model.py
+│   │           │   ├── schema.py
+│   │           │   ├── tools.py
+│   │           │   ├── type_adapter.py
+│   │           │   ├── types.py
+│   │           │   ├── typing.py
+│   │           │   ├── utils.py
+│   │           │   ├── v1
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _hypothesis_plugin.py
+│   │           │   │   ├── annotated_types.py
+│   │           │   │   ├── class_validators.py
+│   │           │   │   ├── color.py
+│   │           │   │   ├── config.py
+│   │           │   │   ├── dataclasses.py
+│   │           │   │   ├── datetime_parse.py
+│   │           │   │   ├── decorator.py
+│   │           │   │   ├── env_settings.py
+│   │           │   │   ├── error_wrappers.py
+│   │           │   │   ├── errors.py
+│   │           │   │   ├── fields.py
+│   │           │   │   ├── generics.py
+│   │           │   │   ├── json.py
+│   │           │   │   ├── main.py
+│   │           │   │   ├── mypy.py
+│   │           │   │   ├── networks.py
+│   │           │   │   ├── parse.py
+│   │           │   │   ├── py.typed
+│   │           │   │   ├── schema.py
+│   │           │   │   ├── tools.py
+│   │           │   │   ├── types.py
+│   │           │   │   ├── typing.py
+│   │           │   │   ├── utils.py
+│   │           │   │   ├── validators.py
+│   │           │   │   └── version.py
+│   │           │   ├── validate_call_decorator.py
+│   │           │   ├── validators.py
+│   │           │   ├── version.py
+│   │           │   └── warnings.py
+│   │           ├── pydantic-2.9.2.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── pydantic_core
+│   │           │   ├── __init__.py
+│   │           │   ├── _pydantic_core.cpython-39-darwin.so
+│   │           │   ├── _pydantic_core.pyi
+│   │           │   ├── core_schema.py
+│   │           │   └── py.typed
+│   │           ├── pydantic_core-2.23.4.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── pymongo
+│   │           │   ├── __init__.py
+│   │           │   ├── _azure_helpers.py
+│   │           │   ├── _client_bulk_shared.py
+│   │           │   ├── _cmessage.cpython-38-darwin.so
+│   │           │   ├── _cmessage.cpython-39-darwin.so
+│   │           │   ├── _cmessagemodule.c
+│   │           │   ├── _csot.py
+│   │           │   ├── _gcp_helpers.py
+│   │           │   ├── _version.py
+│   │           │   ├── asynchronous
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── aggregation.py
+│   │           │   │   ├── auth.py
+│   │           │   │   ├── auth_aws.py
+│   │           │   │   ├── auth_oidc.py
+│   │           │   │   ├── bulk.py
+│   │           │   │   ├── change_stream.py
+│   │           │   │   ├── client_bulk.py
+│   │           │   │   ├── client_session.py
+│   │           │   │   ├── collection.py
+│   │           │   │   ├── command_cursor.py
+│   │           │   │   ├── cursor.py
+│   │           │   │   ├── database.py
+│   │           │   │   ├── encryption.py
+│   │           │   │   ├── helpers.py
+│   │           │   │   ├── mongo_client.py
+│   │           │   │   ├── monitor.py
+│   │           │   │   ├── network.py
+│   │           │   │   ├── periodic_executor.py
+│   │           │   │   ├── pool.py
+│   │           │   │   ├── server.py
+│   │           │   │   ├── settings.py
+│   │           │   │   └── topology.py
+│   │           │   ├── auth.py
+│   │           │   ├── auth_oidc.py
+│   │           │   ├── auth_oidc_shared.py
+│   │           │   ├── auth_shared.py
+│   │           │   ├── bulk_shared.py
+│   │           │   ├── change_stream.py
+│   │           │   ├── client_options.py
+│   │           │   ├── client_session.py
+│   │           │   ├── collation.py
+│   │           │   ├── collection.py
+│   │           │   ├── command_cursor.py
+│   │           │   ├── common.py
+│   │           │   ├── compression_support.py
+│   │           │   ├── cursor.py
+│   │           │   ├── cursor_shared.py
+│   │           │   ├── daemon.py
+│   │           │   ├── database.py
+│   │           │   ├── database_shared.py
+│   │           │   ├── driver_info.py
+│   │           │   ├── encryption.py
+│   │           │   ├── encryption_options.py
+│   │           │   ├── errors.py
+│   │           │   ├── event_loggers.py
+│   │           │   ├── hello.py
+│   │           │   ├── helpers_shared.py
+│   │           │   ├── lock.py
+│   │           │   ├── logger.py
+│   │           │   ├── max_staleness_selectors.py
+│   │           │   ├── message.py
+│   │           │   ├── mongo_client.py
+│   │           │   ├── monitoring.py
+│   │           │   ├── network_layer.py
+│   │           │   ├── ocsp_cache.py
+│   │           │   ├── ocsp_support.py
+│   │           │   ├── operations.py
+│   │           │   ├── pool.py
+│   │           │   ├── pool_options.py
+│   │           │   ├── py.typed
+│   │           │   ├── pyopenssl_context.py
+│   │           │   ├── read_concern.py
+│   │           │   ├── read_preferences.py
+│   │           │   ├── response.py
+│   │           │   ├── results.py
+│   │           │   ├── saslprep.py
+│   │           │   ├── server_api.py
+│   │           │   ├── server_description.py
+│   │           │   ├── server_selectors.py
+│   │           │   ├── server_type.py
+│   │           │   ├── socket_checker.py
+│   │           │   ├── srv_resolver.py
+│   │           │   ├── ssl_context.py
+│   │           │   ├── ssl_support.py
+│   │           │   ├── synchronous
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── aggregation.py
+│   │           │   │   ├── auth.py
+│   │           │   │   ├── auth_aws.py
+│   │           │   │   ├── auth_oidc.py
+│   │           │   │   ├── bulk.py
+│   │           │   │   ├── change_stream.py
+│   │           │   │   ├── client_bulk.py
+│   │           │   │   ├── client_session.py
+│   │           │   │   ├── collection.py
+│   │           │   │   ├── command_cursor.py
+│   │           │   │   ├── cursor.py
+│   │           │   │   ├── database.py
+│   │           │   │   ├── encryption.py
+│   │           │   │   ├── helpers.py
+│   │           │   │   ├── mongo_client.py
+│   │           │   │   ├── monitor.py
+│   │           │   │   ├── network.py
+│   │           │   │   ├── periodic_executor.py
+│   │           │   │   ├── pool.py
+│   │           │   │   ├── server.py
+│   │           │   │   ├── settings.py
+│   │           │   │   └── topology.py
+│   │           │   ├── topology_description.py
+│   │           │   ├── typings.py
+│   │           │   ├── uri_parser.py
+│   │           │   └── write_concern.py
+│   │           ├── pymongo-4.9.2.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── python_dotenv-1.1.1.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   ├── licenses
+│   │           │   │   └── LICENSE
+│   │           │   └── top_level.txt
+│   │           ├── python_jose-3.3.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── python_multipart-0.0.12.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE.txt
+│   │           ├── pyyaml-6.0.3.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── licenses
+│   │           │   │   └── LICENSE
+│   │           │   └── top_level.txt
+│   │           ├── rsa
+│   │           │   ├── __init__.py
+│   │           │   ├── asn1.py
+│   │           │   ├── cli.py
+│   │           │   ├── common.py
+│   │           │   ├── core.py
+│   │           │   ├── key.py
+│   │           │   ├── parallel.py
+│   │           │   ├── pem.py
+│   │           │   ├── pkcs1.py
+│   │           │   ├── pkcs1_v2.py
+│   │           │   ├── prime.py
+│   │           │   ├── py.typed
+│   │           │   ├── randnum.py
+│   │           │   ├── transform.py
+│   │           │   └── util.py
+│   │           ├── rsa-4.9.1.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── entry_points.txt
+│   │           ├── setuptools
+│   │           │   ├── __init__.py
+│   │           │   ├── _deprecation_warning.py
+│   │           │   ├── _distutils
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── _msvccompiler.py
+│   │           │   │   ├── archive_util.py
+│   │           │   │   ├── bcppcompiler.py
+│   │           │   │   ├── ccompiler.py
+│   │           │   │   ├── cmd.py
+│   │           │   │   ├── command
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── bdist.py
+│   │           │   │   │   ├── bdist_dumb.py
+│   │           │   │   │   ├── bdist_msi.py
+│   │           │   │   │   ├── bdist_rpm.py
+│   │           │   │   │   ├── bdist_wininst.py
+│   │           │   │   │   ├── build.py
+│   │           │   │   │   ├── build_clib.py
+│   │           │   │   │   ├── build_ext.py
+│   │           │   │   │   ├── build_py.py
+│   │           │   │   │   ├── build_scripts.py
+│   │           │   │   │   ├── check.py
+│   │           │   │   │   ├── clean.py
+│   │           │   │   │   ├── config.py
+│   │           │   │   │   ├── install.py
+│   │           │   │   │   ├── install_data.py
+│   │           │   │   │   ├── install_egg_info.py
+│   │           │   │   │   ├── install_headers.py
+│   │           │   │   │   ├── install_lib.py
+│   │           │   │   │   ├── install_scripts.py
+│   │           │   │   │   ├── py37compat.py
+│   │           │   │   │   ├── register.py
+│   │           │   │   │   ├── sdist.py
+│   │           │   │   │   └── upload.py
+│   │           │   │   ├── config.py
+│   │           │   │   ├── core.py
+│   │           │   │   ├── cygwinccompiler.py
+│   │           │   │   ├── debug.py
+│   │           │   │   ├── dep_util.py
+│   │           │   │   ├── dir_util.py
+│   │           │   │   ├── dist.py
+│   │           │   │   ├── errors.py
+│   │           │   │   ├── extension.py
+│   │           │   │   ├── fancy_getopt.py
+│   │           │   │   ├── file_util.py
+│   │           │   │   ├── filelist.py
+│   │           │   │   ├── log.py
+│   │           │   │   ├── msvc9compiler.py
+│   │           │   │   ├── msvccompiler.py
+│   │           │   │   ├── py35compat.py
+│   │           │   │   ├── py38compat.py
+│   │           │   │   ├── spawn.py
+│   │           │   │   ├── sysconfig.py
+│   │           │   │   ├── text_file.py
+│   │           │   │   ├── unixccompiler.py
+│   │           │   │   ├── util.py
+│   │           │   │   ├── version.py
+│   │           │   │   └── versionpredicate.py
+│   │           │   ├── _imp.py
+│   │           │   ├── _vendor
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── more_itertools
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── more.py
+│   │           │   │   │   └── recipes.py
+│   │           │   │   ├── ordered_set.py
+│   │           │   │   ├── packaging
+│   │           │   │   │   ├── __about__.py
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── _compat.py
+│   │           │   │   │   ├── _structures.py
+│   │           │   │   │   ├── _typing.py
+│   │           │   │   │   ├── markers.py
+│   │           │   │   │   ├── requirements.py
+│   │           │   │   │   ├── specifiers.py
+│   │           │   │   │   ├── tags.py
+│   │           │   │   │   ├── utils.py
+│   │           │   │   │   └── version.py
+│   │           │   │   └── pyparsing.py
+│   │           │   ├── archive_util.py
+│   │           │   ├── build_meta.py
+│   │           │   ├── cli-32.exe
+│   │           │   ├── cli-64.exe
+│   │           │   ├── cli.exe
+│   │           │   ├── command
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── alias.py
+│   │           │   │   ├── bdist_egg.py
+│   │           │   │   ├── bdist_rpm.py
+│   │           │   │   ├── build_clib.py
+│   │           │   │   ├── build_ext.py
+│   │           │   │   ├── build_py.py
+│   │           │   │   ├── develop.py
+│   │           │   │   ├── dist_info.py
+│   │           │   │   ├── easy_install.py
+│   │           │   │   ├── egg_info.py
+│   │           │   │   ├── install.py
+│   │           │   │   ├── install_egg_info.py
+│   │           │   │   ├── install_lib.py
+│   │           │   │   ├── install_scripts.py
+│   │           │   │   ├── launcher manifest.xml
+│   │           │   │   ├── py36compat.py
+│   │           │   │   ├── register.py
+│   │           │   │   ├── rotate.py
+│   │           │   │   ├── saveopts.py
+│   │           │   │   ├── sdist.py
+│   │           │   │   ├── setopt.py
+│   │           │   │   ├── test.py
+│   │           │   │   ├── upload.py
+│   │           │   │   └── upload_docs.py
+│   │           │   ├── config.py
+│   │           │   ├── dep_util.py
+│   │           │   ├── depends.py
+│   │           │   ├── dist.py
+│   │           │   ├── errors.py
+│   │           │   ├── extension.py
+│   │           │   ├── extern
+│   │           │   │   └── __init__.py
+│   │           │   ├── glob.py
+│   │           │   ├── gui-32.exe
+│   │           │   ├── gui-64.exe
+│   │           │   ├── gui.exe
+│   │           │   ├── installer.py
+│   │           │   ├── launch.py
+│   │           │   ├── monkey.py
+│   │           │   ├── msvc.py
+│   │           │   ├── namespaces.py
+│   │           │   ├── package_index.py
+│   │           │   ├── py34compat.py
+│   │           │   ├── sandbox.py
+│   │           │   ├── script (dev).tmpl
+│   │           │   ├── script.tmpl
+│   │           │   ├── unicode_utils.py
+│   │           │   ├── version.py
+│   │           │   ├── wheel.py
+│   │           │   └── windows_support.py
+│   │           ├── setuptools-58.0.4.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   └── top_level.txt
+│   │           ├── six-1.17.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── six.py
+│   │           ├── sniffio
+│   │           │   ├── __init__.py
+│   │           │   ├── _impl.py
+│   │           │   ├── _tests
+│   │           │   │   ├── __init__.py
+│   │           │   │   └── test_sniffio.py
+│   │           │   ├── _version.py
+│   │           │   └── py.typed
+│   │           ├── sniffio-1.3.1.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── LICENSE.APACHE2
+│   │           │   ├── LICENSE.MIT
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── starlette
+│   │           │   ├── __init__.py
+│   │           │   ├── _compat.py
+│   │           │   ├── _exception_handler.py
+│   │           │   ├── _utils.py
+│   │           │   ├── applications.py
+│   │           │   ├── authentication.py
+│   │           │   ├── background.py
+│   │           │   ├── concurrency.py
+│   │           │   ├── config.py
+│   │           │   ├── convertors.py
+│   │           │   ├── datastructures.py
+│   │           │   ├── endpoints.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── formparsers.py
+│   │           │   ├── middleware
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── authentication.py
+│   │           │   │   ├── base.py
+│   │           │   │   ├── cors.py
+│   │           │   │   ├── errors.py
+│   │           │   │   ├── exceptions.py
+│   │           │   │   ├── gzip.py
+│   │           │   │   ├── httpsredirect.py
+│   │           │   │   ├── sessions.py
+│   │           │   │   ├── trustedhost.py
+│   │           │   │   └── wsgi.py
+│   │           │   ├── py.typed
+│   │           │   ├── requests.py
+│   │           │   ├── responses.py
+│   │           │   ├── routing.py
+│   │           │   ├── schemas.py
+│   │           │   ├── staticfiles.py
+│   │           │   ├── status.py
+│   │           │   ├── templating.py
+│   │           │   ├── testclient.py
+│   │           │   ├── types.py
+│   │           │   └── websockets.py
+│   │           ├── starlette-0.38.6.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE.md
+│   │           ├── typing_extensions-4.15.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── typing_extensions.py
+│   │           ├── uvicorn
+│   │           │   ├── __init__.py
+│   │           │   ├── __main__.py
+│   │           │   ├── _subprocess.py
+│   │           │   ├── _types.py
+│   │           │   ├── config.py
+│   │           │   ├── importer.py
+│   │           │   ├── lifespan
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── off.py
+│   │           │   │   └── on.py
+│   │           │   ├── logging.py
+│   │           │   ├── loops
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── asyncio.py
+│   │           │   │   ├── auto.py
+│   │           │   │   └── uvloop.py
+│   │           │   ├── main.py
+│   │           │   ├── middleware
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── asgi2.py
+│   │           │   │   ├── message_logger.py
+│   │           │   │   ├── proxy_headers.py
+│   │           │   │   └── wsgi.py
+│   │           │   ├── protocols
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── http
+│   │           │   │   │   ├── __init__.py
+│   │           │   │   │   ├── auto.py
+│   │           │   │   │   ├── flow_control.py
+│   │           │   │   │   ├── h11_impl.py
+│   │           │   │   │   └── httptools_impl.py
+│   │           │   │   ├── utils.py
+│   │           │   │   └── websockets
+│   │           │   │       ├── __init__.py
+│   │           │   │       ├── auto.py
+│   │           │   │       ├── websockets_impl.py
+│   │           │   │       └── wsproto_impl.py
+│   │           │   ├── py.typed
+│   │           │   ├── server.py
+│   │           │   ├── supervisors
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── basereload.py
+│   │           │   │   ├── multiprocess.py
+│   │           │   │   ├── statreload.py
+│   │           │   │   ├── watchfilesreload.py
+│   │           │   │   └── watchgodreload.py
+│   │           │   └── workers.py
+│   │           ├── uvicorn-0.30.6.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── REQUESTED
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   └── licenses
+│   │           │       └── LICENSE.md
+│   │           ├── uvloop
+│   │           │   ├── __init__.py
+│   │           │   ├── _noop.py
+│   │           │   ├── _testbase.py
+│   │           │   ├── _version.py
+│   │           │   ├── cbhandles.pxd
+│   │           │   ├── cbhandles.pyx
+│   │           │   ├── dns.pyx
+│   │           │   ├── errors.pyx
+│   │           │   ├── handles
+│   │           │   │   ├── async_.pxd
+│   │           │   │   ├── async_.pyx
+│   │           │   │   ├── basetransport.pxd
+│   │           │   │   ├── basetransport.pyx
+│   │           │   │   ├── check.pxd
+│   │           │   │   ├── check.pyx
+│   │           │   │   ├── fsevent.pxd
+│   │           │   │   ├── fsevent.pyx
+│   │           │   │   ├── handle.pxd
+│   │           │   │   ├── handle.pyx
+│   │           │   │   ├── idle.pxd
+│   │           │   │   ├── idle.pyx
+│   │           │   │   ├── pipe.pxd
+│   │           │   │   ├── pipe.pyx
+│   │           │   │   ├── poll.pxd
+│   │           │   │   ├── poll.pyx
+│   │           │   │   ├── process.pxd
+│   │           │   │   ├── process.pyx
+│   │           │   │   ├── stream.pxd
+│   │           │   │   ├── stream.pyx
+│   │           │   │   ├── streamserver.pxd
+│   │           │   │   ├── streamserver.pyx
+│   │           │   │   ├── tcp.pxd
+│   │           │   │   ├── tcp.pyx
+│   │           │   │   ├── timer.pxd
+│   │           │   │   ├── timer.pyx
+│   │           │   │   ├── udp.pxd
+│   │           │   │   └── udp.pyx
+│   │           │   ├── includes
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── consts.pxi
+│   │           │   │   ├── debug.pxd
+│   │           │   │   ├── flowcontrol.pxd
+│   │           │   │   ├── python.pxd
+│   │           │   │   ├── stdlib.pxi
+│   │           │   │   ├── system.pxd
+│   │           │   │   └── uv.pxd
+│   │           │   ├── loop.cpython-39-darwin.so
+│   │           │   ├── loop.pxd
+│   │           │   ├── loop.pyi
+│   │           │   ├── loop.pyx
+│   │           │   ├── lru.pyx
+│   │           │   ├── pseudosock.pyx
+│   │           │   ├── py.typed
+│   │           │   ├── request.pxd
+│   │           │   ├── request.pyx
+│   │           │   ├── server.pxd
+│   │           │   ├── server.pyx
+│   │           │   ├── sslproto.pxd
+│   │           │   └── sslproto.pyx
+│   │           ├── uvloop-0.21.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE-APACHE
+│   │           │   ├── LICENSE-MIT
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   └── top_level.txt
+│   │           ├── watchfiles
+│   │           │   ├── __init__.py
+│   │           │   ├── __main__.py
+│   │           │   ├── _rust_notify.cpython-39-darwin.so
+│   │           │   ├── _rust_notify.pyi
+│   │           │   ├── cli.py
+│   │           │   ├── filters.py
+│   │           │   ├── main.py
+│   │           │   ├── py.typed
+│   │           │   ├── run.py
+│   │           │   └── version.py
+│   │           ├── watchfiles-1.1.0.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   └── licenses
+│   │           │       └── LICENSE
+│   │           ├── websockets
+│   │           │   ├── __init__.py
+│   │           │   ├── __main__.py
+│   │           │   ├── asyncio
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── async_timeout.py
+│   │           │   │   ├── client.py
+│   │           │   │   ├── compatibility.py
+│   │           │   │   ├── connection.py
+│   │           │   │   ├── messages.py
+│   │           │   │   ├── router.py
+│   │           │   │   └── server.py
+│   │           │   ├── auth.py
+│   │           │   ├── cli.py
+│   │           │   ├── client.py
+│   │           │   ├── connection.py
+│   │           │   ├── datastructures.py
+│   │           │   ├── exceptions.py
+│   │           │   ├── extensions
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── base.py
+│   │           │   │   └── permessage_deflate.py
+│   │           │   ├── frames.py
+│   │           │   ├── headers.py
+│   │           │   ├── http.py
+│   │           │   ├── http11.py
+│   │           │   ├── imports.py
+│   │           │   ├── legacy
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── auth.py
+│   │           │   │   ├── client.py
+│   │           │   │   ├── exceptions.py
+│   │           │   │   ├── framing.py
+│   │           │   │   ├── handshake.py
+│   │           │   │   ├── http.py
+│   │           │   │   ├── protocol.py
+│   │           │   │   └── server.py
+│   │           │   ├── protocol.py
+│   │           │   ├── py.typed
+│   │           │   ├── server.py
+│   │           │   ├── speedups.c
+│   │           │   ├── speedups.cpython-39-darwin.so
+│   │           │   ├── speedups.pyi
+│   │           │   ├── streams.py
+│   │           │   ├── sync
+│   │           │   │   ├── __init__.py
+│   │           │   │   ├── client.py
+│   │           │   │   ├── connection.py
+│   │           │   │   ├── messages.py
+│   │           │   │   ├── router.py
+│   │           │   │   ├── server.py
+│   │           │   │   └── utils.py
+│   │           │   ├── typing.py
+│   │           │   ├── uri.py
+│   │           │   ├── utils.py
+│   │           │   └── version.py
+│   │           ├── websockets-15.0.1.dist-info
+│   │           │   ├── INSTALLER
+│   │           │   ├── LICENSE
+│   │           │   ├── METADATA
+│   │           │   ├── RECORD
+│   │           │   ├── WHEEL
+│   │           │   ├── entry_points.txt
+│   │           │   └── top_level.txt
+│   │           └── yaml
+│   │               ├── __init__.py
+│   │               ├── _yaml.cpython-39-darwin.so
+│   │               ├── composer.py
+│   │               ├── constructor.py
+│   │               ├── cyaml.py
+│   │               ├── dumper.py
+│   │               ├── emitter.py
+│   │               ├── error.py
+│   │               ├── events.py
+│   │               ├── loader.py
+│   │               ├── nodes.py
+│   │               ├── parser.py
+│   │               ├── reader.py
+│   │               ├── representer.py
+│   │               ├── resolver.py
+│   │               ├── scanner.py
+│   │               ├── serializer.py
+│   │               └── tokens.py
+│   └── pyvenv.cfg
+├── frontend
+│   └── Rosa
+│       ├── README.md
+│       ├── index.html
+│       ├── node_modules
+│       │   ├── @alloc
+│       │   │   └── quick-lru
+│       │   │       ├── index.d.ts
+│       │   │       ├── index.js
+│       │   │       ├── license
+│       │   │       ├── package.json
+│       │   │       └── readme.md
+│       │   ├── @babel
+│       │   │   ├── helper-string-parser
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── lib
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   └── index.js.map
+│       │   │   │   └── package.json
+│       │   │   ├── helper-validator-identifier
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── lib
+│       │   │   │   │   ├── identifier.js
+│       │   │   │   │   ├── identifier.js.map
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.js.map
+│       │   │   │   │   ├── keyword.js
+│       │   │   │   │   └── keyword.js.map
+│       │   │   │   └── package.json
+│       │   │   ├── parser
+│       │   │   │   ├── CHANGELOG.md
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── bin
+│       │   │   │   │   └── babel-parser.js
+│       │   │   │   ├── lib
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   └── index.js.map
+│       │   │   │   ├── package.json
+│       │   │   │   └── typings
+│       │   │   │       └── babel-parser.d.ts
+│       │   │   └── types
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── lib
+│       │   │       │   ├── asserts
+│       │   │       │   │   ├── assertNode.js
+│       │   │       │   │   ├── assertNode.js.map
+│       │   │       │   │   └── generated
+│       │   │       │   │       ├── index.js
+│       │   │       │   │       └── index.js.map
+│       │   │       │   ├── ast-types
+│       │   │       │   │   └── generated
+│       │   │       │   │       ├── index.js
+│       │   │       │   │       └── index.js.map
+│       │   │       │   ├── builders
+│       │   │       │   │   ├── flow
+│       │   │       │   │   │   ├── createFlowUnionType.js
+│       │   │       │   │   │   ├── createFlowUnionType.js.map
+│       │   │       │   │   │   ├── createTypeAnnotationBasedOnTypeof.js
+│       │   │       │   │   │   └── createTypeAnnotationBasedOnTypeof.js.map
+│       │   │       │   │   ├── generated
+│       │   │       │   │   │   ├── index.js
+│       │   │       │   │   │   ├── index.js.map
+│       │   │       │   │   │   ├── lowercase.js
+│       │   │       │   │   │   ├── lowercase.js.map
+│       │   │       │   │   │   ├── uppercase.js
+│       │   │       │   │   │   └── uppercase.js.map
+│       │   │       │   │   ├── productions.js
+│       │   │       │   │   ├── productions.js.map
+│       │   │       │   │   ├── react
+│       │   │       │   │   │   ├── buildChildren.js
+│       │   │       │   │   │   └── buildChildren.js.map
+│       │   │       │   │   ├── typescript
+│       │   │       │   │   │   ├── createTSUnionType.js
+│       │   │       │   │   │   └── createTSUnionType.js.map
+│       │   │       │   │   ├── validateNode.js
+│       │   │       │   │   └── validateNode.js.map
+│       │   │       │   ├── clone
+│       │   │       │   │   ├── clone.js
+│       │   │       │   │   ├── clone.js.map
+│       │   │       │   │   ├── cloneDeep.js
+│       │   │       │   │   ├── cloneDeep.js.map
+│       │   │       │   │   ├── cloneDeepWithoutLoc.js
+│       │   │       │   │   ├── cloneDeepWithoutLoc.js.map
+│       │   │       │   │   ├── cloneNode.js
+│       │   │       │   │   ├── cloneNode.js.map
+│       │   │       │   │   ├── cloneWithoutLoc.js
+│       │   │       │   │   └── cloneWithoutLoc.js.map
+│       │   │       │   ├── comments
+│       │   │       │   │   ├── addComment.js
+│       │   │       │   │   ├── addComment.js.map
+│       │   │       │   │   ├── addComments.js
+│       │   │       │   │   ├── addComments.js.map
+│       │   │       │   │   ├── inheritInnerComments.js
+│       │   │       │   │   ├── inheritInnerComments.js.map
+│       │   │       │   │   ├── inheritLeadingComments.js
+│       │   │       │   │   ├── inheritLeadingComments.js.map
+│       │   │       │   │   ├── inheritTrailingComments.js
+│       │   │       │   │   ├── inheritTrailingComments.js.map
+│       │   │       │   │   ├── inheritsComments.js
+│       │   │       │   │   ├── inheritsComments.js.map
+│       │   │       │   │   ├── removeComments.js
+│       │   │       │   │   └── removeComments.js.map
+│       │   │       │   ├── constants
+│       │   │       │   │   ├── generated
+│       │   │       │   │   │   ├── index.js
+│       │   │       │   │   │   └── index.js.map
+│       │   │       │   │   ├── index.js
+│       │   │       │   │   └── index.js.map
+│       │   │       │   ├── converters
+│       │   │       │   │   ├── ensureBlock.js
+│       │   │       │   │   ├── ensureBlock.js.map
+│       │   │       │   │   ├── gatherSequenceExpressions.js
+│       │   │       │   │   ├── gatherSequenceExpressions.js.map
+│       │   │       │   │   ├── toBindingIdentifierName.js
+│       │   │       │   │   ├── toBindingIdentifierName.js.map
+│       │   │       │   │   ├── toBlock.js
+│       │   │       │   │   ├── toBlock.js.map
+│       │   │       │   │   ├── toComputedKey.js
+│       │   │       │   │   ├── toComputedKey.js.map
+│       │   │       │   │   ├── toExpression.js
+│       │   │       │   │   ├── toExpression.js.map
+│       │   │       │   │   ├── toIdentifier.js
+│       │   │       │   │   ├── toIdentifier.js.map
+│       │   │       │   │   ├── toKeyAlias.js
+│       │   │       │   │   ├── toKeyAlias.js.map
+│       │   │       │   │   ├── toSequenceExpression.js
+│       │   │       │   │   ├── toSequenceExpression.js.map
+│       │   │       │   │   ├── toStatement.js
+│       │   │       │   │   ├── toStatement.js.map
+│       │   │       │   │   ├── valueToNode.js
+│       │   │       │   │   └── valueToNode.js.map
+│       │   │       │   ├── definitions
+│       │   │       │   │   ├── core.js
+│       │   │       │   │   ├── core.js.map
+│       │   │       │   │   ├── deprecated-aliases.js
+│       │   │       │   │   ├── deprecated-aliases.js.map
+│       │   │       │   │   ├── experimental.js
+│       │   │       │   │   ├── experimental.js.map
+│       │   │       │   │   ├── flow.js
+│       │   │       │   │   ├── flow.js.map
+│       │   │       │   │   ├── index.js
+│       │   │       │   │   ├── index.js.map
+│       │   │       │   │   ├── jsx.js
+│       │   │       │   │   ├── jsx.js.map
+│       │   │       │   │   ├── misc.js
+│       │   │       │   │   ├── misc.js.map
+│       │   │       │   │   ├── placeholders.js
+│       │   │       │   │   ├── placeholders.js.map
+│       │   │       │   │   ├── typescript.js
+│       │   │       │   │   ├── typescript.js.map
+│       │   │       │   │   ├── utils.js
+│       │   │       │   │   └── utils.js.map
+│       │   │       │   ├── index-legacy.d.ts
+│       │   │       │   ├── index.d.ts
+│       │   │       │   ├── index.js
+│       │   │       │   ├── index.js.flow
+│       │   │       │   ├── index.js.map
+│       │   │       │   ├── modifications
+│       │   │       │   │   ├── appendToMemberExpression.js
+│       │   │       │   │   ├── appendToMemberExpression.js.map
+│       │   │       │   │   ├── flow
+│       │   │       │   │   │   ├── removeTypeDuplicates.js
+│       │   │       │   │   │   └── removeTypeDuplicates.js.map
+│       │   │       │   │   ├── inherits.js
+│       │   │       │   │   ├── inherits.js.map
+│       │   │       │   │   ├── prependToMemberExpression.js
+│       │   │       │   │   ├── prependToMemberExpression.js.map
+│       │   │       │   │   ├── removeProperties.js
+│       │   │       │   │   ├── removeProperties.js.map
+│       │   │       │   │   ├── removePropertiesDeep.js
+│       │   │       │   │   ├── removePropertiesDeep.js.map
+│       │   │       │   │   └── typescript
+│       │   │       │   │       ├── removeTypeDuplicates.js
+│       │   │       │   │       └── removeTypeDuplicates.js.map
+│       │   │       │   ├── retrievers
+│       │   │       │   │   ├── getAssignmentIdentifiers.js
+│       │   │       │   │   ├── getAssignmentIdentifiers.js.map
+│       │   │       │   │   ├── getBindingIdentifiers.js
+│       │   │       │   │   ├── getBindingIdentifiers.js.map
+│       │   │       │   │   ├── getFunctionName.js
+│       │   │       │   │   ├── getFunctionName.js.map
+│       │   │       │   │   ├── getOuterBindingIdentifiers.js
+│       │   │       │   │   └── getOuterBindingIdentifiers.js.map
+│       │   │       │   ├── traverse
+│       │   │       │   │   ├── traverse.js
+│       │   │       │   │   ├── traverse.js.map
+│       │   │       │   │   ├── traverseFast.js
+│       │   │       │   │   └── traverseFast.js.map
+│       │   │       │   ├── utils
+│       │   │       │   │   ├── deprecationWarning.js
+│       │   │       │   │   ├── deprecationWarning.js.map
+│       │   │       │   │   ├── inherit.js
+│       │   │       │   │   ├── inherit.js.map
+│       │   │       │   │   ├── react
+│       │   │       │   │   │   ├── cleanJSXElementLiteralChild.js
+│       │   │       │   │   │   └── cleanJSXElementLiteralChild.js.map
+│       │   │       │   │   ├── shallowEqual.js
+│       │   │       │   │   └── shallowEqual.js.map
+│       │   │       │   └── validators
+│       │   │       │       ├── buildMatchMemberExpression.js
+│       │   │       │       ├── buildMatchMemberExpression.js.map
+│       │   │       │       ├── generated
+│       │   │       │       │   ├── index.js
+│       │   │       │       │   └── index.js.map
+│       │   │       │       ├── is.js
+│       │   │       │       ├── is.js.map
+│       │   │       │       ├── isBinding.js
+│       │   │       │       ├── isBinding.js.map
+│       │   │       │       ├── isBlockScoped.js
+│       │   │       │       ├── isBlockScoped.js.map
+│       │   │       │       ├── isImmutable.js
+│       │   │       │       ├── isImmutable.js.map
+│       │   │       │       ├── isLet.js
+│       │   │       │       ├── isLet.js.map
+│       │   │       │       ├── isNode.js
+│       │   │       │       ├── isNode.js.map
+│       │   │       │       ├── isNodesEquivalent.js
+│       │   │       │       ├── isNodesEquivalent.js.map
+│       │   │       │       ├── isPlaceholderType.js
+│       │   │       │       ├── isPlaceholderType.js.map
+│       │   │       │       ├── isReferenced.js
+│       │   │       │       ├── isReferenced.js.map
+│       │   │       │       ├── isScope.js
+│       │   │       │       ├── isScope.js.map
+│       │   │       │       ├── isSpecifierDefault.js
+│       │   │       │       ├── isSpecifierDefault.js.map
+│       │   │       │       ├── isType.js
+│       │   │       │       ├── isType.js.map
+│       │   │       │       ├── isValidES3Identifier.js
+│       │   │       │       ├── isValidES3Identifier.js.map
+│       │   │       │       ├── isValidIdentifier.js
+│       │   │       │       ├── isValidIdentifier.js.map
+│       │   │       │       ├── isVar.js
+│       │   │       │       ├── isVar.js.map
+│       │   │       │       ├── matchesPattern.js
+│       │   │       │       ├── matchesPattern.js.map
+│       │   │       │       ├── react
+│       │   │       │       │   ├── isCompatTag.js
+│       │   │       │       │   ├── isCompatTag.js.map
+│       │   │       │       │   ├── isReactComponent.js
+│       │   │       │       │   └── isReactComponent.js.map
+│       │   │       │       ├── validate.js
+│       │   │       │       └── validate.js.map
+│       │   │       └── package.json
+│       │   ├── @esbuild
+│       │   │   └── darwin-arm64
+│       │   │       ├── README.md
+│       │   │       ├── bin
+│       │   │       │   └── esbuild
+│       │   │       └── package.json
+│       │   ├── @isaacs
+│       │   │   └── fs-minipass
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── dist
+│       │   │       │   ├── commonjs
+│       │   │       │   │   ├── index.d.ts
+│       │   │       │   │   ├── index.d.ts.map
+│       │   │       │   │   ├── index.js
+│       │   │       │   │   ├── index.js.map
+│       │   │       │   │   └── package.json
+│       │   │       │   └── esm
+│       │   │       │       ├── index.d.ts
+│       │   │       │       ├── index.d.ts.map
+│       │   │       │       ├── index.js
+│       │   │       │       ├── index.js.map
+│       │   │       │       └── package.json
+│       │   │       └── package.json
+│       │   ├── @jridgewell
+│       │   │   ├── gen-mapping
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── gen-mapping.mjs
+│       │   │   │   │   ├── gen-mapping.mjs.map
+│       │   │   │   │   ├── gen-mapping.umd.js
+│       │   │   │   │   ├── gen-mapping.umd.js.map
+│       │   │   │   │   └── types
+│       │   │   │   │       ├── gen-mapping.d.ts
+│       │   │   │   │       ├── set-array.d.ts
+│       │   │   │   │       ├── sourcemap-segment.d.ts
+│       │   │   │   │       └── types.d.ts
+│       │   │   │   ├── package.json
+│       │   │   │   ├── src
+│       │   │   │   │   ├── gen-mapping.ts
+│       │   │   │   │   ├── set-array.ts
+│       │   │   │   │   ├── sourcemap-segment.ts
+│       │   │   │   │   └── types.ts
+│       │   │   │   └── types
+│       │   │   │       ├── gen-mapping.d.cts
+│       │   │   │       ├── gen-mapping.d.cts.map
+│       │   │   │       ├── gen-mapping.d.mts
+│       │   │   │       ├── gen-mapping.d.mts.map
+│       │   │   │       ├── set-array.d.cts
+│       │   │   │       ├── set-array.d.cts.map
+│       │   │   │       ├── set-array.d.mts
+│       │   │   │       ├── set-array.d.mts.map
+│       │   │   │       ├── sourcemap-segment.d.cts
+│       │   │   │       ├── sourcemap-segment.d.cts.map
+│       │   │   │       ├── sourcemap-segment.d.mts
+│       │   │   │       ├── sourcemap-segment.d.mts.map
+│       │   │   │       ├── types.d.cts
+│       │   │   │       ├── types.d.cts.map
+│       │   │   │       ├── types.d.mts
+│       │   │   │       └── types.d.mts.map
+│       │   │   ├── remapping
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── remapping.mjs
+│       │   │   │   │   ├── remapping.mjs.map
+│       │   │   │   │   ├── remapping.umd.js
+│       │   │   │   │   └── remapping.umd.js.map
+│       │   │   │   ├── package.json
+│       │   │   │   ├── src
+│       │   │   │   │   ├── build-source-map-tree.ts
+│       │   │   │   │   ├── remapping.ts
+│       │   │   │   │   ├── source-map-tree.ts
+│       │   │   │   │   ├── source-map.ts
+│       │   │   │   │   └── types.ts
+│       │   │   │   └── types
+│       │   │   │       ├── build-source-map-tree.d.cts
+│       │   │   │       ├── build-source-map-tree.d.cts.map
+│       │   │   │       ├── build-source-map-tree.d.mts
+│       │   │   │       ├── build-source-map-tree.d.mts.map
+│       │   │   │       ├── remapping.d.cts
+│       │   │   │       ├── remapping.d.cts.map
+│       │   │   │       ├── remapping.d.mts
+│       │   │   │       ├── remapping.d.mts.map
+│       │   │   │       ├── source-map-tree.d.cts
+│       │   │   │       ├── source-map-tree.d.cts.map
+│       │   │   │       ├── source-map-tree.d.mts
+│       │   │   │       ├── source-map-tree.d.mts.map
+│       │   │   │       ├── source-map.d.cts
+│       │   │   │       ├── source-map.d.cts.map
+│       │   │   │       ├── source-map.d.mts
+│       │   │   │       ├── source-map.d.mts.map
+│       │   │   │       ├── types.d.cts
+│       │   │   │       ├── types.d.cts.map
+│       │   │   │       ├── types.d.mts
+│       │   │   │       └── types.d.mts.map
+│       │   │   ├── resolve-uri
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── resolve-uri.mjs
+│       │   │   │   │   ├── resolve-uri.mjs.map
+│       │   │   │   │   ├── resolve-uri.umd.js
+│       │   │   │   │   ├── resolve-uri.umd.js.map
+│       │   │   │   │   └── types
+│       │   │   │   │       └── resolve-uri.d.ts
+│       │   │   │   └── package.json
+│       │   │   ├── sourcemap-codec
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── sourcemap-codec.mjs
+│       │   │   │   │   ├── sourcemap-codec.mjs.map
+│       │   │   │   │   ├── sourcemap-codec.umd.js
+│       │   │   │   │   └── sourcemap-codec.umd.js.map
+│       │   │   │   ├── package.json
+│       │   │   │   ├── src
+│       │   │   │   │   ├── scopes.ts
+│       │   │   │   │   ├── sourcemap-codec.ts
+│       │   │   │   │   ├── strings.ts
+│       │   │   │   │   └── vlq.ts
+│       │   │   │   └── types
+│       │   │   │       ├── scopes.d.cts
+│       │   │   │       ├── scopes.d.cts.map
+│       │   │   │       ├── scopes.d.mts
+│       │   │   │       ├── scopes.d.mts.map
+│       │   │   │       ├── sourcemap-codec.d.cts
+│       │   │   │       ├── sourcemap-codec.d.cts.map
+│       │   │   │       ├── sourcemap-codec.d.mts
+│       │   │   │       ├── sourcemap-codec.d.mts.map
+│       │   │   │       ├── strings.d.cts
+│       │   │   │       ├── strings.d.cts.map
+│       │   │   │       ├── strings.d.mts
+│       │   │   │       ├── strings.d.mts.map
+│       │   │   │       ├── vlq.d.cts
+│       │   │   │       ├── vlq.d.cts.map
+│       │   │   │       ├── vlq.d.mts
+│       │   │   │       └── vlq.d.mts.map
+│       │   │   └── trace-mapping
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── dist
+│       │   │       │   ├── trace-mapping.mjs
+│       │   │       │   ├── trace-mapping.mjs.map
+│       │   │       │   ├── trace-mapping.umd.js
+│       │   │       │   └── trace-mapping.umd.js.map
+│       │   │       ├── package.json
+│       │   │       ├── src
+│       │   │       │   ├── binary-search.ts
+│       │   │       │   ├── by-source.ts
+│       │   │       │   ├── flatten-map.ts
+│       │   │       │   ├── resolve.ts
+│       │   │       │   ├── sort.ts
+│       │   │       │   ├── sourcemap-segment.ts
+│       │   │       │   ├── strip-filename.ts
+│       │   │       │   ├── trace-mapping.ts
+│       │   │       │   └── types.ts
+│       │   │       └── types
+│       │   │           ├── binary-search.d.cts
+│       │   │           ├── binary-search.d.cts.map
+│       │   │           ├── binary-search.d.mts
+│       │   │           ├── binary-search.d.mts.map
+│       │   │           ├── by-source.d.cts
+│       │   │           ├── by-source.d.cts.map
+│       │   │           ├── by-source.d.mts
+│       │   │           ├── by-source.d.mts.map
+│       │   │           ├── flatten-map.d.cts
+│       │   │           ├── flatten-map.d.cts.map
+│       │   │           ├── flatten-map.d.mts
+│       │   │           ├── flatten-map.d.mts.map
+│       │   │           ├── resolve.d.cts
+│       │   │           ├── resolve.d.cts.map
+│       │   │           ├── resolve.d.mts
+│       │   │           ├── resolve.d.mts.map
+│       │   │           ├── sort.d.cts
+│       │   │           ├── sort.d.cts.map
+│       │   │           ├── sort.d.mts
+│       │   │           ├── sort.d.mts.map
+│       │   │           ├── sourcemap-segment.d.cts
+│       │   │           ├── sourcemap-segment.d.cts.map
+│       │   │           ├── sourcemap-segment.d.mts
+│       │   │           ├── sourcemap-segment.d.mts.map
+│       │   │           ├── strip-filename.d.cts
+│       │   │           ├── strip-filename.d.cts.map
+│       │   │           ├── strip-filename.d.mts
+│       │   │           ├── strip-filename.d.mts.map
+│       │   │           ├── trace-mapping.d.cts
+│       │   │           ├── trace-mapping.d.cts.map
+│       │   │           ├── trace-mapping.d.mts
+│       │   │           ├── trace-mapping.d.mts.map
+│       │   │           ├── types.d.cts
+│       │   │           ├── types.d.cts.map
+│       │   │           ├── types.d.mts
+│       │   │           └── types.d.mts.map
+│       │   ├── @rolldown
+│       │   │   └── pluginutils
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── dist
+│       │   │       │   ├── index.cjs
+│       │   │       │   ├── index.d.cts
+│       │   │       │   ├── index.d.ts
+│       │   │       │   └── index.js
+│       │   │       └── package.json
+│       │   ├── @rollup
+│       │   │   └── rollup-darwin-arm64
+│       │   │       ├── README.md
+│       │   │       ├── package.json
+│       │   │       └── rollup.darwin-arm64.node
+│       │   ├── @tailwindcss
+│       │   │   ├── node
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── esm-cache.loader.d.mts
+│       │   │   │   │   ├── esm-cache.loader.mjs
+│       │   │   │   │   ├── index.d.mts
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.mjs
+│       │   │   │   │   ├── require-cache.d.ts
+│       │   │   │   │   └── require-cache.js
+│       │   │   │   └── package.json
+│       │   │   ├── oxide
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── package.json
+│       │   │   │   └── scripts
+│       │   │   │       └── install.js
+│       │   │   ├── oxide-darwin-arm64
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── package.json
+│       │   │   │   └── tailwindcss-oxide.darwin-arm64.node
+│       │   │   └── postcss
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── dist
+│       │   │       │   ├── index.d.mts
+│       │   │       │   ├── index.d.ts
+│       │   │       │   ├── index.js
+│       │   │       │   └── index.mjs
+│       │   │       └── package.json
+│       │   ├── @types
+│       │   │   ├── estree
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── flow.d.ts
+│       │   │   │   ├── index.d.ts
+│       │   │   │   └── package.json
+│       │   │   └── node
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── assert
+│       │   │       │   └── strict.d.ts
+│       │   │       ├── assert.d.ts
+│       │   │       ├── async_hooks.d.ts
+│       │   │       ├── buffer.buffer.d.ts
+│       │   │       ├── buffer.d.ts
+│       │   │       ├── child_process.d.ts
+│       │   │       ├── cluster.d.ts
+│       │   │       ├── compatibility
+│       │   │       │   └── iterators.d.ts
+│       │   │       ├── console.d.ts
+│       │   │       ├── constants.d.ts
+│       │   │       ├── crypto.d.ts
+│       │   │       ├── dgram.d.ts
+│       │   │       ├── diagnostics_channel.d.ts
+│       │   │       ├── dns
+│       │   │       │   └── promises.d.ts
+│       │   │       ├── dns.d.ts
+│       │   │       ├── domain.d.ts
+│       │   │       ├── events.d.ts
+│       │   │       ├── fs
+│       │   │       │   └── promises.d.ts
+│       │   │       ├── fs.d.ts
+│       │   │       ├── globals.d.ts
+│       │   │       ├── globals.typedarray.d.ts
+│       │   │       ├── http.d.ts
+│       │   │       ├── http2.d.ts
+│       │   │       ├── https.d.ts
+│       │   │       ├── index.d.ts
+│       │   │       ├── inspector.d.ts
+│       │   │       ├── inspector.generated.d.ts
+│       │   │       ├── module.d.ts
+│       │   │       ├── net.d.ts
+│       │   │       ├── os.d.ts
+│       │   │       ├── package.json
+│       │   │       ├── path.d.ts
+│       │   │       ├── perf_hooks.d.ts
+│       │   │       ├── process.d.ts
+│       │   │       ├── punycode.d.ts
+│       │   │       ├── querystring.d.ts
+│       │   │       ├── readline
+│       │   │       │   └── promises.d.ts
+│       │   │       ├── readline.d.ts
+│       │   │       ├── repl.d.ts
+│       │   │       ├── sea.d.ts
+│       │   │       ├── sqlite.d.ts
+│       │   │       ├── stream
+│       │   │       │   ├── consumers.d.ts
+│       │   │       │   ├── promises.d.ts
+│       │   │       │   └── web.d.ts
+│       │   │       ├── stream.d.ts
+│       │   │       ├── string_decoder.d.ts
+│       │   │       ├── test.d.ts
+│       │   │       ├── timers
+│       │   │       │   └── promises.d.ts
+│       │   │       ├── timers.d.ts
+│       │   │       ├── tls.d.ts
+│       │   │       ├── trace_events.d.ts
+│       │   │       ├── ts5.6
+│       │   │       │   ├── buffer.buffer.d.ts
+│       │   │       │   ├── compatibility
+│       │   │       │   │   └── float16array.d.ts
+│       │   │       │   ├── globals.typedarray.d.ts
+│       │   │       │   └── index.d.ts
+│       │   │       ├── ts5.7
+│       │   │       │   ├── compatibility
+│       │   │       │   │   └── float16array.d.ts
+│       │   │       │   └── index.d.ts
+│       │   │       ├── tty.d.ts
+│       │   │       ├── url.d.ts
+│       │   │       ├── util.d.ts
+│       │   │       ├── v8.d.ts
+│       │   │       ├── vm.d.ts
+│       │   │       ├── wasi.d.ts
+│       │   │       ├── web-globals
+│       │   │       │   ├── abortcontroller.d.ts
+│       │   │       │   ├── crypto.d.ts
+│       │   │       │   ├── domexception.d.ts
+│       │   │       │   ├── events.d.ts
+│       │   │       │   ├── fetch.d.ts
+│       │   │       │   ├── navigator.d.ts
+│       │   │       │   ├── storage.d.ts
+│       │   │       │   └── streams.d.ts
+│       │   │       ├── worker_threads.d.ts
+│       │   │       └── zlib.d.ts
+│       │   ├── @vitejs
+│       │   │   └── plugin-vue
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── dist
+│       │   │       │   ├── index.d.ts
+│       │   │       │   └── index.js
+│       │   │       └── package.json
+│       │   ├── @volar
+│       │   │   ├── language-core
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── lib
+│       │   │   │   │   ├── editor.d.ts
+│       │   │   │   │   ├── editor.js
+│       │   │   │   │   ├── linkedCodeMap.d.ts
+│       │   │   │   │   ├── linkedCodeMap.js
+│       │   │   │   │   ├── types.d.ts
+│       │   │   │   │   ├── types.js
+│       │   │   │   │   ├── utils.d.ts
+│       │   │   │   │   └── utils.js
+│       │   │   │   └── package.json
+│       │   │   ├── source-map
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── lib
+│       │   │   │   │   ├── binarySearch.d.ts
+│       │   │   │   │   ├── binarySearch.js
+│       │   │   │   │   ├── sourceMap.d.ts
+│       │   │   │   │   ├── sourceMap.js
+│       │   │   │   │   ├── translateOffset.d.ts
+│       │   │   │   │   └── translateOffset.js
+│       │   │   │   └── package.json
+│       │   │   └── typescript
+│       │   │       ├── LICENSE
+│       │   │       ├── index.d.ts
+│       │   │       ├── index.js
+│       │   │       ├── lib
+│       │   │       │   ├── common.d.ts
+│       │   │       │   ├── common.js
+│       │   │       │   ├── node
+│       │   │       │   │   ├── decorateLanguageServiceHost.d.ts
+│       │   │       │   │   ├── decorateLanguageServiceHost.js
+│       │   │       │   │   ├── decorateProgram.d.ts
+│       │   │       │   │   ├── decorateProgram.js
+│       │   │       │   │   ├── dedupe.d.ts
+│       │   │       │   │   ├── dedupe.js
+│       │   │       │   │   ├── proxyCreateProgram.d.ts
+│       │   │       │   │   ├── proxyCreateProgram.js
+│       │   │       │   │   ├── proxyLanguageService.d.ts
+│       │   │       │   │   ├── proxyLanguageService.js
+│       │   │       │   │   ├── transform.d.ts
+│       │   │       │   │   ├── transform.js
+│       │   │       │   │   ├── utils.d.ts
+│       │   │       │   │   └── utils.js
+│       │   │       │   ├── protocol
+│       │   │       │   │   ├── createProject.d.ts
+│       │   │       │   │   ├── createProject.js
+│       │   │       │   │   ├── createSys.d.ts
+│       │   │       │   │   └── createSys.js
+│       │   │       │   ├── quickstart
+│       │   │       │   │   ├── createAsyncLanguageServicePlugin.d.ts
+│       │   │       │   │   ├── createAsyncLanguageServicePlugin.js
+│       │   │       │   │   ├── createLanguageServicePlugin.d.ts
+│       │   │       │   │   ├── createLanguageServicePlugin.js
+│       │   │       │   │   ├── languageServicePluginCommon.d.ts
+│       │   │       │   │   ├── languageServicePluginCommon.js
+│       │   │       │   │   ├── runTsc.d.ts
+│       │   │       │   │   └── runTsc.js
+│       │   │       │   ├── resolveModuleName.d.ts
+│       │   │       │   ├── resolveModuleName.js
+│       │   │       │   └── typescript
+│       │   │       │       ├── core.d.ts
+│       │   │       │       ├── core.js
+│       │   │       │       ├── corePublic.d.ts
+│       │   │       │       ├── corePublic.js
+│       │   │       │       ├── path.d.ts
+│       │   │       │       ├── path.js
+│       │   │       │       ├── types.d.ts
+│       │   │       │       ├── types.js
+│       │   │       │       ├── utilities.d.ts
+│       │   │       │       └── utilities.js
+│       │   │       └── package.json
+│       │   ├── @vue
+│       │   │   ├── compiler-core
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── compiler-core.cjs.js
+│       │   │   │   │   ├── compiler-core.cjs.prod.js
+│       │   │   │   │   ├── compiler-core.d.ts
+│       │   │   │   │   └── compiler-core.esm-bundler.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── compiler-dom
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── compiler-dom.cjs.js
+│       │   │   │   │   ├── compiler-dom.cjs.prod.js
+│       │   │   │   │   ├── compiler-dom.d.ts
+│       │   │   │   │   ├── compiler-dom.esm-browser.js
+│       │   │   │   │   ├── compiler-dom.esm-browser.prod.js
+│       │   │   │   │   ├── compiler-dom.esm-bundler.js
+│       │   │   │   │   ├── compiler-dom.global.js
+│       │   │   │   │   └── compiler-dom.global.prod.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── compiler-sfc
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── compiler-sfc.cjs.js
+│       │   │   │   │   ├── compiler-sfc.d.ts
+│       │   │   │   │   └── compiler-sfc.esm-browser.js
+│       │   │   │   └── package.json
+│       │   │   ├── compiler-ssr
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── compiler-ssr.cjs.js
+│       │   │   │   │   └── compiler-ssr.d.ts
+│       │   │   │   └── package.json
+│       │   │   ├── devtools-api
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── index.cjs
+│       │   │   │   │   ├── index.d.cts
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   └── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── devtools-kit
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── index.cjs
+│       │   │   │   │   ├── index.d.cts
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   └── index.js
+│       │   │   │   ├── global.d.ts
+│       │   │   │   ├── package.json
+│       │   │   │   └── types.d.ts
+│       │   │   ├── devtools-shared
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── index.cjs
+│       │   │   │   │   ├── index.d.cts
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   └── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── language-core
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── lib
+│       │   │   │   │   ├── codegen
+│       │   │   │   │   │   ├── codeFeatures.d.ts
+│       │   │   │   │   │   ├── codeFeatures.js
+│       │   │   │   │   │   ├── globalTypes.d.ts
+│       │   │   │   │   │   ├── globalTypes.js
+│       │   │   │   │   │   ├── inlayHints.d.ts
+│       │   │   │   │   │   ├── inlayHints.js
+│       │   │   │   │   │   ├── localTypes.d.ts
+│       │   │   │   │   │   ├── localTypes.js
+│       │   │   │   │   │   ├── script
+│       │   │   │   │   │   │   ├── component.d.ts
+│       │   │   │   │   │   │   ├── component.js
+│       │   │   │   │   │   │   ├── context.d.ts
+│       │   │   │   │   │   │   ├── context.js
+│       │   │   │   │   │   │   ├── index.d.ts
+│       │   │   │   │   │   │   ├── index.js
+│       │   │   │   │   │   │   ├── scriptSetup.d.ts
+│       │   │   │   │   │   │   ├── scriptSetup.js
+│       │   │   │   │   │   │   ├── src.d.ts
+│       │   │   │   │   │   │   ├── src.js
+│       │   │   │   │   │   │   ├── template.d.ts
+│       │   │   │   │   │   │   └── template.js
+│       │   │   │   │   │   ├── style
+│       │   │   │   │   │   │   ├── classProperty.d.ts
+│       │   │   │   │   │   │   ├── classProperty.js
+│       │   │   │   │   │   │   ├── imports.d.ts
+│       │   │   │   │   │   │   ├── imports.js
+│       │   │   │   │   │   │   ├── modules.d.ts
+│       │   │   │   │   │   │   ├── modules.js
+│       │   │   │   │   │   │   ├── scopedClasses.d.ts
+│       │   │   │   │   │   │   └── scopedClasses.js
+│       │   │   │   │   │   ├── template
+│       │   │   │   │   │   │   ├── context.d.ts
+│       │   │   │   │   │   │   ├── context.js
+│       │   │   │   │   │   │   ├── element.d.ts
+│       │   │   │   │   │   │   ├── element.js
+│       │   │   │   │   │   │   ├── elementChildren.d.ts
+│       │   │   │   │   │   │   ├── elementChildren.js
+│       │   │   │   │   │   │   ├── elementDirectives.d.ts
+│       │   │   │   │   │   │   ├── elementDirectives.js
+│       │   │   │   │   │   │   ├── elementEvents.d.ts
+│       │   │   │   │   │   │   ├── elementEvents.js
+│       │   │   │   │   │   │   ├── elementProps.d.ts
+│       │   │   │   │   │   │   ├── elementProps.js
+│       │   │   │   │   │   │   ├── index.d.ts
+│       │   │   │   │   │   │   ├── index.js
+│       │   │   │   │   │   │   ├── interpolation.d.ts
+│       │   │   │   │   │   │   ├── interpolation.js
+│       │   │   │   │   │   │   ├── objectProperty.d.ts
+│       │   │   │   │   │   │   ├── objectProperty.js
+│       │   │   │   │   │   │   ├── propertyAccess.d.ts
+│       │   │   │   │   │   │   ├── propertyAccess.js
+│       │   │   │   │   │   │   ├── slotOutlet.d.ts
+│       │   │   │   │   │   │   ├── slotOutlet.js
+│       │   │   │   │   │   │   ├── styleScopedClasses.d.ts
+│       │   │   │   │   │   │   ├── styleScopedClasses.js
+│       │   │   │   │   │   │   ├── templateChild.d.ts
+│       │   │   │   │   │   │   ├── templateChild.js
+│       │   │   │   │   │   │   ├── vFor.d.ts
+│       │   │   │   │   │   │   ├── vFor.js
+│       │   │   │   │   │   │   ├── vIf.d.ts
+│       │   │   │   │   │   │   ├── vIf.js
+│       │   │   │   │   │   │   ├── vSlot.d.ts
+│       │   │   │   │   │   │   └── vSlot.js
+│       │   │   │   │   │   └── utils
+│       │   │   │   │   │       ├── camelized.d.ts
+│       │   │   │   │   │       ├── camelized.js
+│       │   │   │   │   │       ├── escaped.d.ts
+│       │   │   │   │   │       ├── escaped.js
+│       │   │   │   │   │       ├── index.d.ts
+│       │   │   │   │   │       ├── index.js
+│       │   │   │   │   │       ├── merge.d.ts
+│       │   │   │   │   │       ├── merge.js
+│       │   │   │   │   │       ├── stringLiteralKey.d.ts
+│       │   │   │   │   │       ├── stringLiteralKey.js
+│       │   │   │   │   │       ├── unicode.d.ts
+│       │   │   │   │   │       ├── unicode.js
+│       │   │   │   │   │       ├── wrapWith.d.ts
+│       │   │   │   │   │       └── wrapWith.js
+│       │   │   │   │   ├── compilerOptions.d.ts
+│       │   │   │   │   ├── compilerOptions.js
+│       │   │   │   │   ├── languagePlugin.d.ts
+│       │   │   │   │   ├── languagePlugin.js
+│       │   │   │   │   ├── parsers
+│       │   │   │   │   │   ├── scriptRanges.d.ts
+│       │   │   │   │   │   ├── scriptRanges.js
+│       │   │   │   │   │   ├── scriptSetupRanges.d.ts
+│       │   │   │   │   │   ├── scriptSetupRanges.js
+│       │   │   │   │   │   ├── utils.d.ts
+│       │   │   │   │   │   ├── utils.js
+│       │   │   │   │   │   ├── vueCompilerOptions.d.ts
+│       │   │   │   │   │   └── vueCompilerOptions.js
+│       │   │   │   │   ├── plugins
+│       │   │   │   │   │   ├── file-html.d.ts
+│       │   │   │   │   │   ├── file-html.js
+│       │   │   │   │   │   ├── file-md.d.ts
+│       │   │   │   │   │   ├── file-md.js
+│       │   │   │   │   │   ├── file-vue.d.ts
+│       │   │   │   │   │   ├── file-vue.js
+│       │   │   │   │   │   ├── shared.d.ts
+│       │   │   │   │   │   ├── shared.js
+│       │   │   │   │   │   ├── vue-root-tags.d.ts
+│       │   │   │   │   │   ├── vue-root-tags.js
+│       │   │   │   │   │   ├── vue-script-js.d.ts
+│       │   │   │   │   │   ├── vue-script-js.js
+│       │   │   │   │   │   ├── vue-sfc-customblocks.d.ts
+│       │   │   │   │   │   ├── vue-sfc-customblocks.js
+│       │   │   │   │   │   ├── vue-sfc-scripts.d.ts
+│       │   │   │   │   │   ├── vue-sfc-scripts.js
+│       │   │   │   │   │   ├── vue-sfc-styles.d.ts
+│       │   │   │   │   │   ├── vue-sfc-styles.js
+│       │   │   │   │   │   ├── vue-sfc-template.d.ts
+│       │   │   │   │   │   ├── vue-sfc-template.js
+│       │   │   │   │   │   ├── vue-style-css.d.ts
+│       │   │   │   │   │   ├── vue-style-css.js
+│       │   │   │   │   │   ├── vue-template-html.d.ts
+│       │   │   │   │   │   ├── vue-template-html.js
+│       │   │   │   │   │   ├── vue-template-inline-css.d.ts
+│       │   │   │   │   │   ├── vue-template-inline-css.js
+│       │   │   │   │   │   ├── vue-template-inline-ts.d.ts
+│       │   │   │   │   │   ├── vue-template-inline-ts.js
+│       │   │   │   │   │   ├── vue-tsx.d.ts
+│       │   │   │   │   │   └── vue-tsx.js
+│       │   │   │   │   ├── plugins.d.ts
+│       │   │   │   │   ├── plugins.js
+│       │   │   │   │   ├── types.d.ts
+│       │   │   │   │   ├── types.js
+│       │   │   │   │   ├── utils
+│       │   │   │   │   │   ├── buildMappings.d.ts
+│       │   │   │   │   │   ├── buildMappings.js
+│       │   │   │   │   │   ├── collectBindings.d.ts
+│       │   │   │   │   │   ├── collectBindings.js
+│       │   │   │   │   │   ├── parseSfc.d.ts
+│       │   │   │   │   │   ├── parseSfc.js
+│       │   │   │   │   │   ├── shared.d.ts
+│       │   │   │   │   │   ├── shared.js
+│       │   │   │   │   │   ├── signals.d.ts
+│       │   │   │   │   │   └── signals.js
+│       │   │   │   │   └── virtualFile
+│       │   │   │   │       ├── computedEmbeddedCodes.d.ts
+│       │   │   │   │       ├── computedEmbeddedCodes.js
+│       │   │   │   │       ├── computedSfc.d.ts
+│       │   │   │   │       ├── computedSfc.js
+│       │   │   │   │       ├── computedVueSfc.d.ts
+│       │   │   │   │       ├── computedVueSfc.js
+│       │   │   │   │       ├── embeddedFile.d.ts
+│       │   │   │   │       ├── embeddedFile.js
+│       │   │   │   │       ├── vueFile.d.ts
+│       │   │   │   │       └── vueFile.js
+│       │   │   │   └── package.json
+│       │   │   ├── reactivity
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── reactivity.cjs.js
+│       │   │   │   │   ├── reactivity.cjs.prod.js
+│       │   │   │   │   ├── reactivity.d.ts
+│       │   │   │   │   ├── reactivity.esm-browser.js
+│       │   │   │   │   ├── reactivity.esm-browser.prod.js
+│       │   │   │   │   ├── reactivity.esm-bundler.js
+│       │   │   │   │   ├── reactivity.global.js
+│       │   │   │   │   └── reactivity.global.prod.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── runtime-core
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── runtime-core.cjs.js
+│       │   │   │   │   ├── runtime-core.cjs.prod.js
+│       │   │   │   │   ├── runtime-core.d.ts
+│       │   │   │   │   └── runtime-core.esm-bundler.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── runtime-dom
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── runtime-dom.cjs.js
+│       │   │   │   │   ├── runtime-dom.cjs.prod.js
+│       │   │   │   │   ├── runtime-dom.d.ts
+│       │   │   │   │   ├── runtime-dom.esm-browser.js
+│       │   │   │   │   ├── runtime-dom.esm-browser.prod.js
+│       │   │   │   │   ├── runtime-dom.esm-bundler.js
+│       │   │   │   │   ├── runtime-dom.global.js
+│       │   │   │   │   └── runtime-dom.global.prod.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── server-renderer
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── server-renderer.cjs.js
+│       │   │   │   │   ├── server-renderer.cjs.prod.js
+│       │   │   │   │   ├── server-renderer.d.ts
+│       │   │   │   │   ├── server-renderer.esm-browser.js
+│       │   │   │   │   ├── server-renderer.esm-browser.prod.js
+│       │   │   │   │   └── server-renderer.esm-bundler.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── shared
+│       │   │   │   ├── LICENSE
+│       │   │   │   ├── README.md
+│       │   │   │   ├── dist
+│       │   │   │   │   ├── shared.cjs.js
+│       │   │   │   │   ├── shared.cjs.prod.js
+│       │   │   │   │   ├── shared.d.ts
+│       │   │   │   │   └── shared.esm-bundler.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   └── tsconfig
+│       │   │       ├── LICENSE
+│       │   │       ├── README.md
+│       │   │       ├── package.json
+│       │   │       ├── tsconfig.dom.json
+│       │   │       ├── tsconfig.json
+│       │   │       └── tsconfig.lib.json
+│       │   ├── alien-signals
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── cjs
+│       │   │   │   ├── index.cjs
+│       │   │   │   └── system.cjs
+│       │   │   ├── esm
+│       │   │   │   ├── index.mjs
+│       │   │   │   └── system.mjs
+│       │   │   ├── package.json
+│       │   │   └── types
+│       │   │       ├── index.d.ts
+│       │   │       └── system.d.ts
+│       │   ├── birpc
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.cts
+│       │   │   │   ├── index.d.mts
+│       │   │   │   ├── index.d.ts
+│       │   │   │   └── index.mjs
+│       │   │   └── package.json
+│       │   ├── chownr
+│       │   │   ├── LICENSE.md
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── commonjs
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   ├── index.d.ts.map
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.js.map
+│       │   │   │   │   └── package.json
+│       │   │   │   └── esm
+│       │   │   │       ├── index.d.ts
+│       │   │   │       ├── index.d.ts.map
+│       │   │   │       ├── index.js
+│       │   │   │       ├── index.js.map
+│       │   │   │       └── package.json
+│       │   │   └── package.json
+│       │   ├── copy-anything
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── cjs
+│       │   │   │   │   ├── index.cjs
+│       │   │   │   │   └── index.d.cts
+│       │   │   │   ├── index.d.ts
+│       │   │   │   └── index.js
+│       │   │   └── package.json
+│       │   ├── csstype
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── index.d.ts
+│       │   │   ├── index.js.flow
+│       │   │   └── package.json
+│       │   ├── detect-libc
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── index.d.ts
+│       │   │   ├── lib
+│       │   │   │   ├── detect-libc.js
+│       │   │   │   ├── elf.js
+│       │   │   │   ├── filesystem.js
+│       │   │   │   └── process.js
+│       │   │   └── package.json
+│       │   ├── enhanced-resolve
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── lib
+│       │   │   │   ├── AliasFieldPlugin.js
+│       │   │   │   ├── AliasPlugin.js
+│       │   │   │   ├── AppendPlugin.js
+│       │   │   │   ├── CachedInputFileSystem.js
+│       │   │   │   ├── CloneBasenamePlugin.js
+│       │   │   │   ├── ConditionalPlugin.js
+│       │   │   │   ├── DescriptionFilePlugin.js
+│       │   │   │   ├── DescriptionFileUtils.js
+│       │   │   │   ├── DirectoryExistsPlugin.js
+│       │   │   │   ├── ExportsFieldPlugin.js
+│       │   │   │   ├── ExtensionAliasPlugin.js
+│       │   │   │   ├── FileExistsPlugin.js
+│       │   │   │   ├── ImportsFieldPlugin.js
+│       │   │   │   ├── JoinRequestPartPlugin.js
+│       │   │   │   ├── JoinRequestPlugin.js
+│       │   │   │   ├── LogInfoPlugin.js
+│       │   │   │   ├── MainFieldPlugin.js
+│       │   │   │   ├── ModulesInHierachicDirectoriesPlugin.js
+│       │   │   │   ├── ModulesInHierarchicalDirectoriesPlugin.js
+│       │   │   │   ├── ModulesInRootPlugin.js
+│       │   │   │   ├── NextPlugin.js
+│       │   │   │   ├── ParsePlugin.js
+│       │   │   │   ├── PnpPlugin.js
+│       │   │   │   ├── Resolver.js
+│       │   │   │   ├── ResolverFactory.js
+│       │   │   │   ├── RestrictionsPlugin.js
+│       │   │   │   ├── ResultPlugin.js
+│       │   │   │   ├── RootsPlugin.js
+│       │   │   │   ├── SelfReferencePlugin.js
+│       │   │   │   ├── SymlinkPlugin.js
+│       │   │   │   ├── SyncAsyncFileSystemDecorator.js
+│       │   │   │   ├── TryNextPlugin.js
+│       │   │   │   ├── UnsafeCachePlugin.js
+│       │   │   │   ├── UseFilePlugin.js
+│       │   │   │   ├── createInnerContext.js
+│       │   │   │   ├── forEachBail.js
+│       │   │   │   ├── getInnerRequest.js
+│       │   │   │   ├── getPaths.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── util
+│       │   │   │       ├── entrypoints.js
+│       │   │   │       ├── identifier.js
+│       │   │   │       ├── memoize.js
+│       │   │   │       ├── module-browser.js
+│       │   │   │       ├── path.js
+│       │   │   │       └── process-browser.js
+│       │   │   ├── package.json
+│       │   │   └── types.d.ts
+│       │   ├── entities
+│       │   │   ├── LICENSE
+│       │   │   ├── lib
+│       │   │   │   ├── decode.d.ts
+│       │   │   │   ├── decode.d.ts.map
+│       │   │   │   ├── decode.js
+│       │   │   │   ├── decode.js.map
+│       │   │   │   ├── decode_codepoint.d.ts
+│       │   │   │   ├── decode_codepoint.d.ts.map
+│       │   │   │   ├── decode_codepoint.js
+│       │   │   │   ├── decode_codepoint.js.map
+│       │   │   │   ├── encode.d.ts
+│       │   │   │   ├── encode.d.ts.map
+│       │   │   │   ├── encode.js
+│       │   │   │   ├── encode.js.map
+│       │   │   │   ├── escape.d.ts
+│       │   │   │   ├── escape.d.ts.map
+│       │   │   │   ├── escape.js
+│       │   │   │   ├── escape.js.map
+│       │   │   │   ├── esm
+│       │   │   │   │   ├── decode.d.ts
+│       │   │   │   │   ├── decode.d.ts.map
+│       │   │   │   │   ├── decode.js
+│       │   │   │   │   ├── decode.js.map
+│       │   │   │   │   ├── decode_codepoint.d.ts
+│       │   │   │   │   ├── decode_codepoint.d.ts.map
+│       │   │   │   │   ├── decode_codepoint.js
+│       │   │   │   │   ├── decode_codepoint.js.map
+│       │   │   │   │   ├── encode.d.ts
+│       │   │   │   │   ├── encode.d.ts.map
+│       │   │   │   │   ├── encode.js
+│       │   │   │   │   ├── encode.js.map
+│       │   │   │   │   ├── escape.d.ts
+│       │   │   │   │   ├── escape.d.ts.map
+│       │   │   │   │   ├── escape.js
+│       │   │   │   │   ├── escape.js.map
+│       │   │   │   │   ├── generated
+│       │   │   │   │   │   ├── decode-data-html.d.ts
+│       │   │   │   │   │   ├── decode-data-html.d.ts.map
+│       │   │   │   │   │   ├── decode-data-html.js
+│       │   │   │   │   │   ├── decode-data-html.js.map
+│       │   │   │   │   │   ├── decode-data-xml.d.ts
+│       │   │   │   │   │   ├── decode-data-xml.d.ts.map
+│       │   │   │   │   │   ├── decode-data-xml.js
+│       │   │   │   │   │   ├── decode-data-xml.js.map
+│       │   │   │   │   │   ├── encode-html.d.ts
+│       │   │   │   │   │   ├── encode-html.d.ts.map
+│       │   │   │   │   │   ├── encode-html.js
+│       │   │   │   │   │   └── encode-html.js.map
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   ├── index.d.ts.map
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.js.map
+│       │   │   │   │   └── package.json
+│       │   │   │   ├── generated
+│       │   │   │   │   ├── decode-data-html.d.ts
+│       │   │   │   │   ├── decode-data-html.d.ts.map
+│       │   │   │   │   ├── decode-data-html.js
+│       │   │   │   │   ├── decode-data-html.js.map
+│       │   │   │   │   ├── decode-data-xml.d.ts
+│       │   │   │   │   ├── decode-data-xml.d.ts.map
+│       │   │   │   │   ├── decode-data-xml.js
+│       │   │   │   │   ├── decode-data-xml.js.map
+│       │   │   │   │   ├── encode-html.d.ts
+│       │   │   │   │   ├── encode-html.d.ts.map
+│       │   │   │   │   ├── encode-html.js
+│       │   │   │   │   └── encode-html.js.map
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.d.ts.map
+│       │   │   │   ├── index.js
+│       │   │   │   └── index.js.map
+│       │   │   ├── package.json
+│       │   │   └── readme.md
+│       │   ├── esbuild
+│       │   │   ├── LICENSE.md
+│       │   │   ├── README.md
+│       │   │   ├── bin
+│       │   │   │   └── esbuild
+│       │   │   ├── install.js
+│       │   │   ├── lib
+│       │   │   │   ├── main.d.ts
+│       │   │   │   └── main.js
+│       │   │   └── package.json
+│       │   ├── estree-walker
+│       │   │   ├── CHANGELOG.md
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── esm
+│       │   │   │   │   ├── estree-walker.js
+│       │   │   │   │   └── package.json
+│       │   │   │   └── umd
+│       │   │   │       └── estree-walker.js
+│       │   │   ├── package.json
+│       │   │   ├── src
+│       │   │   │   ├── async.js
+│       │   │   │   ├── index.js
+│       │   │   │   ├── package.json
+│       │   │   │   ├── sync.js
+│       │   │   │   └── walker.js
+│       │   │   └── types
+│       │   │       ├── async.d.ts
+│       │   │       ├── index.d.ts
+│       │   │       ├── sync.d.ts
+│       │   │       ├── tsconfig.tsbuildinfo
+│       │   │       └── walker.d.ts
+│       │   ├── fdir
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.cts
+│       │   │   │   ├── index.d.mts
+│       │   │   │   └── index.mjs
+│       │   │   └── package.json
+│       │   ├── fsevents
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── fsevents.d.ts
+│       │   │   ├── fsevents.js
+│       │   │   ├── fsevents.node
+│       │   │   └── package.json
+│       │   ├── graceful-fs
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── clone.js
+│       │   │   ├── graceful-fs.js
+│       │   │   ├── legacy-streams.js
+│       │   │   ├── package.json
+│       │   │   └── polyfills.js
+│       │   ├── hookable
+│       │   │   ├── LICENSE.md
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.ts
+│       │   │   │   └── index.mjs
+│       │   │   └── package.json
+│       │   ├── is-what
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── cjs
+│       │   │   │   │   ├── index.cjs
+│       │   │   │   │   └── index.d.cts
+│       │   │   │   ├── index.d.ts
+│       │   │   │   └── index.js
+│       │   │   └── package.json
+│       │   ├── jiti
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── babel.cjs
+│       │   │   │   └── jiti.cjs
+│       │   │   ├── lib
+│       │   │   │   ├── jiti-cli.mjs
+│       │   │   │   ├── jiti-hooks.mjs
+│       │   │   │   ├── jiti-native.mjs
+│       │   │   │   ├── jiti-register.d.mts
+│       │   │   │   ├── jiti-register.mjs
+│       │   │   │   ├── jiti.cjs
+│       │   │   │   ├── jiti.d.cts
+│       │   │   │   ├── jiti.d.mts
+│       │   │   │   ├── jiti.mjs
+│       │   │   │   └── types.d.ts
+│       │   │   └── package.json
+│       │   ├── lightningcss
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── node
+│       │   │   │   ├── ast.d.ts
+│       │   │   │   ├── ast.js.flow
+│       │   │   │   ├── browserslistToTargets.js
+│       │   │   │   ├── composeVisitors.js
+│       │   │   │   ├── flags.js
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── index.js.flow
+│       │   │   │   ├── index.mjs
+│       │   │   │   ├── targets.d.ts
+│       │   │   │   └── targets.js.flow
+│       │   │   └── package.json
+│       │   ├── lightningcss-darwin-arm64
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── lightningcss.darwin-arm64.node
+│       │   │   └── package.json
+│       │   ├── magic-string
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── magic-string.cjs.d.ts
+│       │   │   │   ├── magic-string.cjs.js
+│       │   │   │   ├── magic-string.cjs.js.map
+│       │   │   │   ├── magic-string.es.d.mts
+│       │   │   │   ├── magic-string.es.mjs
+│       │   │   │   ├── magic-string.es.mjs.map
+│       │   │   │   ├── magic-string.umd.js
+│       │   │   │   └── magic-string.umd.js.map
+│       │   │   └── package.json
+│       │   ├── minipass
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── commonjs
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   ├── index.d.ts.map
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.js.map
+│       │   │   │   │   └── package.json
+│       │   │   │   └── esm
+│       │   │   │       ├── index.d.ts
+│       │   │   │       ├── index.d.ts.map
+│       │   │   │       ├── index.js
+│       │   │   │       ├── index.js.map
+│       │   │   │       └── package.json
+│       │   │   └── package.json
+│       │   ├── minizlib
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── commonjs
+│       │   │   │   │   ├── constants.d.ts
+│       │   │   │   │   ├── constants.d.ts.map
+│       │   │   │   │   ├── constants.js
+│       │   │   │   │   ├── constants.js.map
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   ├── index.d.ts.map
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.js.map
+│       │   │   │   │   └── package.json
+│       │   │   │   └── esm
+│       │   │   │       ├── constants.d.ts
+│       │   │   │       ├── constants.d.ts.map
+│       │   │   │       ├── constants.js
+│       │   │   │       ├── constants.js.map
+│       │   │   │       ├── index.d.ts
+│       │   │   │       ├── index.d.ts.map
+│       │   │   │       ├── index.js
+│       │   │   │       ├── index.js.map
+│       │   │   │       └── package.json
+│       │   │   └── package.json
+│       │   ├── mitt
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── mitt.js
+│       │   │   │   ├── mitt.js.map
+│       │   │   │   ├── mitt.mjs
+│       │   │   │   ├── mitt.mjs.map
+│       │   │   │   ├── mitt.umd.js
+│       │   │   │   └── mitt.umd.js.map
+│       │   │   ├── index.d.ts
+│       │   │   └── package.json
+│       │   ├── muggle-string
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── out
+│       │   │   │   ├── base.d.ts
+│       │   │   │   ├── base.js
+│       │   │   │   ├── basic.d.ts
+│       │   │   │   ├── basic.js
+│       │   │   │   ├── binarySearch.d.ts
+│       │   │   │   ├── binarySearch.js
+│       │   │   │   ├── common.d.ts
+│       │   │   │   ├── common.js
+│       │   │   │   ├── getLength.d.ts
+│       │   │   │   ├── getLength.js
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── map.d.ts
+│       │   │   │   ├── map.js
+│       │   │   │   ├── overwriteSource.d.ts
+│       │   │   │   ├── overwriteSource.js
+│       │   │   │   ├── replace.d.ts
+│       │   │   │   ├── replace.js
+│       │   │   │   ├── segment.d.ts
+│       │   │   │   ├── segment.js
+│       │   │   │   ├── sourceBased.d.ts
+│       │   │   │   ├── sourceBased.js
+│       │   │   │   ├── toString.d.ts
+│       │   │   │   ├── toString.js
+│       │   │   │   ├── track.d.ts
+│       │   │   │   ├── track.js
+│       │   │   │   ├── types.d.ts
+│       │   │   │   └── types.js
+│       │   │   └── package.json
+│       │   ├── nanoid
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── async
+│       │   │   │   ├── index.browser.cjs
+│       │   │   │   ├── index.browser.js
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── index.native.js
+│       │   │   │   └── package.json
+│       │   │   ├── bin
+│       │   │   │   └── nanoid.cjs
+│       │   │   ├── index.browser.cjs
+│       │   │   ├── index.browser.js
+│       │   │   ├── index.cjs
+│       │   │   ├── index.d.cts
+│       │   │   ├── index.d.ts
+│       │   │   ├── index.js
+│       │   │   ├── nanoid.js
+│       │   │   ├── non-secure
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   └── package.json
+│       │   │   ├── package.json
+│       │   │   └── url-alphabet
+│       │   │       ├── index.cjs
+│       │   │       ├── index.js
+│       │   │       └── package.json
+│       │   ├── path-browserify
+│       │   │   ├── CHANGELOG.md
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── index.js
+│       │   │   ├── package.json
+│       │   │   ├── security.md
+│       │   │   └── test
+│       │   │       ├── index.js
+│       │   │       ├── test-path-basename.js
+│       │   │       ├── test-path-dirname.js
+│       │   │       ├── test-path-extname.js
+│       │   │       ├── test-path-isabsolute.js
+│       │   │       ├── test-path-join.js
+│       │   │       ├── test-path-parse-format.js
+│       │   │       ├── test-path-relative.js
+│       │   │       ├── test-path-resolve.js
+│       │   │       ├── test-path-zero-length-strings.js
+│       │   │       └── test-path.js
+│       │   ├── perfect-debounce
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.ts
+│       │   │   │   └── index.mjs
+│       │   │   └── package.json
+│       │   ├── picocolors
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── package.json
+│       │   │   ├── picocolors.browser.js
+│       │   │   ├── picocolors.d.ts
+│       │   │   ├── picocolors.js
+│       │   │   └── types.d.ts
+│       │   ├── picomatch
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── index.js
+│       │   │   ├── lib
+│       │   │   │   ├── constants.js
+│       │   │   │   ├── parse.js
+│       │   │   │   ├── picomatch.js
+│       │   │   │   ├── scan.js
+│       │   │   │   └── utils.js
+│       │   │   ├── package.json
+│       │   │   └── posix.js
+│       │   ├── pinia
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── pinia.cjs
+│       │   │   │   ├── pinia.d.ts
+│       │   │   │   ├── pinia.esm-browser.js
+│       │   │   │   ├── pinia.iife.js
+│       │   │   │   ├── pinia.iife.prod.js
+│       │   │   │   ├── pinia.mjs
+│       │   │   │   └── pinia.prod.cjs
+│       │   │   ├── index.cjs
+│       │   │   └── package.json
+│       │   ├── postcss
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── lib
+│       │   │   │   ├── at-rule.d.ts
+│       │   │   │   ├── at-rule.js
+│       │   │   │   ├── comment.d.ts
+│       │   │   │   ├── comment.js
+│       │   │   │   ├── container.d.ts
+│       │   │   │   ├── container.js
+│       │   │   │   ├── css-syntax-error.d.ts
+│       │   │   │   ├── css-syntax-error.js
+│       │   │   │   ├── declaration.d.ts
+│       │   │   │   ├── declaration.js
+│       │   │   │   ├── document.d.ts
+│       │   │   │   ├── document.js
+│       │   │   │   ├── fromJSON.d.ts
+│       │   │   │   ├── fromJSON.js
+│       │   │   │   ├── input.d.ts
+│       │   │   │   ├── input.js
+│       │   │   │   ├── lazy-result.d.ts
+│       │   │   │   ├── lazy-result.js
+│       │   │   │   ├── list.d.ts
+│       │   │   │   ├── list.js
+│       │   │   │   ├── map-generator.js
+│       │   │   │   ├── no-work-result.d.ts
+│       │   │   │   ├── no-work-result.js
+│       │   │   │   ├── node.d.ts
+│       │   │   │   ├── node.js
+│       │   │   │   ├── parse.d.ts
+│       │   │   │   ├── parse.js
+│       │   │   │   ├── parser.js
+│       │   │   │   ├── postcss.d.mts
+│       │   │   │   ├── postcss.d.ts
+│       │   │   │   ├── postcss.js
+│       │   │   │   ├── postcss.mjs
+│       │   │   │   ├── previous-map.d.ts
+│       │   │   │   ├── previous-map.js
+│       │   │   │   ├── processor.d.ts
+│       │   │   │   ├── processor.js
+│       │   │   │   ├── result.d.ts
+│       │   │   │   ├── result.js
+│       │   │   │   ├── root.d.ts
+│       │   │   │   ├── root.js
+│       │   │   │   ├── rule.d.ts
+│       │   │   │   ├── rule.js
+│       │   │   │   ├── stringifier.d.ts
+│       │   │   │   ├── stringifier.js
+│       │   │   │   ├── stringify.d.ts
+│       │   │   │   ├── stringify.js
+│       │   │   │   ├── symbols.js
+│       │   │   │   ├── terminal-highlight.js
+│       │   │   │   ├── tokenize.js
+│       │   │   │   ├── warn-once.js
+│       │   │   │   ├── warning.d.ts
+│       │   │   │   └── warning.js
+│       │   │   └── package.json
+│       │   ├── rfdc
+│       │   │   ├── LICENSE
+│       │   │   ├── default.js
+│       │   │   ├── index.d.ts
+│       │   │   ├── index.js
+│       │   │   ├── index.test-d.ts
+│       │   │   ├── package.json
+│       │   │   ├── readme.md
+│       │   │   └── test
+│       │   │       └── index.js
+│       │   ├── rollup
+│       │   │   ├── LICENSE.md
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── bin
+│       │   │   │   │   └── rollup
+│       │   │   │   ├── es
+│       │   │   │   │   ├── getLogFilter.js
+│       │   │   │   │   ├── package.json
+│       │   │   │   │   ├── parseAst.js
+│       │   │   │   │   ├── rollup.js
+│       │   │   │   │   └── shared
+│       │   │   │   │       ├── node-entry.js
+│       │   │   │   │       ├── parseAst.js
+│       │   │   │   │       └── watch.js
+│       │   │   │   ├── getLogFilter.d.ts
+│       │   │   │   ├── getLogFilter.js
+│       │   │   │   ├── loadConfigFile.d.ts
+│       │   │   │   ├── loadConfigFile.js
+│       │   │   │   ├── native.js
+│       │   │   │   ├── parseAst.d.ts
+│       │   │   │   ├── parseAst.js
+│       │   │   │   ├── rollup.d.ts
+│       │   │   │   ├── rollup.js
+│       │   │   │   └── shared
+│       │   │   │       ├── fsevents-importer.js
+│       │   │   │       ├── index.js
+│       │   │   │       ├── loadConfigFile.js
+│       │   │   │       ├── parseAst.js
+│       │   │   │       ├── rollup.js
+│       │   │   │       ├── watch-cli.js
+│       │   │   │       └── watch.js
+│       │   │   └── package.json
+│       │   ├── source-map-js
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── lib
+│       │   │   │   ├── array-set.js
+│       │   │   │   ├── base64-vlq.js
+│       │   │   │   ├── base64.js
+│       │   │   │   ├── binary-search.js
+│       │   │   │   ├── mapping-list.js
+│       │   │   │   ├── quick-sort.js
+│       │   │   │   ├── source-map-consumer.d.ts
+│       │   │   │   ├── source-map-consumer.js
+│       │   │   │   ├── source-map-generator.d.ts
+│       │   │   │   ├── source-map-generator.js
+│       │   │   │   ├── source-node.d.ts
+│       │   │   │   ├── source-node.js
+│       │   │   │   └── util.js
+│       │   │   ├── package.json
+│       │   │   ├── source-map.d.ts
+│       │   │   └── source-map.js
+│       │   ├── speakingurl
+│       │   │   ├── CHANGELOG.md
+│       │   │   ├── Gulpfile.js
+│       │   │   ├── LICENSE
+│       │   │   ├── Makefile
+│       │   │   ├── README.md
+│       │   │   ├── bower.json
+│       │   │   ├── component.json
+│       │   │   ├── examples
+│       │   │   │   ├── browser-example.html
+│       │   │   │   └── node-example.js
+│       │   │   ├── index.js
+│       │   │   ├── lib
+│       │   │   │   ├── speakingurl-rails.rb
+│       │   │   │   └── speakingurl.js
+│       │   │   ├── package.json
+│       │   │   ├── speakingurl-rails.gemspec
+│       │   │   ├── speakingurl.min.js
+│       │   │   ├── test
+│       │   │   │   ├── mocha.opts
+│       │   │   │   ├── test-accent.js
+│       │   │   │   ├── test-arabic.js
+│       │   │   │   ├── test-burmese.js
+│       │   │   │   ├── test-create.js
+│       │   │   │   ├── test-custom.js
+│       │   │   │   ├── test-cyrillic.js
+│       │   │   │   ├── test-defaults.js
+│       │   │   │   ├── test-dhivehi.js
+│       │   │   │   ├── test-georgien.js
+│       │   │   │   ├── test-hungarian.js
+│       │   │   │   ├── test-lang.js
+│       │   │   │   ├── test-language.js
+│       │   │   │   ├── test-maintaincase.js
+│       │   │   │   ├── test-persian.js
+│       │   │   │   ├── test-rfc3986.js
+│       │   │   │   ├── test-separator.js
+│       │   │   │   ├── test-speakingurl.js
+│       │   │   │   ├── test-symbols.js
+│       │   │   │   ├── test-titlecase.js
+│       │   │   │   ├── test-truncate.js
+│       │   │   │   └── test-turkish.js
+│       │   │   └── typings
+│       │   │       └── speakingurl
+│       │   │           └── speakingurl.d.ts
+│       │   ├── superjson
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── accessDeep.d.ts
+│       │   │   │   ├── accessDeep.js
+│       │   │   │   ├── accessDeep.js.map
+│       │   │   │   ├── class-registry.d.ts
+│       │   │   │   ├── class-registry.js
+│       │   │   │   ├── class-registry.js.map
+│       │   │   │   ├── custom-transformer-registry.d.ts
+│       │   │   │   ├── custom-transformer-registry.js
+│       │   │   │   ├── custom-transformer-registry.js.map
+│       │   │   │   ├── double-indexed-kv.d.ts
+│       │   │   │   ├── double-indexed-kv.js
+│       │   │   │   ├── double-indexed-kv.js.map
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── index.js.map
+│       │   │   │   ├── is.d.ts
+│       │   │   │   ├── is.js
+│       │   │   │   ├── is.js.map
+│       │   │   │   ├── pathstringifier.d.ts
+│       │   │   │   ├── pathstringifier.js
+│       │   │   │   ├── pathstringifier.js.map
+│       │   │   │   ├── plainer.d.ts
+│       │   │   │   ├── plainer.js
+│       │   │   │   ├── plainer.js.map
+│       │   │   │   ├── registry.d.ts
+│       │   │   │   ├── registry.js
+│       │   │   │   ├── registry.js.map
+│       │   │   │   ├── transformer.d.ts
+│       │   │   │   ├── transformer.js
+│       │   │   │   ├── transformer.js.map
+│       │   │   │   ├── types.d.ts
+│       │   │   │   ├── types.js
+│       │   │   │   ├── types.js.map
+│       │   │   │   ├── util.d.ts
+│       │   │   │   ├── util.js
+│       │   │   │   └── util.js.map
+│       │   │   └── package.json
+│       │   ├── tailwindcss
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── chunk-G32FJCSR.mjs
+│       │   │   │   ├── chunk-HTB5LLOP.mjs
+│       │   │   │   ├── chunk-MC3TVECV.mjs
+│       │   │   │   ├── colors-b_6i0Oi7.d.ts
+│       │   │   │   ├── colors.d.mts
+│       │   │   │   ├── colors.d.ts
+│       │   │   │   ├── colors.js
+│       │   │   │   ├── colors.mjs
+│       │   │   │   ├── default-theme.d.mts
+│       │   │   │   ├── default-theme.d.ts
+│       │   │   │   ├── default-theme.js
+│       │   │   │   ├── default-theme.mjs
+│       │   │   │   ├── flatten-color-palette.d.mts
+│       │   │   │   ├── flatten-color-palette.d.ts
+│       │   │   │   ├── flatten-color-palette.js
+│       │   │   │   ├── flatten-color-palette.mjs
+│       │   │   │   ├── lib.d.mts
+│       │   │   │   ├── lib.d.ts
+│       │   │   │   ├── lib.js
+│       │   │   │   ├── lib.mjs
+│       │   │   │   ├── plugin.d.mts
+│       │   │   │   ├── plugin.d.ts
+│       │   │   │   ├── plugin.js
+│       │   │   │   ├── plugin.mjs
+│       │   │   │   ├── resolve-config-BIFUA2FY.d.ts
+│       │   │   │   ├── resolve-config-QUZ9b-Gn.d.mts
+│       │   │   │   └── types-WlZgYgM8.d.mts
+│       │   │   ├── index.css
+│       │   │   ├── package.json
+│       │   │   ├── preflight.css
+│       │   │   ├── theme.css
+│       │   │   └── utilities.css
+│       │   ├── tapable
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── lib
+│       │   │   │   ├── AsyncParallelBailHook.js
+│       │   │   │   ├── AsyncParallelHook.js
+│       │   │   │   ├── AsyncSeriesBailHook.js
+│       │   │   │   ├── AsyncSeriesHook.js
+│       │   │   │   ├── AsyncSeriesLoopHook.js
+│       │   │   │   ├── AsyncSeriesWaterfallHook.js
+│       │   │   │   ├── Hook.js
+│       │   │   │   ├── HookCodeFactory.js
+│       │   │   │   ├── HookMap.js
+│       │   │   │   ├── MultiHook.js
+│       │   │   │   ├── SyncBailHook.js
+│       │   │   │   ├── SyncHook.js
+│       │   │   │   ├── SyncLoopHook.js
+│       │   │   │   ├── SyncWaterfallHook.js
+│       │   │   │   ├── index.js
+│       │   │   │   └── util-browser.js
+│       │   │   ├── package.json
+│       │   │   └── tapable.d.ts
+│       │   ├── tar
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── commonjs
+│       │   │   │   │   ├── create.d.ts
+│       │   │   │   │   ├── create.d.ts.map
+│       │   │   │   │   ├── create.js
+│       │   │   │   │   ├── create.js.map
+│       │   │   │   │   ├── cwd-error.d.ts
+│       │   │   │   │   ├── cwd-error.d.ts.map
+│       │   │   │   │   ├── cwd-error.js
+│       │   │   │   │   ├── cwd-error.js.map
+│       │   │   │   │   ├── extract.d.ts
+│       │   │   │   │   ├── extract.d.ts.map
+│       │   │   │   │   ├── extract.js
+│       │   │   │   │   ├── extract.js.map
+│       │   │   │   │   ├── get-write-flag.d.ts
+│       │   │   │   │   ├── get-write-flag.d.ts.map
+│       │   │   │   │   ├── get-write-flag.js
+│       │   │   │   │   ├── get-write-flag.js.map
+│       │   │   │   │   ├── header.d.ts
+│       │   │   │   │   ├── header.d.ts.map
+│       │   │   │   │   ├── header.js
+│       │   │   │   │   ├── header.js.map
+│       │   │   │   │   ├── index.d.ts
+│       │   │   │   │   ├── index.d.ts.map
+│       │   │   │   │   ├── index.js
+│       │   │   │   │   ├── index.js.map
+│       │   │   │   │   ├── large-numbers.d.ts
+│       │   │   │   │   ├── large-numbers.d.ts.map
+│       │   │   │   │   ├── large-numbers.js
+│       │   │   │   │   ├── large-numbers.js.map
+│       │   │   │   │   ├── list.d.ts
+│       │   │   │   │   ├── list.d.ts.map
+│       │   │   │   │   ├── list.js
+│       │   │   │   │   ├── list.js.map
+│       │   │   │   │   ├── make-command.d.ts
+│       │   │   │   │   ├── make-command.d.ts.map
+│       │   │   │   │   ├── make-command.js
+│       │   │   │   │   ├── make-command.js.map
+│       │   │   │   │   ├── mkdir.d.ts
+│       │   │   │   │   ├── mkdir.d.ts.map
+│       │   │   │   │   ├── mkdir.js
+│       │   │   │   │   ├── mkdir.js.map
+│       │   │   │   │   ├── mode-fix.d.ts
+│       │   │   │   │   ├── mode-fix.d.ts.map
+│       │   │   │   │   ├── mode-fix.js
+│       │   │   │   │   ├── mode-fix.js.map
+│       │   │   │   │   ├── normalize-unicode.d.ts
+│       │   │   │   │   ├── normalize-unicode.d.ts.map
+│       │   │   │   │   ├── normalize-unicode.js
+│       │   │   │   │   ├── normalize-unicode.js.map
+│       │   │   │   │   ├── normalize-windows-path.d.ts
+│       │   │   │   │   ├── normalize-windows-path.d.ts.map
+│       │   │   │   │   ├── normalize-windows-path.js
+│       │   │   │   │   ├── normalize-windows-path.js.map
+│       │   │   │   │   ├── options.d.ts
+│       │   │   │   │   ├── options.d.ts.map
+│       │   │   │   │   ├── options.js
+│       │   │   │   │   ├── options.js.map
+│       │   │   │   │   ├── pack.d.ts
+│       │   │   │   │   ├── pack.d.ts.map
+│       │   │   │   │   ├── pack.js
+│       │   │   │   │   ├── pack.js.map
+│       │   │   │   │   ├── package.json
+│       │   │   │   │   ├── parse.d.ts
+│       │   │   │   │   ├── parse.d.ts.map
+│       │   │   │   │   ├── parse.js
+│       │   │   │   │   ├── parse.js.map
+│       │   │   │   │   ├── path-reservations.d.ts
+│       │   │   │   │   ├── path-reservations.d.ts.map
+│       │   │   │   │   ├── path-reservations.js
+│       │   │   │   │   ├── path-reservations.js.map
+│       │   │   │   │   ├── pax.d.ts
+│       │   │   │   │   ├── pax.d.ts.map
+│       │   │   │   │   ├── pax.js
+│       │   │   │   │   ├── pax.js.map
+│       │   │   │   │   ├── read-entry.d.ts
+│       │   │   │   │   ├── read-entry.d.ts.map
+│       │   │   │   │   ├── read-entry.js
+│       │   │   │   │   ├── read-entry.js.map
+│       │   │   │   │   ├── replace.d.ts
+│       │   │   │   │   ├── replace.d.ts.map
+│       │   │   │   │   ├── replace.js
+│       │   │   │   │   ├── replace.js.map
+│       │   │   │   │   ├── strip-absolute-path.d.ts
+│       │   │   │   │   ├── strip-absolute-path.d.ts.map
+│       │   │   │   │   ├── strip-absolute-path.js
+│       │   │   │   │   ├── strip-absolute-path.js.map
+│       │   │   │   │   ├── strip-trailing-slashes.d.ts
+│       │   │   │   │   ├── strip-trailing-slashes.d.ts.map
+│       │   │   │   │   ├── strip-trailing-slashes.js
+│       │   │   │   │   ├── strip-trailing-slashes.js.map
+│       │   │   │   │   ├── symlink-error.d.ts
+│       │   │   │   │   ├── symlink-error.d.ts.map
+│       │   │   │   │   ├── symlink-error.js
+│       │   │   │   │   ├── symlink-error.js.map
+│       │   │   │   │   ├── types.d.ts
+│       │   │   │   │   ├── types.d.ts.map
+│       │   │   │   │   ├── types.js
+│       │   │   │   │   ├── types.js.map
+│       │   │   │   │   ├── unpack.d.ts
+│       │   │   │   │   ├── unpack.d.ts.map
+│       │   │   │   │   ├── unpack.js
+│       │   │   │   │   ├── unpack.js.map
+│       │   │   │   │   ├── update.d.ts
+│       │   │   │   │   ├── update.d.ts.map
+│       │   │   │   │   ├── update.js
+│       │   │   │   │   ├── update.js.map
+│       │   │   │   │   ├── warn-method.d.ts
+│       │   │   │   │   ├── warn-method.d.ts.map
+│       │   │   │   │   ├── warn-method.js
+│       │   │   │   │   ├── warn-method.js.map
+│       │   │   │   │   ├── winchars.d.ts
+│       │   │   │   │   ├── winchars.d.ts.map
+│       │   │   │   │   ├── winchars.js
+│       │   │   │   │   ├── winchars.js.map
+│       │   │   │   │   ├── write-entry.d.ts
+│       │   │   │   │   ├── write-entry.d.ts.map
+│       │   │   │   │   ├── write-entry.js
+│       │   │   │   │   └── write-entry.js.map
+│       │   │   │   └── esm
+│       │   │   │       ├── create.d.ts
+│       │   │   │       ├── create.d.ts.map
+│       │   │   │       ├── create.js
+│       │   │   │       ├── create.js.map
+│       │   │   │       ├── cwd-error.d.ts
+│       │   │   │       ├── cwd-error.d.ts.map
+│       │   │   │       ├── cwd-error.js
+│       │   │   │       ├── cwd-error.js.map
+│       │   │   │       ├── extract.d.ts
+│       │   │   │       ├── extract.d.ts.map
+│       │   │   │       ├── extract.js
+│       │   │   │       ├── extract.js.map
+│       │   │   │       ├── get-write-flag.d.ts
+│       │   │   │       ├── get-write-flag.d.ts.map
+│       │   │   │       ├── get-write-flag.js
+│       │   │   │       ├── get-write-flag.js.map
+│       │   │   │       ├── header.d.ts
+│       │   │   │       ├── header.d.ts.map
+│       │   │   │       ├── header.js
+│       │   │   │       ├── header.js.map
+│       │   │   │       ├── index.d.ts
+│       │   │   │       ├── index.d.ts.map
+│       │   │   │       ├── index.js
+│       │   │   │       ├── index.js.map
+│       │   │   │       ├── large-numbers.d.ts
+│       │   │   │       ├── large-numbers.d.ts.map
+│       │   │   │       ├── large-numbers.js
+│       │   │   │       ├── large-numbers.js.map
+│       │   │   │       ├── list.d.ts
+│       │   │   │       ├── list.d.ts.map
+│       │   │   │       ├── list.js
+│       │   │   │       ├── list.js.map
+│       │   │   │       ├── make-command.d.ts
+│       │   │   │       ├── make-command.d.ts.map
+│       │   │   │       ├── make-command.js
+│       │   │   │       ├── make-command.js.map
+│       │   │   │       ├── mkdir.d.ts
+│       │   │   │       ├── mkdir.d.ts.map
+│       │   │   │       ├── mkdir.js
+│       │   │   │       ├── mkdir.js.map
+│       │   │   │       ├── mode-fix.d.ts
+│       │   │   │       ├── mode-fix.d.ts.map
+│       │   │   │       ├── mode-fix.js
+│       │   │   │       ├── mode-fix.js.map
+│       │   │   │       ├── normalize-unicode.d.ts
+│       │   │   │       ├── normalize-unicode.d.ts.map
+│       │   │   │       ├── normalize-unicode.js
+│       │   │   │       ├── normalize-unicode.js.map
+│       │   │   │       ├── normalize-windows-path.d.ts
+│       │   │   │       ├── normalize-windows-path.d.ts.map
+│       │   │   │       ├── normalize-windows-path.js
+│       │   │   │       ├── normalize-windows-path.js.map
+│       │   │   │       ├── options.d.ts
+│       │   │   │       ├── options.d.ts.map
+│       │   │   │       ├── options.js
+│       │   │   │       ├── options.js.map
+│       │   │   │       ├── pack.d.ts
+│       │   │   │       ├── pack.d.ts.map
+│       │   │   │       ├── pack.js
+│       │   │   │       ├── pack.js.map
+│       │   │   │       ├── package.json
+│       │   │   │       ├── parse.d.ts
+│       │   │   │       ├── parse.d.ts.map
+│       │   │   │       ├── parse.js
+│       │   │   │       ├── parse.js.map
+│       │   │   │       ├── path-reservations.d.ts
+│       │   │   │       ├── path-reservations.d.ts.map
+│       │   │   │       ├── path-reservations.js
+│       │   │   │       ├── path-reservations.js.map
+│       │   │   │       ├── pax.d.ts
+│       │   │   │       ├── pax.d.ts.map
+│       │   │   │       ├── pax.js
+│       │   │   │       ├── pax.js.map
+│       │   │   │       ├── read-entry.d.ts
+│       │   │   │       ├── read-entry.d.ts.map
+│       │   │   │       ├── read-entry.js
+│       │   │   │       ├── read-entry.js.map
+│       │   │   │       ├── replace.d.ts
+│       │   │   │       ├── replace.d.ts.map
+│       │   │   │       ├── replace.js
+│       │   │   │       ├── replace.js.map
+│       │   │   │       ├── strip-absolute-path.d.ts
+│       │   │   │       ├── strip-absolute-path.d.ts.map
+│       │   │   │       ├── strip-absolute-path.js
+│       │   │   │       ├── strip-absolute-path.js.map
+│       │   │   │       ├── strip-trailing-slashes.d.ts
+│       │   │   │       ├── strip-trailing-slashes.d.ts.map
+│       │   │   │       ├── strip-trailing-slashes.js
+│       │   │   │       ├── strip-trailing-slashes.js.map
+│       │   │   │       ├── symlink-error.d.ts
+│       │   │   │       ├── symlink-error.d.ts.map
+│       │   │   │       ├── symlink-error.js
+│       │   │   │       ├── symlink-error.js.map
+│       │   │   │       ├── types.d.ts
+│       │   │   │       ├── types.d.ts.map
+│       │   │   │       ├── types.js
+│       │   │   │       ├── types.js.map
+│       │   │   │       ├── unpack.d.ts
+│       │   │   │       ├── unpack.d.ts.map
+│       │   │   │       ├── unpack.js
+│       │   │   │       ├── unpack.js.map
+│       │   │   │       ├── update.d.ts
+│       │   │   │       ├── update.d.ts.map
+│       │   │   │       ├── update.js
+│       │   │   │       ├── update.js.map
+│       │   │   │       ├── warn-method.d.ts
+│       │   │   │       ├── warn-method.d.ts.map
+│       │   │   │       ├── warn-method.js
+│       │   │   │       ├── warn-method.js.map
+│       │   │   │       ├── winchars.d.ts
+│       │   │   │       ├── winchars.d.ts.map
+│       │   │   │       ├── winchars.js
+│       │   │   │       ├── winchars.js.map
+│       │   │   │       ├── write-entry.d.ts
+│       │   │   │       ├── write-entry.d.ts.map
+│       │   │   │       ├── write-entry.js
+│       │   │   │       └── write-entry.js.map
+│       │   │   └── package.json
+│       │   ├── tinyglobby
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── dist
+│       │   │   │   ├── index.cjs
+│       │   │   │   ├── index.d.cts
+│       │   │   │   ├── index.d.mts
+│       │   │   │   └── index.mjs
+│       │   │   └── package.json
+│       │   ├── typescript
+│       │   │   ├── LICENSE.txt
+│       │   │   ├── README.md
+│       │   │   ├── SECURITY.md
+│       │   │   ├── ThirdPartyNoticeText.txt
+│       │   │   ├── bin
+│       │   │   │   ├── tsc
+│       │   │   │   └── tsserver
+│       │   │   ├── lib
+│       │   │   │   ├── _tsc.js
+│       │   │   │   ├── _tsserver.js
+│       │   │   │   ├── _typingsInstaller.js
+│       │   │   │   ├── cs
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── de
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── es
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── fr
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── it
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── ja
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── ko
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── lib.d.ts
+│       │   │   │   ├── lib.decorators.d.ts
+│       │   │   │   ├── lib.decorators.legacy.d.ts
+│       │   │   │   ├── lib.dom.asynciterable.d.ts
+│       │   │   │   ├── lib.dom.d.ts
+│       │   │   │   ├── lib.dom.iterable.d.ts
+│       │   │   │   ├── lib.es2015.collection.d.ts
+│       │   │   │   ├── lib.es2015.core.d.ts
+│       │   │   │   ├── lib.es2015.d.ts
+│       │   │   │   ├── lib.es2015.generator.d.ts
+│       │   │   │   ├── lib.es2015.iterable.d.ts
+│       │   │   │   ├── lib.es2015.promise.d.ts
+│       │   │   │   ├── lib.es2015.proxy.d.ts
+│       │   │   │   ├── lib.es2015.reflect.d.ts
+│       │   │   │   ├── lib.es2015.symbol.d.ts
+│       │   │   │   ├── lib.es2015.symbol.wellknown.d.ts
+│       │   │   │   ├── lib.es2016.array.include.d.ts
+│       │   │   │   ├── lib.es2016.d.ts
+│       │   │   │   ├── lib.es2016.full.d.ts
+│       │   │   │   ├── lib.es2016.intl.d.ts
+│       │   │   │   ├── lib.es2017.arraybuffer.d.ts
+│       │   │   │   ├── lib.es2017.d.ts
+│       │   │   │   ├── lib.es2017.date.d.ts
+│       │   │   │   ├── lib.es2017.full.d.ts
+│       │   │   │   ├── lib.es2017.intl.d.ts
+│       │   │   │   ├── lib.es2017.object.d.ts
+│       │   │   │   ├── lib.es2017.sharedmemory.d.ts
+│       │   │   │   ├── lib.es2017.string.d.ts
+│       │   │   │   ├── lib.es2017.typedarrays.d.ts
+│       │   │   │   ├── lib.es2018.asyncgenerator.d.ts
+│       │   │   │   ├── lib.es2018.asynciterable.d.ts
+│       │   │   │   ├── lib.es2018.d.ts
+│       │   │   │   ├── lib.es2018.full.d.ts
+│       │   │   │   ├── lib.es2018.intl.d.ts
+│       │   │   │   ├── lib.es2018.promise.d.ts
+│       │   │   │   ├── lib.es2018.regexp.d.ts
+│       │   │   │   ├── lib.es2019.array.d.ts
+│       │   │   │   ├── lib.es2019.d.ts
+│       │   │   │   ├── lib.es2019.full.d.ts
+│       │   │   │   ├── lib.es2019.intl.d.ts
+│       │   │   │   ├── lib.es2019.object.d.ts
+│       │   │   │   ├── lib.es2019.string.d.ts
+│       │   │   │   ├── lib.es2019.symbol.d.ts
+│       │   │   │   ├── lib.es2020.bigint.d.ts
+│       │   │   │   ├── lib.es2020.d.ts
+│       │   │   │   ├── lib.es2020.date.d.ts
+│       │   │   │   ├── lib.es2020.full.d.ts
+│       │   │   │   ├── lib.es2020.intl.d.ts
+│       │   │   │   ├── lib.es2020.number.d.ts
+│       │   │   │   ├── lib.es2020.promise.d.ts
+│       │   │   │   ├── lib.es2020.sharedmemory.d.ts
+│       │   │   │   ├── lib.es2020.string.d.ts
+│       │   │   │   ├── lib.es2020.symbol.wellknown.d.ts
+│       │   │   │   ├── lib.es2021.d.ts
+│       │   │   │   ├── lib.es2021.full.d.ts
+│       │   │   │   ├── lib.es2021.intl.d.ts
+│       │   │   │   ├── lib.es2021.promise.d.ts
+│       │   │   │   ├── lib.es2021.string.d.ts
+│       │   │   │   ├── lib.es2021.weakref.d.ts
+│       │   │   │   ├── lib.es2022.array.d.ts
+│       │   │   │   ├── lib.es2022.d.ts
+│       │   │   │   ├── lib.es2022.error.d.ts
+│       │   │   │   ├── lib.es2022.full.d.ts
+│       │   │   │   ├── lib.es2022.intl.d.ts
+│       │   │   │   ├── lib.es2022.object.d.ts
+│       │   │   │   ├── lib.es2022.regexp.d.ts
+│       │   │   │   ├── lib.es2022.string.d.ts
+│       │   │   │   ├── lib.es2023.array.d.ts
+│       │   │   │   ├── lib.es2023.collection.d.ts
+│       │   │   │   ├── lib.es2023.d.ts
+│       │   │   │   ├── lib.es2023.full.d.ts
+│       │   │   │   ├── lib.es2023.intl.d.ts
+│       │   │   │   ├── lib.es2024.arraybuffer.d.ts
+│       │   │   │   ├── lib.es2024.collection.d.ts
+│       │   │   │   ├── lib.es2024.d.ts
+│       │   │   │   ├── lib.es2024.full.d.ts
+│       │   │   │   ├── lib.es2024.object.d.ts
+│       │   │   │   ├── lib.es2024.promise.d.ts
+│       │   │   │   ├── lib.es2024.regexp.d.ts
+│       │   │   │   ├── lib.es2024.sharedmemory.d.ts
+│       │   │   │   ├── lib.es2024.string.d.ts
+│       │   │   │   ├── lib.es5.d.ts
+│       │   │   │   ├── lib.es6.d.ts
+│       │   │   │   ├── lib.esnext.array.d.ts
+│       │   │   │   ├── lib.esnext.collection.d.ts
+│       │   │   │   ├── lib.esnext.d.ts
+│       │   │   │   ├── lib.esnext.decorators.d.ts
+│       │   │   │   ├── lib.esnext.disposable.d.ts
+│       │   │   │   ├── lib.esnext.error.d.ts
+│       │   │   │   ├── lib.esnext.float16.d.ts
+│       │   │   │   ├── lib.esnext.full.d.ts
+│       │   │   │   ├── lib.esnext.intl.d.ts
+│       │   │   │   ├── lib.esnext.iterator.d.ts
+│       │   │   │   ├── lib.esnext.promise.d.ts
+│       │   │   │   ├── lib.esnext.sharedmemory.d.ts
+│       │   │   │   ├── lib.scripthost.d.ts
+│       │   │   │   ├── lib.webworker.asynciterable.d.ts
+│       │   │   │   ├── lib.webworker.d.ts
+│       │   │   │   ├── lib.webworker.importscripts.d.ts
+│       │   │   │   ├── lib.webworker.iterable.d.ts
+│       │   │   │   ├── pl
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── pt-br
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── ru
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── tr
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   ├── tsc.js
+│       │   │   │   ├── tsserver.js
+│       │   │   │   ├── tsserverlibrary.d.ts
+│       │   │   │   ├── tsserverlibrary.js
+│       │   │   │   ├── typesMap.json
+│       │   │   │   ├── typescript.d.ts
+│       │   │   │   ├── typescript.js
+│       │   │   │   ├── typingsInstaller.js
+│       │   │   │   ├── watchGuard.js
+│       │   │   │   ├── zh-cn
+│       │   │   │   │   └── diagnosticMessages.generated.json
+│       │   │   │   └── zh-tw
+│       │   │   │       └── diagnosticMessages.generated.json
+│       │   │   └── package.json
+│       │   ├── undici-types
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── agent.d.ts
+│       │   │   ├── api.d.ts
+│       │   │   ├── balanced-pool.d.ts
+│       │   │   ├── cache-interceptor.d.ts
+│       │   │   ├── cache.d.ts
+│       │   │   ├── client-stats.d.ts
+│       │   │   ├── client.d.ts
+│       │   │   ├── connector.d.ts
+│       │   │   ├── content-type.d.ts
+│       │   │   ├── cookies.d.ts
+│       │   │   ├── diagnostics-channel.d.ts
+│       │   │   ├── dispatcher.d.ts
+│       │   │   ├── env-http-proxy-agent.d.ts
+│       │   │   ├── errors.d.ts
+│       │   │   ├── eventsource.d.ts
+│       │   │   ├── fetch.d.ts
+│       │   │   ├── formdata.d.ts
+│       │   │   ├── global-dispatcher.d.ts
+│       │   │   ├── global-origin.d.ts
+│       │   │   ├── h2c-client.d.ts
+│       │   │   ├── handlers.d.ts
+│       │   │   ├── header.d.ts
+│       │   │   ├── index.d.ts
+│       │   │   ├── interceptors.d.ts
+│       │   │   ├── mock-agent.d.ts
+│       │   │   ├── mock-call-history.d.ts
+│       │   │   ├── mock-client.d.ts
+│       │   │   ├── mock-errors.d.ts
+│       │   │   ├── mock-interceptor.d.ts
+│       │   │   ├── mock-pool.d.ts
+│       │   │   ├── package.json
+│       │   │   ├── patch.d.ts
+│       │   │   ├── pool-stats.d.ts
+│       │   │   ├── pool.d.ts
+│       │   │   ├── proxy-agent.d.ts
+│       │   │   ├── readable.d.ts
+│       │   │   ├── retry-agent.d.ts
+│       │   │   ├── retry-handler.d.ts
+│       │   │   ├── snapshot-agent.d.ts
+│       │   │   ├── util.d.ts
+│       │   │   ├── utility.d.ts
+│       │   │   ├── webidl.d.ts
+│       │   │   └── websocket.d.ts
+│       │   ├── vite
+│       │   │   ├── LICENSE.md
+│       │   │   ├── README.md
+│       │   │   ├── bin
+│       │   │   │   ├── openChrome.js
+│       │   │   │   └── vite.js
+│       │   │   ├── client.d.ts
+│       │   │   ├── dist
+│       │   │   │   ├── client
+│       │   │   │   │   ├── client.mjs
+│       │   │   │   │   └── env.mjs
+│       │   │   │   └── node
+│       │   │   │       ├── chunks
+│       │   │   │       │   ├── dep-BcOQquCi.js
+│       │   │   │       │   ├── dep-BuoK8Wda.js
+│       │   │   │       │   ├── dep-CCSnTAeo.js
+│       │   │   │       │   ├── dep-Chhhsdoe.js
+│       │   │   │       │   ├── dep-CwrJo3zV.js
+│       │   │   │       │   ├── dep-D6Kf1CgD.js
+│       │   │   │       │   ├── dep-DAJvlA4P.js
+│       │   │   │       │   ├── dep-DrqJEUj9.js
+│       │   │   │       │   ├── dep-SmwnYDP9.js
+│       │   │   │       │   ├── dep-iA2HHN2w.js
+│       │   │   │       │   ├── dep-ifi-OWiW.js
+│       │   │   │       │   └── dep-lCKrEJQm.js
+│       │   │   │       ├── cli.js
+│       │   │   │       ├── index.d.ts
+│       │   │   │       ├── index.js
+│       │   │   │       ├── module-runner.d.ts
+│       │   │   │       ├── module-runner.js
+│       │   │   │       └── moduleRunnerTransport-BWUZBVLX.d.ts
+│       │   │   ├── misc
+│       │   │   │   ├── false.js
+│       │   │   │   └── true.js
+│       │   │   ├── package.json
+│       │   │   └── types
+│       │   │       ├── customEvent.d.ts
+│       │   │       ├── hmrPayload.d.ts
+│       │   │       ├── hot.d.ts
+│       │   │       ├── import-meta.d.ts
+│       │   │       ├── importGlob.d.ts
+│       │   │       ├── importMeta.d.ts
+│       │   │       ├── internal
+│       │   │       │   ├── cssPreprocessorOptions.d.ts
+│       │   │       │   ├── lightningcssOptions.d.ts
+│       │   │       │   └── terserOptions.d.ts
+│       │   │       ├── metadata.d.ts
+│       │   │       └── package.json
+│       │   ├── vscode-uri
+│       │   │   ├── LICENSE.md
+│       │   │   ├── README.md
+│       │   │   ├── SECURITY.md
+│       │   │   ├── lib
+│       │   │   │   ├── esm
+│       │   │   │   │   ├── index.mjs
+│       │   │   │   │   └── index.mjs.map
+│       │   │   │   └── umd
+│       │   │   │       ├── charCode.d.ts
+│       │   │   │       ├── charCode.js
+│       │   │   │       ├── index.d.ts
+│       │   │   │       ├── index.js
+│       │   │   │       ├── index.js.map
+│       │   │   │       ├── platform.d.ts
+│       │   │   │       ├── platform.js
+│       │   │   │       ├── uri.d.ts
+│       │   │   │       ├── uri.js
+│       │   │   │       ├── utils.d.ts
+│       │   │   │       └── utils.js
+│       │   │   └── package.json
+│       │   ├── vue
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── compiler-sfc
+│       │   │   │   ├── index.browser.js
+│       │   │   │   ├── index.browser.mjs
+│       │   │   │   ├── index.d.mts
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── index.mjs
+│       │   │   │   ├── package.json
+│       │   │   │   └── register-ts.js
+│       │   │   ├── dist
+│       │   │   │   ├── vue.cjs.js
+│       │   │   │   ├── vue.cjs.prod.js
+│       │   │   │   ├── vue.d.mts
+│       │   │   │   ├── vue.d.ts
+│       │   │   │   ├── vue.esm-browser.js
+│       │   │   │   ├── vue.esm-browser.prod.js
+│       │   │   │   ├── vue.esm-bundler.js
+│       │   │   │   ├── vue.global.js
+│       │   │   │   ├── vue.global.prod.js
+│       │   │   │   ├── vue.runtime.esm-browser.js
+│       │   │   │   ├── vue.runtime.esm-browser.prod.js
+│       │   │   │   ├── vue.runtime.esm-bundler.js
+│       │   │   │   ├── vue.runtime.global.js
+│       │   │   │   └── vue.runtime.global.prod.js
+│       │   │   ├── index.js
+│       │   │   ├── index.mjs
+│       │   │   ├── jsx-runtime
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── index.mjs
+│       │   │   │   └── package.json
+│       │   │   ├── jsx.d.ts
+│       │   │   ├── package.json
+│       │   │   └── server-renderer
+│       │   │       ├── index.d.mts
+│       │   │       ├── index.d.ts
+│       │   │       ├── index.js
+│       │   │       ├── index.mjs
+│       │   │       └── package.json
+│       │   ├── vue-router
+│       │   │   ├── LICENSE
+│       │   │   ├── dist
+│       │   │   │   ├── vue-router.cjs
+│       │   │   │   ├── vue-router.cjs.js
+│       │   │   │   ├── vue-router.cjs.prod.js
+│       │   │   │   ├── vue-router.d.ts
+│       │   │   │   ├── vue-router.esm-browser.js
+│       │   │   │   ├── vue-router.esm-browser.prod.js
+│       │   │   │   ├── vue-router.esm-bundler.js
+│       │   │   │   ├── vue-router.global.js
+│       │   │   │   ├── vue-router.global.prod.js
+│       │   │   │   ├── vue-router.mjs
+│       │   │   │   ├── vue-router.node.mjs
+│       │   │   │   └── vue-router.prod.cjs
+│       │   │   ├── index.js
+│       │   │   ├── node_modules
+│       │   │   │   └── @vue
+│       │   │   │       └── devtools-api
+│       │   │   │           ├── lib
+│       │   │   │           │   ├── cjs
+│       │   │   │           │   │   ├── api
+│       │   │   │           │   │   │   ├── api.js
+│       │   │   │           │   │   │   ├── app.js
+│       │   │   │           │   │   │   ├── component.js
+│       │   │   │           │   │   │   ├── context.js
+│       │   │   │           │   │   │   ├── hooks.js
+│       │   │   │           │   │   │   ├── index.js
+│       │   │   │           │   │   │   └── util.js
+│       │   │   │           │   │   ├── const.js
+│       │   │   │           │   │   ├── env.js
+│       │   │   │           │   │   ├── index.js
+│       │   │   │           │   │   ├── plugin.js
+│       │   │   │           │   │   ├── proxy.js
+│       │   │   │           │   │   └── time.js
+│       │   │   │           │   └── esm
+│       │   │   │           │       ├── api
+│       │   │   │           │       │   ├── api.d.ts
+│       │   │   │           │       │   ├── api.js
+│       │   │   │           │       │   ├── app.d.ts
+│       │   │   │           │       │   ├── app.js
+│       │   │   │           │       │   ├── component.d.ts
+│       │   │   │           │       │   ├── component.js
+│       │   │   │           │       │   ├── context.d.ts
+│       │   │   │           │       │   ├── context.js
+│       │   │   │           │       │   ├── hooks.d.ts
+│       │   │   │           │       │   ├── hooks.js
+│       │   │   │           │       │   ├── index.d.ts
+│       │   │   │           │       │   ├── index.js
+│       │   │   │           │       │   ├── util.d.ts
+│       │   │   │           │       │   └── util.js
+│       │   │   │           │       ├── const.d.ts
+│       │   │   │           │       ├── const.js
+│       │   │   │           │       ├── env.d.ts
+│       │   │   │           │       ├── env.js
+│       │   │   │           │       ├── index.d.ts
+│       │   │   │           │       ├── index.js
+│       │   │   │           │       ├── plugin.d.ts
+│       │   │   │           │       ├── plugin.js
+│       │   │   │           │       ├── proxy.d.ts
+│       │   │   │           │       ├── proxy.js
+│       │   │   │           │       ├── time.d.ts
+│       │   │   │           │       └── time.js
+│       │   │   │           └── package.json
+│       │   │   ├── package.json
+│       │   │   ├── vetur
+│       │   │   │   ├── attributes.json
+│       │   │   │   └── tags.json
+│       │   │   ├── vue-router-auto-routes.d.ts
+│       │   │   └── vue-router-auto.d.ts
+│       │   ├── vue-tsc
+│       │   │   ├── LICENSE
+│       │   │   ├── README.md
+│       │   │   ├── bin
+│       │   │   │   └── vue-tsc.js
+│       │   │   ├── index.d.ts
+│       │   │   ├── index.js
+│       │   │   └── package.json
+│       │   └── yallist
+│       │       ├── LICENSE.md
+│       │       ├── README.md
+│       │       ├── dist
+│       │       │   ├── commonjs
+│       │       │   │   ├── index.d.ts
+│       │       │   │   ├── index.d.ts.map
+│       │       │   │   ├── index.js
+│       │       │   │   ├── index.js.map
+│       │       │   │   └── package.json
+│       │       │   └── esm
+│       │       │       ├── index.d.ts
+│       │       │       ├── index.d.ts.map
+│       │       │       ├── index.js
+│       │       │       ├── index.js.map
+│       │       │       └── package.json
+│       │       └── package.json
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── postcss.config.js
+│       ├── public
+│       │   ├── puzzles
+│       │   │   ├── README.md
+│       │   │   ├── generate-placeholders.html
+│       │   │   ├── puzzle1_egalite.svg
+│       │   │   ├── puzzle2_awareness.svg
+│       │   │   ├── puzzle3_symboles.svg
+│       │   │   ├── puzzle4_male_breast.svg
+│       │   │   └── puzzle5_unite.svg
+│       │   └── vite.svg
+│       ├── src
+│       │   ├── App.vue
+│       │   ├── Router
+│       │   │   └── index.js
+│       │   ├── assets
+│       │   │   └── vue.svg
+│       │   ├── components
+│       │   │   └── HelloWorld.vue
+│       │   ├── config
+│       │   │   └── api.js
+│       │   ├── main.ts
+│       │   ├── page
+│       │   │   └── gamepuzzle.vue
+│       │   ├── stores
+│       │   │   └── acceuil.js
+│       │   ├── style.css
+│       │   └── utils
+│       │       └── puzzleHelper.js
+│       ├── tsconfig.app.json
+│       ├── tsconfig.json
+│       ├── tsconfig.node.json
+│       └── vite.config.ts
+├── test_5_players.sh
+├── test_multiple_connections.html
+├── test_puzzle_connection.sh
+├── test_puzzle_images.sh
+├── test_redirection.sh
+├── test_redirection_debug.sh
+├── test_redirection_fix.sh
+├── test_redirection_robuste.sh
+├── test_waiting_room.html
+├── test_websocket_connections.html
+├── tests
+│   └── test_auth_sessions.py
+└── tree.txt
+
+565 directories, 4052 files

@@ -600,6 +600,44 @@ async def chat_history(code: str, pseudo: str) -> List[ChatMessagePublic]:
     return items
 
 
+@app.post("/sessions/{code}/start-mission")
+async def start_mission(code: str, pseudo: str) -> Dict[str, Any]:
+    """Déclencher le démarrage de la mission pour tous les joueurs de la session"""
+    assert db is not None
+    session = await get_session_or_404(code)
+    if pseudo not in session.get("players", []) and pseudo != session.get("owner"):
+        raise HTTPException(status_code=403, detail="Join the session first")
+    
+    # Vérifier qu'il y a exactement 5 joueurs
+    players = session.get("players", [])
+    if len(players) != 5:
+        raise HTTPException(status_code=400, detail=f"Exactly 5 players required, got {len(players)}")
+    
+    # Marquer la session comme mission démarrée
+    await db.sessions.update_one(
+        {"code": code},
+        {"$set": {"mission_started": True, "mission_started_at": datetime.now(timezone.utc)}}
+    )
+    
+    # Notifier tous les joueurs via WebSocket
+    await manager.broadcast(code, {
+        "type": "mission_start",
+        "message": "Mission démarrée ! Redirection vers la salle de jeu...",
+        "redirect_to": "/gamepuzzle",
+        "countdown": 3,
+        "created_at": datetime.now(timezone.utc).isoformat()
+    })
+    
+    print(f"🚀 Mission démarrée pour la session {code} avec {len(players)} joueurs")
+    
+    return {
+        "success": True,
+        "message": "Mission démarrée pour tous les joueurs",
+        "players_count": len(players),
+        "redirect_to": "/gamepuzzle"
+    }
+
+
 # -----------------------------
 # Health
 # -----------------------------
