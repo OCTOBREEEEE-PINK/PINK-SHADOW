@@ -1,4 +1,4 @@
-<template>
+ <template>
   <!-- Bouton retour amélioré -->
   <div class="absolute top-3 left-3 z-50">
     <button
@@ -453,7 +453,7 @@ const fetchConnectedPlayers = async () => {
     await fetchPlayerEmojis();
     
     // Vérifier si on a 5 joueurs ou plus pour démarrer automatiquement
-    if (connectedPlayers.value.length >= 5 && !missionStarted.value) {
+    if (connectedPlayers.value.length >= 5 && !missionStarted.value ) {
       console.log('5 joueurs connectés ! Démarrage automatique de la mission...');
       startMission();
     } else if (connectedPlayers.value.length < 5 && countdown.value === 0 && !missionStarted.value) {
@@ -546,8 +546,8 @@ const connectWebSocket = (sessionCode, pseudo) => {
         const data = JSON.parse(event.data);
         console.log('Message WebSocket reçu:', data);
         
-        // Mettre à jour la liste des joueurs quand on reçoit un message
-        fetchConnectedPlayers();
+        // Ne pas appeler fetchConnectedPlayers à chaque message pour éviter la boucle
+        // La liste sera mise à jour par le setInterval
       };
       
       websocket.value.onerror = (error) => {
@@ -638,12 +638,31 @@ const stopCountdown = () => {
 
 // Démarrer la mission
 const startMission = () => {
+  // Protection contre les appels multiples
+  if (missionStarted.value) {
+    console.log('Mission déjà démarrée, redirection ignorée');
+    return;
+  }
+  
   missionStarted.value = true;
   stopCountdown();
   console.log('Mission démarrée !');
   
-  // Ici vous pouvez ajouter la logique pour passer à la prochaine étape
-  alert('Mission démarrée ! Préparez-vous...');
+  // Sauvegarder les infos du joueur pour le puzzle
+  sessionStorage.setItem('playerName', playerName.value);
+  sessionStorage.setItem('sessionCode', 'DEFAULT');
+  sessionStorage.setItem('playerEmoji', selectedEmoji.value);
+  
+  // Rediriger vers la première salle de jeu (puzzle)
+  console.log('Redirection vers la salle de jeu...');
+  console.log('Router disponible:', !!router);
+  console.log('Chemin actuel:', router.currentRoute.value.path);
+  
+  router.push('/gamepuzzle').then(() => {
+    console.log('Redirection réussie vers /gamepuzzle');
+  }).catch((error) => {
+    console.error('Erreur lors de la redirection:', error);
+  });
 };
 
 // Fonction pour basculer l'affichage de la liste des joueurs
@@ -680,6 +699,11 @@ const disconnect = () => {
   
   // Arrêter le compte à rebours
   stopCountdown();
+  
+  // Nettoyer le sessionStorage
+  sessionStorage.removeItem('playerName');
+  sessionStorage.removeItem('sessionCode');
+  sessionStorage.removeItem('playerEmoji');
   
   // Réinitialiser l'état
   hasJoined.value = false;

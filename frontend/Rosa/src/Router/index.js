@@ -1,22 +1,25 @@
-import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '@/views/HomeView.vue' 
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router'
+import HelloWorld from '@/components/HelloWorld.vue'
+import GamePuzzle from '@/page/gamepuzzle.vue'
 
-const routes = [
-//   {
-//     path: '/',
-//     name: 'home',
-//     component: HomeView
-//   },
-//   {
-//     path: '/about',
-//     name: 'about',
-//     component: () => import('@/views/AboutView.vue') // chargement à la demande
-//   }
+const routes = [{
+        path: '/',
+        name: 'home',
+        component: HelloWorld
+    },
+    {
+        path: '/gamepuzzle',
+        name: 'gamepuzzle',
+        component: GamePuzzle
+    }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+    history: createWebHistory(),
+    routes
 })
 
 export default router

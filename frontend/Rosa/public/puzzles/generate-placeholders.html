@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Puzzles - Placeholders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .puzzle-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .puzzle-preview {
+            width: 600px;
+            height: 600px;
+            margin: 20px auto;
+            border: 2px solid #333;
+        }
+
+        h2 {
+            color: #ec4899;
+        }
+
+        .instructions {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎨 Générateur de Puzzles - Code Rosa</h1>
+
+    <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <p>Cliquez avec le bouton droit sur chaque image et sélectionnez "Enregistrer l'image sous..."</p>
+        <p>Renommez les fichiers comme suit :</p>
+        <ul>
+            <li>puzzle-1.jpg → Ruban Rose et Bleu Entrelacés</li>
+            <li>puzzle-2.jpg → Silhouette Homme/Femme</li>
+            <li>puzzle-3.jpg → Rubans de Sensibilisation</li>
+            <li>puzzle-4.jpg → Symboles Médicaux</li>
+            <li>puzzle-5.jpg → Mains Unies</li>
+        </ul>
+        <p>Placez-les dans le dossier <code>frontend/Rosa/public/puzzles/</code></p>
+    </div>
+
+    <!-- Puzzle 1 : Ruban Rose et Bleu Entrelacés -->
+    <div class="puzzle-container">
+        <h2>Puzzle 1 : Ruban Rose et Bleu Entrelacés</h2>
+        <p><strong>Thème :</strong> Égalité | <strong>Message :</strong> Tous concernés</p>
+        <svg class="puzzle-preview" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#f472b6;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect width="600" height="600" fill="#f8fafc" />
+
+            <!-- Ruban rose (gauche) -->
+            <path d="M 150 100 Q 100 150 150 200 Q 200 250 150 300 Q 100 350 150 400 L 200 400 Q 250 350 200 300 Q 150 250 200 200 Q 250 150 200 100 Z" fill="url(#pinkGrad)" stroke="#db2777" stroke-width="3" />
+
+            <!-- Ruban bleu (droite) -->
+            <path d="M 450 100 Q 400 150 450 200 Q 500 250 450 300 Q 400 350 450 400 L 400 400 Q 350 350 400 300 Q 450 250 400 200 Q 350 150 400 100 Z" fill="url(#blueGrad)" stroke="#1e40af" stroke-width="3" />
+
+            <!-- Texte -->
+            <text x="300" y="500" font-size="36" fill="#64748b" text-anchor="middle" font-weight="bold">ÉGALITÉ</text>
+        </svg>
+    </div>
+
+    <!-- Puzzle 2 : Silhouettes -->
+    <div class="puzzle-container">
+        <h2>Puzzle 2 : Silhouette Homme/Femme</h2>
+        <p><strong>Thème :</strong> Universalité | <strong>Message :</strong> Tous égaux face à la maladie</p>
+        <svg class="puzzle-preview" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="600" fill="#f8fafc" />
+
+            <!-- Silhouette femme (rose) -->
+            <circle cx="200" cy="150" r="50" fill="#ec4899" />
+            <path d="M 200 210 L 180 280 L 160 380 L 140 480 L 180 480 L 190 380 L 200 320 L 210 380 L 220 480 L 260 480 L 240 380 L 220 280 L 200 210" fill="#ec4899" />
+            <path d="M 180 280 L 140 320 L 160 340" fill="#ec4899" />
+            <path d="M 220 280 L 260 320 L 240 340" fill="#ec4899" />
+
+            <!-- Silhouette homme (bleu) -->
+            <circle cx="400" cy="150" r="50" fill="#3b82f6" />
+            <rect x="370" y="210" width="60" height="100" fill="#3b82f6" />
+            <path d="M 400 310 L 370 480 L 410 480 L 400 380 L 390 480 L 430 480 L 400 310" fill="#3b82f6" />
+            <rect x="340" y="230" width="50" height="10" fill="#3b82f6" />
+            <rect x="410" y="230" width="50" height="10" fill="#3b82f6" />
+
+            <text x="300" y="550" font-size="32" fill="#64748b" text-anchor="middle" font-weight="bold">ÉGALITÉ</text>
+        </svg>
+    </div>
+
+    <!-- Puzzle 3 : Rubans multiples -->
+    <div class="puzzle-container">
+        <h2>Puzzle 3 : Rubans de Sensibilisation</h2>
+        <p><strong>Thème :</strong> Conscience | <strong>Message :</strong> Chaque ruban compte</p>
+        <svg class="puzzle-preview" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="600" fill="#f8fafc" />
+
+            <!-- Ruban 1 (rose) -->
+            <path d="M 100 150 Q 70 170 100 190 Q 130 210 100 230 L 120 230 Q 150 210 120 190 Q 90 170 120 150 Z" fill="#ec4899" stroke="#db2777" stroke-width="2" />
+
+            <!-- Ruban 2 (bleu) -->
+            <path d="M 250 150 Q 220 170 250 190 Q 280 210 250 230 L 270 230 Q 300 210 270 190 Q 240 170 270 150 Z" fill="#3b82f6" stroke="#1e40af" stroke-width="2" />
+
+            <!-- Ruban 3 (rose) -->
+            <path d="M 400 150 Q 370 170 400 190 Q 430 210 400 230 L 420 230 Q 450 210 420 190 Q 390 170 420 150 Z" fill="#ec4899" stroke="#db2777" stroke-width="2" />
+
+            <!-- Ruban 4 (bleu) -->
+            <path d="M 175 320 Q 145 340 175 360 Q 205 380 175 400 L 195 400 Q 225 380 195 360 Q 165 340 195 320 Z" fill="#3b82f6" stroke="#1e40af" stroke-width="2" />
+
+            <!-- Ruban 5 (rose) -->
+            <path d="M 325 320 Q 295 340 325 360 Q 355 380 325 400 L 345 400 Q 375 380 345 360 Q 315 340 345 320 Z" fill="#ec4899" stroke="#db2777" stroke-width="2" />
+
+            <text x="300" y="520" font-size="36" fill="#64748b" text-anchor="middle" font-weight="bold">ÉGALITÉ</text>
+        </svg>
+    </div>
+
+    <!-- Puzzle 4 : Symboles médicaux -->
+    <div class="puzzle-container">
+        <h2>Puzzle 4 : Symboles Médicaux</h2>
+        <p><strong>Thème :</strong> Santé | <strong>Message :</strong> Soins pour tous</p>
+        <svg class="puzzle-preview" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="600" fill="#f8fafc" />
+
+            <!-- Croix rose -->
+            <rect x="160" y="120" width="80" height="260" fill="#ec4899" rx="10" />
+            <rect x="120" y="200" width="160" height="100" fill="#ec4899" rx="10" />
+
+            <!-- Croix bleue -->
+            <rect x="360" y="120" width="80" height="260" fill="#3b82f6" rx="10" />
+            <rect x="320" y="200" width="160" height="100" fill="#3b82f6" rx="10" />
+
+            <!-- Cercle central -->
+            <circle cx="300" cy="250" r="60" fill="white" stroke="#64748b" stroke-width="4" />
+            <text x="300" y="270" font-size="48" fill="#64748b" text-anchor="middle">+</text>
+
+            <text x="300" y="520" font-size="36" fill="#64748b" text-anchor="middle" font-weight="bold">ÉGALITÉ</text>
+        </svg>
+    </div>
+
+    <!-- Puzzle 5 : Mains unies -->
+    <div class="puzzle-container">
+        <h2>Puzzle 5 : Mains Unies</h2>
+        <p><strong>Thème :</strong> Solidarité | <strong>Message :</strong> Unis dans la diversité</p>
+        <svg class="puzzle-preview" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="600" fill="#f8fafc" />
+
+            <!-- Main gauche (rose) -->
+            <path d="M 150 250 L 120 300 L 140 320 L 160 280 L 180 330 L 200 350 L 220 310 L 200 270 L 180 250 Z" fill="#ec4899" stroke="#db2777" stroke-width="3" />
+
+            <!-- Main droite (bleue) -->
+            <path d="M 450 250 L 480 300 L 460 320 L 440 280 L 420 330 L 400 350 L 380 310 L 400 270 L 420 250 Z" fill="#3b82f6" stroke="#1e40af" stroke-width="3" />
+
+            <!-- Cœur central -->
+            <path d="M 300 220 Q 320 190 350 200 Q 380 210 370 250 L 300 320 L 230 250 Q 220 210 250 200 Q 280 190 300 220" fill="#f472b6" stroke="#db2777" stroke-width="2" />
+
+            <text x="300" y="480" font-size="36" fill="#64748b" text-anchor="middle" font-weight="bold">ÉGALITÉ</text>
+        </svg>
+    </div>
+
+    <div class="instructions">
+        <h3>✅ Prochaines étapes</h3>
+        <ol>
+            <li>Enregistrez chaque image SVG ci-dessus</li>
+            <li>Ou remplacez-les par vos propres images (format 600x600px recommandé)</li>
+            <li>Placez les fichiers dans <code>frontend/Rosa/public/puzzles/</code></li>
+            <li>Le système les découpera automatiquement en 9 fragments (3x3)</li>
+        </ol>
+    </div>
+</body>
+
+</html>
