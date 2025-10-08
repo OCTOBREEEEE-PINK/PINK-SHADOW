@@ -136,9 +136,12 @@
               <div class="text-center">
                 <div class="text-6xl mb-4">🎉</div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Puzzle Complété !</h2>
-                <p class="text-gray-600 mb-4">
-                  Vous avez découvert le message : <strong class="text-pink-600">{{ currentPuzzle?.keyword || 'ÉGALITÉ' }}</strong>
+                <p class="text-gray-600 mb-2">
+                  Vous avez découvert le mot-clé :
                 </p>
+                <div class="text-3xl font-extrabold text-pink-600 tracking-wide mb-4 select-all">
+                  {{ currentPuzzle?.keyword || 'ÉGALITÉ' }}
+                </div>
                 <div class="bg-gradient-to-r from-pink-100 to-blue-100 rounded-lg p-4 mb-4">
                   <p class="text-sm italic text-gray-700">
                     "{{ currentPuzzle?.message || 'Le cancer du sein peut toucher tous les genres. L\'égalité dans la sensibilisation sauve des vies.' }}"
@@ -148,8 +151,9 @@
                   @click="closeVictoryModal"
                   class="px-6 py-3 bg-gradient-to-r from-pink-500 to-blue-500 text-white rounded-full font-bold hover:shadow-xl transition-all"
                 >
-                  Continuer
+                  J'ai noté le mot-clé
                 </button>
+                <p class="text-xs text-gray-500 mt-3">Astuce: cliquez pour copier le mot-clé puis continuez.</p>
               </div>
             </div>
           </div>
@@ -378,7 +382,17 @@ const onDrop = (event, slotIndex) => {
 };
 
 // Chat WebSocket
-const connectWebSocket = () => {
+const ensureJoinedSession = async () => {
+  try {
+    const resp = await fetch(`${API_BASE_URL}/sessions/${sessionCode.value}/join?pseudo=${encodeURIComponent(playerName.value)}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+    if (!resp.ok) { console.warn('Join session renvoie', resp.status); }
+  } catch (e) {
+    console.warn('Join session a échoué (sera réessayé via WS):', e);
+  }
+};
+
+const connectWebSocket = async () => {
+  await ensureJoinedSession();
   const wsUrl = `${WS_BASE_URL}/ws/chat/${sessionCode.value}?pseudo=${encodeURIComponent(playerName.value)}`;
   console.log('Connexion WebSocket vers:', wsUrl);
   
@@ -393,19 +407,21 @@ const connectWebSocket = () => {
     const data = JSON.parse(event.data);
     console.log('Message reçu dans gamepuzzle:', data);
     
-    // Traiter les messages de démarrage de mission
     if (data.type === 'mission_start') {
       console.log('🚀 Message de démarrage de mission reçu dans gamepuzzle:', data);
-      return; // Ne pas ajouter ce message au chat
+      return;
     }
-    
-    // Ajouter le message au chat
     messages.value.push(data);
     scrollToBottom();
   };
   
-  websocket.value.onerror = (error) => {
+  websocket.value.onerror = async (error) => {
     console.error('Erreur WebSocket:', error);
+    // Retry once after ensuring join
+    setTimeout(async () => {
+      await ensureJoinedSession();
+      connectWebSocket();
+    }, 1000);
   };
   
   websocket.value.onclose = () => {
@@ -487,14 +503,16 @@ const closeVictoryModal = () => {
 // Récupérer les joueurs connectés
 const fetchConnectedPlayers = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/sessions/${sessionCode.value}/players`);
-    if (!response.ok) throw new Error('Erreur lors de la récupération des joueurs');
-    
+    // Utiliser l'endpoint de présence temps réel
+    const response = await fetch(`${API_BASE_URL}/connected-players`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des joueurs connectés');
     const data = await response.json();
-    connectedPlayers.value = data.players || [];
-    console.log('👥 Joueurs connectés dans gamepuzzle:', connectedPlayers.value);
+    // Récupérer les joueurs de la session courante
+    const bySession = data.sessions || {};
+    connectedPlayers.value = bySession[sessionCode.value] || [];
+    console.log('👥 Joueurs en ligne (session):', connectedPlayers.value);
   } catch (error) {
-    console.error('Erreur lors de la récupération des joueurs:', error);
+    console.error('Erreur lors de la récupération des joueurs en ligne:', error);
     connectedPlayers.value = [];
   }
 };

@@ -529,10 +529,20 @@ async def websocket_endpoint(websocket: WebSocket, code: str, pseudo: str) -> No
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         return
     if pseudo not in session.get("players", []) and pseudo != session.get("owner"):
-        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-        return
+        # Auto-ajouter le joueur à la session s'il n'y est pas déjà
+        try:
+            await db.sessions.update_one({"code": code}, {"$addToSet": {"players": pseudo}})
+        except Exception:
+            await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
+            return
 
     await manager.connect(code, pseudo, websocket)
+    # Ensure the player is recorded in the session's players list for robustness
+    try:
+        assert db is not None
+        await db.sessions.update_one({"code": code}, {"$addToSet": {"players": pseudo}})
+    except Exception:
+        pass
     try:
         await manager.broadcast(code, {"system": True, "pseudo": "system", "content": f"{pseudo} joined", "created_at": datetime.now(timezone.utc).isoformat()})
         while True:
@@ -550,36 +560,15 @@ async def websocket_endpoint(websocket: WebSocket, code: str, pseudo: str) -> No
             await db.messages.insert_one(msg_doc)
             await manager.broadcast(code, {"pseudo": pseudo, "content": content, "created_at": msg_doc["created_at"].isoformat()})
     except WebSocketDisconnect:
-        # Retirer le joueur du WebSocket manager
+        # Retirer le joueur du WebSocket manager (ne pas le retirer de la session DB)
         manager.disconnect(code, pseudo)
-        
-        # Retirer le joueur de la session MongoDB
-        await db.sessions.update_one(
-            {"code": code},
-            {"$pull": {"players": pseudo}}
-        )
-        
-        # Supprimer l'état du joueur
-        await db.player_states.delete_one({"session_code": code, "pseudo": pseudo})
-        
         # Notifier les autres joueurs
         await manager.broadcast(code, {"system": True, "pseudo": "system", "content": f"{pseudo} left", "created_at": datetime.now(timezone.utc).isoformat()})
-        
         print(f"🚪 {pseudo} s'est déconnecté de la session {code}")
         
     except Exception as e:
-        # En cas d'erreur, faire le même nettoyage
+        # En cas d'erreur, retirer uniquement la connexion WebSocket du manager (pas de retrait DB)
         manager.disconnect(code, pseudo)
-        
-        # Retirer le joueur de la session MongoDB
-        try:
-            await db.sessions.update_one(
-                {"code": code},
-                {"$pull": {"players": pseudo}}
-            )
-            await db.player_states.delete_one({"session_code": code, "pseudo": pseudo})
-        except Exception:
-            pass
             
         try:
             await websocket.close(code=status.WS_1011_INTERNAL_ERROR)
