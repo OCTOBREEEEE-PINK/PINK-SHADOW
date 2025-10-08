@@ -66,7 +66,43 @@
           </div>
 
           <!-- Zone de puzzle - Grille pour placer les pièces -->
-          <div class="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-2xl mb-6">
+          <div class="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-2xl mb-6 relative">
+            <!-- Silhouette / aperçu en fond -->
+            <div 
+              v-if="currentPuzzle && showSilhouette"
+              class="absolute inset-6 opacity-15 pointer-events-none rounded-lg"
+              :style="{
+                backgroundImage: `url(${currentPuzzle.imagePath})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center'
+              }"
+            ></div>
+
+            <!-- Barre d'actions puzzle -->
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-xs text-gray-500">Conseil: placez d'abord les coins (1,3,7,9)</div>
+              <div class="space-x-2">
+                <button 
+                  @click="showSilhouette = !showSilhouette"
+                  class="px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 hover:bg-gray-50"
+                >
+                  {{ showSilhouette ? 'Masquer' : 'Afficher' }} la silhouette
+                </button>
+                <button 
+                  @click="showPreview = !showPreview"
+                  class="px-3 py-1.5 rounded-md text-xs font-semibold border border-gray-300 hover:bg-gray-50"
+                >
+                  {{ showPreview ? 'Masquer' : 'Afficher' }} l'aperçu
+                </button>
+              </div>
+            </div>
+
+            <!-- Aperçu flottant -->
+            <div v-if="showPreview && currentPuzzle" class="mb-4 p-3 rounded-lg border border-gray-200 bg-white shadow-sm">
+              <div class="text-xs text-gray-600 mb-2">Aperçu de l'image complète</div>
+              <img :src="currentPuzzle.imagePath" alt="aperçu" class="max-w-xs rounded-md border border-gray-200" />
+            </div>
             <div 
               class="grid gap-2 mx-auto"
               :style="{
@@ -96,7 +132,7 @@
                     <span class="text-2xl">✓</span>
                   </div>
                 </div>
-                <span v-else class="text-gray-400 text-xs">{{ index + 1 }}</span>
+                <span v-else class="text-gray-400 text-xs font-semibold">{{ index + 1 }}</span>
               </div>
             </div>
           </div>
@@ -119,6 +155,7 @@
                 ]"
                 :style="getPieceStyle(piece)"
               >
+                <div class="absolute top-1 left-1 bg-white/90 text-gray-800 text-[10px] font-bold px-1.5 py-0.5 rounded border border-gray-200 shadow-sm">{{ piece.correctPosition + 1 }}</div>
                 <div v-if="piece.placed" class="w-full h-full bg-gray-900/50 flex items-center justify-center">
                   <span class="text-white text-xl">✓</span>
                 </div>
@@ -169,6 +206,9 @@
             Chat d'équipe
           </h3>
           <p class="text-xs text-gray-500 mt-1">{{ connectedPlayers.length }} agent(s) en ligne</p>
+          <div class="mt-2 text-[11px] text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
+            Indices: décrivez la couleur, un mot partiel ou une position (ex: "coin haut gauche") sans donner la réponse.
+          </div>
         </div>
 
         <!-- Messages -->
@@ -276,6 +316,8 @@ const currentPuzzle = ref(null);
 const draggedPiece = ref(null);
 const completedPieces = ref(0);
 const puzzleCompleted = ref(false);
+const showPreview = ref(false);
+const showSilhouette = ref(true);
 
 // Import des puzzles depuis le helper
 import { PUZZLES_CONFIG, assignPuzzleToPlayer, generatePuzzlePieces, shuffleArray } from '@/utils/puzzleHelper';
@@ -375,6 +417,8 @@ const onDrop = (event, slotIndex) => {
     setTimeout(() => {
       puzzleCompleted.value = true;
       sendSystemMessage(`${playerName.value} a complété son puzzle ! 🎉`);
+      // Naviguer vers la scène 2 après une courte pause
+      setTimeout(() => { router.push('/scene2'); }, 1200);
     }, 500);
   }
   
