@@ -56,35 +56,39 @@ async def on_startup() -> None:
     global mongo_client, db
     mongo_client = AsyncIOMotorClient(MONGODB_URI)
     db = mongo_client[MONGODB_DB]
+    
+    # Nettoyer la base de données au démarrage (au cas où le serveur précédent s'est arrêté brutalement)
+    print("🧹 Nettoyage de la base de données...")
+    await db.users.delete_many({})
+    await db.sessions.delete_many({})
+    await db.messages.delete_many({})
+    await db.player_states.delete_many({})
+    print("  ✓ Base de données nettoyée")
+    
     # Create Indexes
     await db.users.create_index("pseudo", unique=True)
     await db.sessions.create_index("code", unique=True)
     await db.messages.create_index([("session_id", 1), ("created_at", 1)])
     
-    # Créer une session par défaut
+    # Créer une session par défaut fraîche
     print("🚀 Création de la session par défaut...")
     
-    # Créer la session par défaut (sans créer d'utilisateur)
     default_session_code = "DEFAULT"
     default_session_name = "Session par défaut"
     
-    existing_session = await db.sessions.find_one({"code": default_session_code})
-    if not existing_session:
-        session_doc = {
-            "name": default_session_name,
-            "code": default_session_code,
-            "owner": "system",  # Propriétaire système, pas un vrai utilisateur
-            "players": [],
-            "current_room": 1,
-            "room_states": DEFAULT_ROOM_STATES.copy(),
-            "final_answer_hash": None,
-            "created_at": datetime.now(timezone.utc),
-            "finished": False,
-        }
-        await db.sessions.insert_one(session_doc)
-        print(f"  ✓ Session par défaut créée (code: {default_session_code})")
-    else:
-        print(f"  ℹ️  Session par défaut existe déjà (code: {default_session_code})")
+    session_doc = {
+        "name": default_session_name,
+        "code": default_session_code,
+        "owner": "system",  # Propriétaire système, pas un vrai utilisateur
+        "players": [],
+        "current_room": 1,
+        "room_states": DEFAULT_ROOM_STATES.copy(),
+        "final_answer_hash": None,
+        "created_at": datetime.now(timezone.utc),
+        "finished": False,
+    }
+    await db.sessions.insert_one(session_doc)
+    print(f"  ✓ Session par défaut créée (code: {default_session_code})")
     
     print("✅ Initialisation terminée")
 
@@ -546,10 +550,37 @@ async def websocket_endpoint(websocket: WebSocket, code: str, pseudo: str) -> No
             await db.messages.insert_one(msg_doc)
             await manager.broadcast(code, {"pseudo": pseudo, "content": content, "created_at": msg_doc["created_at"].isoformat()})
     except WebSocketDisconnect:
+        # Retirer le joueur du WebSocket manager
         manager.disconnect(code, pseudo)
+        
+        # Retirer le joueur de la session MongoDB
+        await db.sessions.update_one(
+            {"code": code},
+            {"$pull": {"players": pseudo}}
+        )
+        
+        # Supprimer l'état du joueur
+        await db.player_states.delete_one({"session_code": code, "pseudo": pseudo})
+        
+        # Notifier les autres joueurs
         await manager.broadcast(code, {"system": True, "pseudo": "system", "content": f"{pseudo} left", "created_at": datetime.now(timezone.utc).isoformat()})
-    except Exception:
+        
+        print(f"🚪 {pseudo} s'est déconnecté de la session {code}")
+        
+    except Exception as e:
+        # En cas d'erreur, faire le même nettoyage
         manager.disconnect(code, pseudo)
+        
+        # Retirer le joueur de la session MongoDB
+        try:
+            await db.sessions.update_one(
+                {"code": code},
+                {"$pull": {"players": pseudo}}
+            )
+            await db.player_states.delete_one({"session_code": code, "pseudo": pseudo})
+        except Exception:
+            pass
+            
         try:
             await websocket.close(code=status.WS_1011_INTERNAL_ERROR)
         except Exception:
