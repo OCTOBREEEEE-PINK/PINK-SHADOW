@@ -545,7 +545,6 @@ const connectWebSocket = (sessionCode, pseudo) => {
       websocket.value.onmessage = (event) => {
         const data = JSON.parse(event.data);
         console.log('Message WebSocket reçu:', data);
-        
         // Ne pas appeler fetchConnectedPlayers à chaque message pour éviter la boucle
         // La liste sera mise à jour par le setInterval
       };
