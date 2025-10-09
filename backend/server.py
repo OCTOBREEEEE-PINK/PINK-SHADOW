@@ -337,6 +337,71 @@ async def get_connected_players() -> Dict[str, Any]:
         "summary": f"{total_connected} joueur(s) connecté(s) sur {len(connected_players)} session(s)"
     }
 
+
+@app.post("/sessions/{code}/submit-keyword")
+async def submit_keyword(code: str, pseudo: str, keyword: str) -> Dict[str, Any]:
+    """
+    Enregistrer qu'un joueur a validé son mot-clé dans la salle finale.
+    """
+    assert db is not None
+    session = await get_session_or_404(code)
+    
+    # Initialiser la liste des validations si elle n'existe pas
+    if "keyword_validations" not in session:
+        await db.sessions.update_one(
+            {"code": code},
+            {"$set": {"keyword_validations": []}}
+        )
+    
+    # Ajouter le joueur à la liste s'il n'y est pas déjà
+    await db.sessions.update_one(
+        {"code": code},
+        {"$addToSet": {"keyword_validations": pseudo}}
+    )
+    
+    # Récupérer la session mise à jour
+    updated_session = await db.sessions.find_one({"code": code})
+    validations = updated_session.get("keyword_validations", [])
+    players = updated_session.get("players", [])
+    
+    # Broadcast via WebSocket
+    await manager.broadcast(code, {
+        "type": "keyword_validated",
+        "pseudo": pseudo,
+        "keyword": keyword,
+        "total_validated": len(validations),
+        "total_players": len(players),
+        "all_validated": len(validations) == len(players) and len(players) > 0
+    })
+    
+    print(f"✅ Keyword validated by {pseudo} in session {code}. Total: {len(validations)}/{len(players)}")
+    
+    return {
+        "success": True,
+        "validated": validations,
+        "total": len(validations),
+        "all_done": len(validations) == len(players) and len(players) > 0
+    }
+
+
+@app.get("/sessions/{code}/keyword-validations")
+async def get_keyword_validations(code: str) -> Dict[str, Any]:
+    """
+    Récupérer l'état des validations de mots-clés.
+    """
+    assert db is not None
+    session = await get_session_or_404(code)
+    
+    validations = session.get("keyword_validations", [])
+    players = session.get("players", [])
+    
+    return {
+        "validated": validations,
+        "total": len(validations),
+        "players": players,
+        "all_done": len(validations) == len(players) and len(players) > 0
+    }
+
 # Timer global pour synchroniser tous les joueurs
 global_timer = {
     "started_at": None,

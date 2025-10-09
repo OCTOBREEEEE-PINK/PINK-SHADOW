@@ -651,7 +651,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue';
+import { ref, computed, onMounted, nextTick, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { API_BASE_URL, WS_BASE_URL } from '@/config/api';
 
@@ -675,25 +675,34 @@ const allSubmitted = computed(() => {
          submittedPlayers.value.length === connectedPlayers.value.length;
 });
 
-const submitKeyword = () => {
+const submitKeyword = async () => {
   const keyword = playerKeyword.value.trim().toUpperCase();
   if (!keyword || keywordSubmitted.value) return;
   
   if (validKeywords.includes(keyword)) {
-    keywordSubmitted.value = true;
-    
-    // Broadcast via WebSocket
-    if (websocket.value && websocket.value.readyState === WebSocket.OPEN) {
-      websocket.value.send(JSON.stringify({
-        type: 'keyword_submit',
-        pseudo: playerName.value,
-        keyword: keyword
-      }));
-    }
-    
-    // Add to local list
-    if (!submittedPlayers.value.includes(playerName.value)) {
-      submittedPlayers.value.push(playerName.value);
+    try {
+      // Call backend API to register validation
+      const response = await fetch(
+        `${API_BASE_URL}/sessions/${sessionCode.value}/submit-keyword?pseudo=${encodeURIComponent(playerName.value)}&keyword=${encodeURIComponent(keyword)}`,
+        { method: 'POST' }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        keywordSubmitted.value = true;
+        
+        // Update local list
+        submittedPlayers.value = data.validated || [];
+        
+        console.log('✅ Keyword submitted successfully:', keyword, 'by', playerName.value);
+        console.log('📊 Total submitted:', data.total, '/', connectedPlayers.value.length);
+        console.log('🎉 All done?', data.all_done);
+      } else {
+        console.error('Failed to submit keyword');
+      }
+    } catch (error) {
+      console.error('Error submitting keyword:', error);
+      alert('❌ Erreur lors de la validation du mot-clé');
     }
   } else {
     alert('❌ Mot-clé invalide ! Vérifiez les mots trouvés dans les salles précédentes.');
@@ -737,16 +746,28 @@ const connectWS = async () => {
     try { 
       const d = JSON.parse(ev.data);
       
-      // Handle keyword submissions
-      if (d.type === 'keyword_submit' && d.pseudo) {
-        if (!submittedPlayers.value.includes(d.pseudo)) {
-          submittedPlayers.value.push(d.pseudo);
-        }
+      // Handle keyword validations from backend
+      if (d.type === 'keyword_validated') {
+        console.log('📩 Keyword validated broadcast:', d);
+        submittedPlayers.value = d.validated || [];
+        connectedPlayers.value = d.players || connectedPlayers.value;
+        
+        // Add chat message
+        messages.value.push({
+          pseudo: 'system',
+          content: `✅ ${d.pseudo} a validé son mot-clé ! (${d.total_validated}/${d.total_players})`
+        });
+        scrollToBottom();
+        
+        console.log('✅ Updated. Total:', d.total_validated, '/', d.total_players);
+        console.log('🔍 All validated?', d.all_validated);
       } else {
         messages.value.push(d);
         scrollToBottom();
       }
-    } catch (_) {}
+    } catch (e) {
+      console.error('Error parsing WebSocket message:', e);
+    }
   };
   
   websocket.value.onerror = () => { setTimeout(connectWS, 1000); };
@@ -771,13 +792,41 @@ const fetchOnline = async () => {
     const r = await fetch(`${API_BASE_URL}/connected-players`); 
     const d = await r.json(); 
     connectedPlayers.value = (d.sessions||{})[sessionCode.value]||[]; 
+    console.log('👥 Connected players updated:', connectedPlayers.value.length);
   } catch(_) {}
 };
+
+const fetchValidations = async () => {
+  try {
+    const r = await fetch(`${API_BASE_URL}/sessions/${sessionCode.value}/keyword-validations`);
+    const d = await r.json();
+    submittedPlayers.value = d.validated || [];
+    connectedPlayers.value = d.players || connectedPlayers.value;
+    
+    // Check if current player already validated
+    if (submittedPlayers.value.includes(playerName.value)) {
+      keywordSubmitted.value = true;
+    }
+    
+    console.log('🔄 Validations fetched:', d.total, '/', d.players.length);
+  } catch (e) {
+    console.error('Error fetching validations:', e);
+  }
+};
+
+// Watch for when all players have submitted
+watch(allSubmitted, (newValue) => {
+  if (newValue) {
+    console.log('🎉 ALL PLAYERS SUBMITTED! Showing success message');
+  }
+});
 
 onMounted(() => {
   connectWS();
   fetchOnline();
-  setInterval(fetchOnline, 10000);
+  fetchValidations();
+  setInterval(fetchOnline, 5000);
+  setInterval(fetchValidations, 3000); // Poll validations every 3 seconds
 });
 </script>
 
