@@ -1,0 +1,43 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="#f8f9fa"/>
+  
+  <!-- Three awareness ribbons -->
+  <g filter="url(#shadow)">
+    <!-- Pink ribbon -->
+    <path d="M50 80 Q70 60 90 80 Q110 100 90 120 Q70 140 50 120 Q40 100 50 80 Z" 
+          fill="#ff69b4" stroke="#333" stroke-width="1"/>
+    <path d="M90 120 L120 120 L130 140 L120 160 L90 160 Z" 
+          fill="#ff69b4" stroke="#333" stroke-width="1"/>
+    
+    <!-- Bicolored ribbon -->
+    <path d="M130 80 Q150 60 170 80 Q190 100 170 120 Q150 140 130 120 Q120 100 130 80 Z" 
+          fill="#ff69b4" stroke="#333" stroke-width="1"/>
+    <path d="M150 80 Q150 60 170 80 Q190 100 170 120 Q150 140 150 120 Z" 
+          fill="#4169e1" stroke="#333" stroke-width="1"/>
+    <path d="M170 120 L200 120 L210 140 L200 160 L170 160 Z" 
+          fill="#ff69b4" stroke="#333" stroke-width="1"/>
+    <path d="M150 120 L180 120 L190 140 L180 160 L150 160 Z" 
+          fill="#4169e1" stroke="#333" stroke-width="1"/>
+    
+    <!-- Blue ribbon -->
+    <path d="M210 80 Q230 60 250 80 Q270 100 250 120 Q230 140 210 120 Q200 100 210 80 Z" 
+          fill="#4169e1" stroke="#333" stroke-width="1"/>
+    <path d="M250 120 L280 120 L290 140 L280 160 L250 160 Z" 
+          fill="#4169e1" stroke="#333" stroke-width="1"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="50" y="200" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">Awareness</text>
+  <text x="50" y="230" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">Ribbons</text>
+  <text x="50" y="260" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">Collection</text>
+  
+  <!-- Puzzle theme indicator -->
+  <text x="20" y="30" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">CONSCIENCE</text>
+</svg>

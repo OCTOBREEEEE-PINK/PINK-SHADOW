@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Frontend Chat Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .info {
+            color: blue;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #007bff;
+            background: #f8f9fa;
+        }
+
+        .player-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .player {
+            padding: 5px 10px;
+            background: #e9ecef;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 Test Frontend Chat Simulation</h1>
+
+    <div class="test-section">
+        <h2>1. Configuration</h2>
+        <input type="text" id="playerName" placeholder="Nom du joueur" value="FrontendTest">
+        <button onclick="simulateFrontendRegistration()">Simuler Inscription Frontend</button>
+        <div id="config-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Joueurs Connectés</h2>
+        <div id="players-list" class="player-list"></div>
+        <button onclick="fetchPlayers()">Actualiser Joueurs</button>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Chat</h2>
+        <input type="text" id="messageInput" placeholder="Votre message" value="Test depuis le frontend">
+        <button onclick="sendMessage()">Envoyer</button>
+        <button onclick="clearMessages()">Effacer</button>
+        <div id="messages" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Statut</h2>
+        <div id="status" class="log">Non connecté</div>
+    </div>
+
+    <script>
+        let ws = null;
+        let playerName = '';
+        let sessionCode = 'DEFAULT';
+        const API_BASE_URL = 'http://localhost:8000';
+        const WS_BASE_URL = 'ws://localhost:8000/ws/chat';
+
+        const configLog = document.getElementById('config-log');
+        const messagesDiv = document.getElementById('messages');
+        const statusDiv = document.getElementById('status');
+        const playersListDiv = document.getElementById('players-list');
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            configLog.textContent += logMessage + '\n';
+            configLog.scrollTop = configLog.scrollHeight;
+            console.log(logMessage);
+        }
+
+        function addMessage(message, sender = 'System') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function updateStatus(status, type = 'info') {
+            statusDiv.textContent = status;
+            statusDiv.className = `log ${type}`;
+        }
+
+        function updatePlayersList(players) {
+            playersListDiv.innerHTML = '';
+            players.forEach(player => {
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'player';
+                playerDiv.textContent = player;
+                playersListDiv.appendChild(playerDiv);
+            });
+        }
+
+        async function simulateFrontendRegistration() {
+            playerName = document.getElementById('playerName').value;
+
+            if (!playerName.trim()) {
+                log('❌ Veuillez entrer un nom de joueur', 'error');
+                return;
+            }
+
+            log(`🚀 Simulation de l'inscription frontend pour ${playerName}...`);
+
+            try {
+                // 1. Inscription (comme dans HelloWorld.vue)
+                log('1️⃣ Inscription...');
+                const registerResponse = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pseudo: playerName
+                    })
+                });
+
+                if (!registerResponse.ok) {
+                    const errorText = await registerResponse.text();
+                    throw new Error(`Erreur inscription: ${registerResponse.status} - ${errorText}`);
+                }
+
+                const registerData = await registerResponse.json();
+                log(`✅ Inscription réussie: ${registerData.pseudo}`, 'success');
+
+                // 2. Rejoindre la session (comme dans HelloWorld.vue)
+                log('2️⃣ Jonction à la session...');
+                const joinResponse = await fetch(`${API_BASE_URL}/sessions/${sessionCode}/join?pseudo=${encodeURIComponent(playerName)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!joinResponse.ok) {
+                    const errorText = await joinResponse.text();
+                    throw new Error(`Erreur jonction: ${joinResponse.status} - ${errorText}`);
+                }
+
+                const joinData = await joinResponse.json();
+                log(`✅ Jonction réussie: ${joinData.message}`, 'success');
+
+                // 3. Enregistrer l'émoji (comme dans HelloWorld.vue)
+                log('3️⃣ Enregistrement de l\'émoji...');
+                const emojiResponse = await fetch(`${API_BASE_URL}/players/${encodeURIComponent(playerName)}/emoji`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        emoji: '🌸'
+                    })
+                });
+
+                if (!emojiResponse.ok) {
+                    const errorText = await emojiResponse.text();
+                    throw new Error(`Erreur émoji: ${emojiResponse.status} - ${errorText}`);
+                }
+
+                const emojiData = await emojiResponse.json();
+                log(`✅ Émoji enregistré: ${emojiData.message}`, 'success');
+
+                // 4. Connexion WebSocket (comme dans HelloWorld.vue)
+                log('4️⃣ Connexion WebSocket...');
+                await connectWebSocket();
+
+                // 5. Récupérer les joueurs connectés
+                log('5️⃣ Récupération des joueurs...');
+                await fetchPlayers();
+
+                log('🎉 Simulation frontend complète !', 'success');
+                updateStatus('Connecté et prêt', 'success');
+
+            } catch (error) {
+                log(`❌ Erreur simulation: ${error.message}`, 'error');
+                updateStatus('Erreur de connexion', 'error');
+            }
+        }
+
+        async function connectWebSocket() {
+            if (ws) {
+                ws.close();
+            }
+
+            const wsUrl = `${WS_BASE_URL}/${sessionCode}?pseudo=${encodeURIComponent(playerName)}`;
+            log(`🔌 Connexion WebSocket vers: ${wsUrl}`);
+
+            try {
+                ws = new WebSocket(wsUrl);
+
+                ws.onopen = function() {
+                    log('✅ WebSocket connecté !', 'success');
+                    addMessage('Connexion établie', 'System');
+                };
+
+                ws.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    log(`📨 Message reçu: ${JSON.stringify(data)}`);
+
+                    if (data.system) {
+                        addMessage(data.content, 'System');
+                    } else {
+                        addMessage(data.content, data.pseudo);
+                    }
+                };
+
+                ws.onerror = function(error) {
+                    log(`❌ Erreur WebSocket: ${error}`, 'error');
+                    updateStatus('Erreur WebSocket', 'error');
+                };
+
+                ws.onclose = function(event) {
+                    log(`🔌 WebSocket fermé. Code: ${event.code}, Raison: ${event.reason}`);
+                    updateStatus('Déconnecté', 'error');
+                };
+
+            } catch (error) {
+                log(`❌ Erreur création WebSocket: ${error.message}`, 'error');
+                updateStatus('Erreur de création', 'error');
+            }
+        }
+
+        async function fetchPlayers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/sessions/${sessionCode}/players?pseudo=${encodeURIComponent(playerName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const players = data.players || [];
+                log(`👥 Joueurs connectés: ${players.length} - ${players.join(', ')}`);
+                updatePlayersList(players);
+
+            } catch (error) {
+                log(`❌ Erreur récupération joueurs: ${error.message}`, 'error');
+                updatePlayersList([]);
+            }
+        }
+
+        function sendMessage() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('❌ WebSocket non connecté', 'error');
+                return;
+            }
+
+            const message = document.getElementById('messageInput').value;
+            if (!message.trim()) {
+                log('❌ Veuillez entrer un message', 'error');
+                return;
+            }
+
+            // Envoyer comme dans gamepuzzle.vue
+            const messageData = {
+                content: message,
+                pseudo: playerName
+            };
+
+            try {
+                ws.send(JSON.stringify(messageData));
+                log(`📤 Message envoyé: ${message}`);
+                addMessage(message, 'Vous');
+                document.getElementById('messageInput').value = '';
+            } catch (error) {
+                log(`❌ Erreur envoi: ${error.message}`, 'error');
+            }
+        }
+
+        function clearMessages() {
+            messagesDiv.innerHTML = '';
+            configLog.textContent = '';
+        }
+
+        // Test automatique au chargement
+        window.onload = function() {
+            log('🚀 Page chargée. Prêt pour la simulation frontend.');
+            log('💡 Cliquez sur "Simuler Inscription Frontend" pour commencer.');
+        };
+    </script>
+</body>
+
+</html>

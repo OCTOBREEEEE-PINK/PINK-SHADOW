@@ -4,7 +4,7 @@ import {
 } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
 import GamePuzzle from '@/page/gamepuzzle.vue'
-import Scene2Decrypt from '@/page/scene2-decrypt.vue'
+import Scene2Decrypt from '@/page/scene2-medical-file.vue'
 import Scene3Wordsearch from '@/page/scene3-wordsearch.vue'
 import Scene4Wall from '@/page/scene4-wall.vue'
 import Scene5Renaissance from '@/page/scene5-renaissance.vue'

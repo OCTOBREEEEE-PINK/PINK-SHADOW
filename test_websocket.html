@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test WebSocket Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .info {
+            color: blue;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #007bff;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 Test WebSocket Chat</h1>
+
+    <div class="test-section">
+        <h2>1. Configuration</h2>
+        <input type="text" id="playerName" placeholder="Nom du joueur" value="TestPlayer">
+        <input type="text" id="sessionCode" placeholder="Code de session" value="DEFAULT">
+        <button onclick="testConnection()">Tester la connexion</button>
+        <div id="config-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Messages</h2>
+        <input type="text" id="messageInput" placeholder="Votre message" value="Test de message">
+        <button onclick="sendMessage()">Envoyer</button>
+        <button onclick="clearMessages()">Effacer</button>
+        <div id="messages" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Statut</h2>
+        <div id="status" class="log">Non connecté</div>
+    </div>
+
+    <script>
+        let ws = null;
+        const configLog = document.getElementById('config-log');
+        const messagesDiv = document.getElementById('messages');
+        const statusDiv = document.getElementById('status');
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            configLog.textContent += logMessage + '\n';
+            configLog.scrollTop = configLog.scrollHeight;
+            console.log(logMessage);
+        }
+
+        function addMessage(message, sender = 'System') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function updateStatus(status, type = 'info') {
+            statusDiv.textContent = status;
+            statusDiv.className = `log ${type}`;
+        }
+
+        function testConnection() {
+            const playerName = document.getElementById('playerName').value;
+            const sessionCode = document.getElementById('sessionCode').value;
+
+            if (!playerName || !sessionCode) {
+                log('❌ Veuillez remplir le nom et le code de session', 'error');
+                return;
+            }
+
+            // Fermer la connexion existante
+            if (ws) {
+                ws.close();
+            }
+
+            const wsUrl = `ws://localhost:8000/ws/chat/${sessionCode}?pseudo=${encodeURIComponent(playerName)}`;
+            log(`🔌 Tentative de connexion WebSocket vers: ${wsUrl}`);
+
+            try {
+                ws = new WebSocket(wsUrl);
+
+                ws.onopen = function() {
+                    log('✅ WebSocket connecté avec succès !', 'success');
+                    updateStatus('Connecté', 'success');
+                    addMessage('Connexion établie', 'System');
+                };
+
+                ws.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    log(`📨 Message reçu: ${JSON.stringify(data)}`);
+                    addMessage(data.message || JSON.stringify(data), data.pseudo || 'Server');
+                };
+
+                ws.onerror = function(error) {
+                    log(`❌ Erreur WebSocket: ${error}`, 'error');
+                    updateStatus('Erreur de connexion', 'error');
+                };
+
+                ws.onclose = function(event) {
+                    log(`🔌 WebSocket fermé. Code: ${event.code}, Raison: ${event.reason}`);
+                    updateStatus('Déconnecté', 'error');
+                };
+
+            } catch (error) {
+                log(`❌ Erreur lors de la création du WebSocket: ${error.message}`, 'error');
+                updateStatus('Erreur de création', 'error');
+            }
+        }
+
+        function sendMessage() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('❌ WebSocket non connecté', 'error');
+                return;
+            }
+
+            const message = document.getElementById('messageInput').value;
+            if (!message.trim()) {
+                log('❌ Veuillez entrer un message', 'error');
+                return;
+            }
+
+            const messageData = {
+                type: 'chat',
+                message: message,
+                pseudo: document.getElementById('playerName').value
+            };
+
+            try {
+                ws.send(JSON.stringify(messageData));
+                log(`📤 Message envoyé: ${message}`);
+                addMessage(message, 'Vous');
+                document.getElementById('messageInput').value = '';
+            } catch (error) {
+                log(`❌ Erreur lors de l'envoi: ${error.message}`, 'error');
+            }
+        }
+
+        function clearMessages() {
+            messagesDiv.innerHTML = '';
+            configLog.textContent = '';
+        }
+
+        // Test automatique au chargement
+        window.onload = function() {
+            log('🚀 Page chargée. Prêt pour les tests.');
+            log('💡 Cliquez sur "Tester la connexion" pour commencer.');
+        };
+    </script>
+</body>
+
+</html>

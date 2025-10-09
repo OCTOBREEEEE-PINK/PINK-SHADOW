@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Frontend Inscription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .info {
+            color: blue;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 Test Frontend Inscription</h1>
+
+    <div class="test-section">
+        <h2>1. Configuration API</h2>
+        <div id="config-info" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test d'inscription</h2>
+        <input type="text" id="playerName" placeholder="Nom du joueur" value="TestPlayer">
+        <button onclick="testRegistration()">Tester l'inscription</button>
+        <div id="registration-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test de session</h2>
+        <button onclick="testSession()">Tester la session</button>
+        <div id="session-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Test WebSocket</h2>
+        <button onclick="testWebSocket()">Tester WebSocket</button>
+        <div id="websocket-log" class="log"></div>
+    </div>
+
+    <script>
+        // Configuration API (copiée du frontend)
+        function getBackendUrl() {
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                return 'localhost';
+            }
+            return window.location.hostname;
+        }
+
+        const BACKEND_HOST = getBackendUrl();
+        const BACKEND_PORT = 8000;
+        const API_BASE_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+        const WS_BASE_URL = `ws://${BACKEND_HOST}:${BACKEND_PORT}`;
+
+        // Afficher la configuration
+        document.getElementById('config-info').textContent =
+            `Frontend hostname: ${window.location.hostname}\n` +
+            `Backend host: ${BACKEND_HOST}\n` +
+            `Backend: ${API_BASE_URL}\n` +
+            `WebSocket: ${WS_BASE_URL}`;
+
+        // Test d'inscription
+        async function testRegistration() {
+            const playerName = document.getElementById('playerName').value;
+            const log = document.getElementById('registration-log');
+
+            log.textContent = 'Début du test d\'inscription...\n';
+
+            try {
+                // 1. Inscription
+                log.textContent += '1. Inscription...\n';
+                const registerResponse = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pseudo: playerName
+                    })
+                });
+
+                if (!registerResponse.ok) {
+                    throw new Error(`Erreur inscription: ${registerResponse.status}`);
+                }
+
+                const registerData = await registerResponse.json();
+                log.textContent += `✅ Inscription réussie: ${JSON.stringify(registerData)}\n`;
+
+                // 2. Rejoindre la session
+                log.textContent += '2. Rejoindre la session...\n';
+                const joinResponse = await fetch(`${API_BASE_URL}/sessions/DEFAULT/join?pseudo=${encodeURIComponent(playerName)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!joinResponse.ok) {
+                    throw new Error(`Erreur jonction: ${joinResponse.status}`);
+                }
+
+                const joinData = await joinResponse.json();
+                log.textContent += `✅ Session rejointe: ${JSON.stringify(joinData)}\n`;
+
+                // 3. Enregistrer l'émoji
+                log.textContent += '3. Enregistrer l\'émoji...\n';
+                const emojiResponse = await fetch(`${API_BASE_URL}/players/${playerName}/emoji`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        emoji: '🌸'
+                    })
+                });
+
+                if (!emojiResponse.ok) {
+                    throw new Error(`Erreur émoji: ${emojiResponse.status}`);
+                }
+
+                const emojiData = await emojiResponse.json();
+                log.textContent += `✅ Émoji enregistré: ${JSON.stringify(emojiData)}\n`;
+
+                log.textContent += '\n🎉 Inscription complète réussie !\n';
+
+            } catch (error) {
+                log.textContent += `❌ Erreur: ${error.message}\n`;
+            }
+        }
+
+        // Test de session
+        async function testSession() {
+            const log = document.getElementById('session-log');
+
+            log.textContent = 'Test de la session...\n';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/sessions/DEFAULT/players?pseudo=TestPlayer`);
+
+                if (!response.ok) {
+                    throw new Error(`Erreur session: ${response.status}`);
+                }
+
+                const data = await response.json();
+                log.textContent += `✅ Session récupérée: ${JSON.stringify(data, null, 2)}\n`;
+
+                if (data.players && data.players.length > 0) {
+                    log.textContent += `👥 ${data.players.length} joueurs dans la session\n`;
+                } else {
+                    log.textContent += `⚠️ Aucun joueur dans la session\n`;
+                }
+
+            } catch (error) {
+                log.textContent += `❌ Erreur: ${error.message}\n`;
+            }
+        }
+
+        // Test WebSocket
+        function testWebSocket() {
+            const log = document.getElementById('websocket-log');
+
+            log.textContent = 'Test de connexion WebSocket...\n';
+
+            try {
+                const ws = new WebSocket(`${WS_BASE_URL}/ws/chat/DEFAULT?pseudo=TestPlayer`);
+
+                ws.onopen = function() {
+                    log.textContent += '✅ WebSocket connecté !\n';
+                    ws.close();
+                };
+
+                ws.onerror = function(error) {
+                    log.textContent += `❌ Erreur WebSocket: ${error}\n`;
+                };
+
+                ws.onclose = function() {
+                    log.textContent += '🔌 WebSocket fermé\n';
+                };
+
+            } catch (error) {
+                log.textContent += `❌ Erreur: ${error.message}\n`;
+            }
+        }
+    </script>
+</body>
+
+</html>
