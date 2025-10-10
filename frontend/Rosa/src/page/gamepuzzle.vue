@@ -24,6 +24,7 @@
       </div>
     </div>
 
+
     <!-- Contenu principal -->
     <div class="flex h-full pt-16">
       <!-- Zone de puzzle (70%) -->
@@ -123,8 +124,18 @@
                   slot.isCorrect ? 'ring-2 ring-green-400' : ''
                 ]"
               >
+                <!-- Affichage du conseil si cette case a un conseil -->
                 <div 
-                  v-if="slot.filled"
+                  v-if="slot.filled && slot.isCorrect && slot.tip"
+                  class="w-full h-full rounded-lg bg-gradient-to-br from-pink-100 to-blue-100 border-2 border-pink-300 p-2 flex flex-col items-center justify-center text-center"
+                >
+                  <div class="text-lg mb-1">💡</div>
+                  <div class="text-xs font-bold text-pink-800 mb-1">Conseil</div>
+                  <div class="text-[10px] text-gray-700 leading-tight">{{ slot.tip }}</div>
+                </div>
+                <!-- Affichage normal de la pièce -->
+                <div 
+                  v-else-if="slot.filled"
                   class="w-full h-full rounded-lg overflow-hidden"
                   :style="getPieceStyle(slot.piece)"
                 >
@@ -253,7 +264,7 @@
               @keyup.enter="sendMessage"
               type="text"
               placeholder="Donnez un indice..."
-              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm"
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm text-black"
             />
             <button
               @click="sendMessage"
@@ -281,6 +292,27 @@ const router = useRouter();
 const playerName = ref(sessionStorage.getItem('playerName') || route.query.player || 'Joueur');
 const sessionCode = ref(sessionStorage.getItem('sessionCode') || 'DEFAULT');
 const selectedEmoji = ref(sessionStorage.getItem('playerEmoji') || '🌸');
+
+// Système de conseils
+const tips = ref([
+  "Le cancer du sein ne touche pas que les femmes — les hommes aussi peuvent être concernés.",
+  "💬 Un dépistage régulier permet souvent de détecter la maladie à un stade précoce et d'augmenter les chances de guérison.",
+  "💬 Le ruban rose est le symbole mondial de la lutte contre le cancer du sein.",
+  "💬 Parler du cancer du sein, c'est briser le tabou et sauver des vies.",
+  "💬 Le soutien moral est aussi important que le traitement médical.",
+  "💬 Une alimentation équilibrée et l'activité physique réduisent les risques de développer un cancer.",
+  "💬 La prévention commence par la connaissance de son corps et l'écoute des signes inhabituels.",
+  "💬 Chaque femme devrait apprendre à pratiquer l'auto-examen de ses seins.",
+  "💬 Les avancées médicales et la recherche sauvent de plus en plus de vies chaque année.",
+  "💬 Ensemble, nous sommes plus forts face au cancer.",
+  "💬 La solidarité est une arme puissante contre la peur et l'isolement.",
+  "💬 La guérison commence par la détection et l'entraide.",
+  "💬 L'union de tous — patients, familles, médecins — est essentielle dans la lutte contre le cancer du sein.",
+  "💬 Le courage des personnes touchées par le cancer du sein inspire le monde entier.",
+  "💬 S'informer, c'est déjà agir pour sa santé."
+]);
+
+// Variables pour les conseils (plus nécessaires car stockés dans les cases)
 
 console.log('🎮 GamePuzzle.vue chargé !');
 console.log('👤 Joueur:', playerName.value);
@@ -410,6 +442,9 @@ const onDrop = (event, slotIndex) => {
   if (slot.isCorrect) {
     completedPieces.value++;
     console.log(`Pièce correcte ! ${completedPieces.value}/${totalPieces.value}`);
+    
+    // Afficher un conseil aléatoire sur cette case
+    showRandomTip(slotIndex);
   }
   
   // Vérifier si le puzzle est terminé
@@ -561,6 +596,19 @@ const fetchConnectedPlayers = async () => {
   }
 };
 
+// Fonctions pour les conseils
+const showRandomTip = (slotIndex) => {
+  const randomIndex = Math.floor(Math.random() * tips.value.length);
+  const tip = tips.value[randomIndex];
+  
+  // Stocker le conseil directement dans la case
+  const slot = puzzleSlots.value[slotIndex];
+  slot.tip = tip;
+  
+  console.log(`Conseil ajouté à la case ${slotIndex}: ${tip}`);
+};
+
+
 onMounted(() => {
   console.log('🎮 GamePuzzle monté - Joueur:', playerName.value);
   console.log('🎯 Initialisation du puzzle...');
@@ -589,6 +637,21 @@ onUnmounted(() => {
 <style scoped>
 .puzzle-slot {
   min-height: 80px;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
 }
 
 .puzzle-piece {

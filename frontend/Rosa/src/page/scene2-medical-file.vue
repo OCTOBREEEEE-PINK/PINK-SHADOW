@@ -7,16 +7,137 @@
           <div class="flex items-center space-x-3">
             <div class="text-2xl">📋</div>
             <div>
-              <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              <h1 class="text-xl font-bold bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent">
                 Salle 2 - Le Dossier Médical Perdu
               </h1>
-              <p class="text-xs text-gray-500">Reconstituez le dossier patient en associant les mots correctement</p>
+              <p class="text-xs text-gray-500">Apprenez et reconstituez le dossier patient</p>
             </div>
           </div>
           <div class="text-sm text-gray-600">
             <span class="font-semibold">{{ playerName }}</span>
             <span class="ml-2">{{ selectedEmoji }}</span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lesson Modal -->
+    <div v-if="!lessonCompleted" class="fixed inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 z-50 overflow-auto">
+      <div class="w-full h-full flex flex-col">
+        <div class="p-8 pb-0 max-w-6xl mx-auto w-full">
+          <div class="text-center mb-8">
+            <div class="text-6xl mb-4">📚</div>
+            <h2 class="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent mb-2">Cours : Le Cancer du Sein</h2>
+            <p class="text-gray-600 text-lg">Lisez attentivement avant de commencer le jeu</p>
+          </div>
+
+          <!-- Lesson Content -->
+          <div class="space-y-6 text-left mb-8 overflow-y-auto flex-1">
+          <div class="bg-white/95 rounded-xl p-6 shadow-lg border border-pink-200">
+            <h3 class="font-bold text-pink-800 mb-4 flex items-center">
+              <span class="mr-2">🎗️</span> Introduction
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              Le cancer du sein est une maladie qui touche principalement les cellules mammaires et peut affecter autant les femmes que les hommes. Il se développe lorsque certaines cellules subissent des mutations et commencent à croître de manière incontrôlée.
+            </p>
+          </div>
+
+          <div class="bg-white/95 rounded-xl p-6 shadow-lg border border-pink-200">
+            <h3 class="font-bold text-red-800 mb-4 flex items-center">
+              <span class="mr-2">⚠️</span> Symptômes les plus fréquents
+            </h3>
+            <ul class="text-gray-700 space-y-2">
+              <li>• L'apparition d'une <strong>masse ou d'une bosse</strong> dans le sein</li>
+              <li>• Des <strong>douleurs mammaires</strong> persistantes</li>
+              <li>• Des <strong>changements de la peau</strong> du sein (peau d'orange, rougeur)</li>
+              <li>• La <strong>rétraction du mamelon</strong> ou un écoulement anormal</li>
+            </ul>
+          </div>
+
+          <div class="bg-white/95 rounded-xl p-6 shadow-lg border border-pink-200">
+            <h3 class="font-bold text-purple-800 mb-4 flex items-center">
+              <span class="mr-2">🔬</span> Types de cellules touchées
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-pink-50 rounded-lg p-4 border border-pink-200">
+                <h4 class="font-bold text-purple-700 mb-2">Cellules normales</h4>
+                <p class="text-sm text-gray-600">Cellules saines qui fonctionnent correctement</p>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-4 border border-pink-200">
+                <h4 class="font-bold text-purple-700 mb-2">Cellules précancéreuses</h4>
+                <p class="text-sm text-gray-600">Cellules anormales qui peuvent devenir cancéreuses</p>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-4 border border-pink-200">
+                <h4 class="font-bold text-purple-700 mb-2">Cellules cancéreuses</h4>
+                <p class="text-sm text-gray-600">Cellules qui se multiplient de façon incontrôlée</p>
+              </div>
+            </div>
+            <p class="mt-4 text-gray-700">
+              Comprendre la nature de ces cellules aide à identifier le <strong>stade de la maladie, qui va de 0 à IV</strong>.
+            </p>
+          </div>
+
+          <div class="bg-white/95 rounded-xl p-6 shadow-lg border border-pink-200">
+            <h3 class="font-bold text-orange-800 mb-4 flex items-center">
+              <span class="mr-2">📊</span> Facteurs de risque
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div class="bg-pink-50 rounded-lg p-3 border border-pink-200 text-center">
+                <div class="text-2xl mb-2">👴</div>
+                <span class="text-sm font-semibold text-orange-700">L'âge</span>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-3 border border-pink-200 text-center">
+                <div class="text-2xl mb-2">🧬</div>
+                <span class="text-sm font-semibold text-orange-700">La génétique</span>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-3 border border-pink-200 text-center">
+                <div class="text-2xl mb-2">⚖️</div>
+                <span class="text-sm font-semibold text-orange-700">L'obésité</span>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-3 border border-pink-200 text-center">
+                <div class="text-2xl mb-2">🍷</div>
+                <span class="text-sm font-semibold text-orange-700">L'alcool</span>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-3 border border-pink-200 text-center">
+                <div class="text-2xl mb-2">🚬</div>
+                <span class="text-sm font-semibold text-orange-700">Le tabac</span>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-3 border border-pink-200 text-center">
+                <div class="text-2xl mb-2">🪑</div>
+                <span class="text-sm font-semibold text-orange-700">Sédentarité</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white/95 rounded-xl p-6 shadow-lg border border-pink-200">
+            <h3 class="font-bold text-blue-800 mb-4 flex items-center">
+              <span class="mr-2">💡</span> Prévention et dépistage
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              Une bonne prévention passe par le <strong>dépistage régulier</strong> et la connaissance des signes avant-coureurs. 
+              <span class="text-blue-700 font-semibold">Plus la maladie est détectée tôt, plus les chances de traitement et de guérison sont élevées.</span>
+            </p>
+          </div>
+
+          <div class="bg-white/95 rounded-xl p-6 shadow-lg border border-pink-200 text-center">
+            <h3 class="font-bold text-green-800 mb-4 flex items-center justify-center">
+              <span class="mr-2">🎯</span> Message important
+            </h3>
+            <p class="text-gray-700 font-semibold">
+              Cette leçon montre l'importance de l'information et de la sensibilisation pour lutter contre le cancer du sein et sauver des vies.
+            </p>
+          </div>
+          </div>
+        </div>
+        
+        <!-- Button outside scrollable area -->
+        <div class="p-8 pt-0 border-t border-pink-300 max-w-6xl mx-auto w-full">
+          <button 
+            @click="completeLesson" 
+            class="w-full px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg font-bold hover:shadow-lg transition-all cursor-pointer text-lg"
+          >
+            J'ai lu le cours, commencer le jeu !
+          </button>
         </div>
       </div>
     </div>
@@ -42,6 +163,44 @@
             </div>
           </div>
 
+          <!-- Quiz Section -->
+          <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-4 shadow-lg border border-pink-200 mb-4">
+            <h3 class="font-bold text-pink-800 mb-3 flex items-center">
+              <span class="mr-2">🧠</span> Mini Quiz - Testez vos connaissances
+            </h3>
+            <div class="space-y-3">
+              <div v-for="(question, index) in quizQuestions" :key="index" class="bg-white/90 rounded-lg p-3 border border-pink-200">
+                <p class="font-semibold text-gray-800 mb-2 text-sm">{{ question.question }}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <button 
+                    v-for="(option, optIndex) in question.options" 
+                    :key="optIndex"
+                    @click="selectAnswer(index, optIndex)"
+                    :class="[
+                      'p-2 rounded-lg text-xs font-medium transition-all',
+                      getAnswerClass(index, optIndex, question.correct)
+                    ]"
+                  >
+                    {{ option }}
+                  </button>
+                </div>
+                <div v-if="question.selected !== null" class="mt-2 text-xs">
+                  <span :class="question.selected === question.correct ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'">
+                    {{ question.selected === question.correct ? '✅ Correct !' : '❌ Incorrect' }}
+                  </span>
+                  <span v-if="question.selected !== question.correct" class="text-gray-600 ml-2">
+                    La bonne réponse était : {{ question.options[question.correct] }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 text-center">
+              <p class="text-xs text-gray-600">
+                Score du quiz : {{ quizScore }}/{{ quizQuestions.length }}
+              </p>
+            </div>
+          </div>
+
           <!-- Instructions -->
           <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-4 mb-4 border border-blue-200">
             <h3 class="font-bold text-blue-800 mb-2 flex items-center">
@@ -56,107 +215,110 @@
           </div>
 
           <!-- Medical File Game -->
-          <div class="grid grid-cols-2 gap-6">
+          <div class="grid grid-cols-3 gap-4">
             
-            <!-- Left: Categories (Drop Zones) -->
-            <div class="space-y-4">
+            <!-- Left: Categories (Drop Zones) - Vertical Layout -->
+            <div class="col-span-2 space-y-3">
               <h3 class="text-lg font-bold text-gray-800 mb-3">📁 Dossier Patient</h3>
               
-              <!-- Category 1: Symptoms -->
-              <div class="bg-white/95 rounded-xl p-4 shadow-lg border-2"
-                   :class="getCategoryBorderClass('symptoms')">
-                <div class="flex items-center justify-between mb-3">
-                  <h4 class="font-bold text-red-700 flex items-center">
-                    <span class="mr-2">⚠️</span> Symptômes
-                  </h4>
-                  <span class="text-xs text-gray-500">{{ categories.symptoms.placed.length }}/5</span>
-                </div>
-                <div class="min-h-[120px] p-2 bg-red-50 rounded-lg border-2 border-dashed border-red-200"
-                     @drop="onDrop($event, 'symptoms')"
-                     @dragover.prevent
-                     @dragenter.prevent>
-                  <div class="space-y-2">
-                    <div v-for="word in categories.symptoms.placed" :key="word"
-                         class="px-3 py-2 bg-gradient-to-r from-red-500 to-rose-500 text-white rounded-lg text-sm font-semibold shadow-md">
-                      {{ word }}
-                    </div>
-                    <div v-if="categories.symptoms.placed.length === 0" class="text-xs text-gray-400 text-center py-4">
-                      Glissez les symptômes ici
+              <!-- Categories in horizontal grid -->
+              <div class="grid grid-cols-2 gap-3">
+                <!-- Category 1: Symptoms -->
+                <div class="bg-white/95 rounded-lg p-3 shadow-lg border-2"
+                     :class="getCategoryBorderClass('symptoms')">
+                  <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-bold text-red-700 flex items-center text-sm">
+                      <span class="mr-1">⚠️</span> Symptômes
+                    </h4>
+                    <span class="text-xs text-gray-500">{{ categories.symptoms.placed.length }}/5</span>
+                  </div>
+                  <div class="min-h-[80px] p-2 bg-red-50 rounded-lg border-2 border-dashed border-red-200"
+                       @drop="onDrop($event, 'symptoms')"
+                       @dragover.prevent
+                       @dragenter.prevent>
+                    <div class="space-y-1">
+                      <div v-for="word in categories.symptoms.placed" :key="word"
+                           class="px-2 py-1 bg-gradient-to-r from-red-500 to-rose-500 text-white rounded text-xs font-semibold shadow-sm">
+                        {{ word }}
+                      </div>
+                      <div v-if="categories.symptoms.placed.length === 0" class="text-xs text-gray-400 text-center py-2">
+                        Glissez les symptômes ici
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Category 2: Cell Types -->
-              <div class="bg-white/95 rounded-xl p-4 shadow-lg border-2"
-                   :class="getCategoryBorderClass('cellTypes')">
-                <div class="flex items-center justify-between mb-3">
-                  <h4 class="font-bold text-purple-700 flex items-center">
-                    <span class="mr-2">🔬</span> Types de Cellules
-                  </h4>
-                  <span class="text-xs text-gray-500">{{ categories.cellTypes.placed.length }}/3</span>
-                </div>
-                <div class="min-h-[100px] p-2 bg-purple-50 rounded-lg border-2 border-dashed border-purple-200"
-                     @drop="onDrop($event, 'cellTypes')"
-                     @dragover.prevent
-                     @dragenter.prevent>
-                  <div class="space-y-2">
-                    <div v-for="word in categories.cellTypes.placed" :key="word"
-                         class="px-3 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg text-sm font-semibold shadow-md">
-                      {{ word }}
-                    </div>
-                    <div v-if="categories.cellTypes.placed.length === 0" class="text-xs text-gray-400 text-center py-4">
-                      Glissez les types de cellules ici
+                <!-- Category 2: Cell Types -->
+                <div class="bg-white/95 rounded-lg p-3 shadow-lg border-2"
+                     :class="getCategoryBorderClass('cellTypes')">
+                  <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-bold text-purple-700 flex items-center text-sm">
+                      <span class="mr-1">🔬</span> Types de Cellules
+                    </h4>
+                    <span class="text-xs text-gray-500">{{ categories.cellTypes.placed.length }}/3</span>
+                  </div>
+                  <div class="min-h-[80px] p-2 bg-purple-50 rounded-lg border-2 border-dashed border-purple-200"
+                       @drop="onDrop($event, 'cellTypes')"
+                       @dragover.prevent
+                       @dragenter.prevent>
+                    <div class="space-y-1">
+                      <div v-for="word in categories.cellTypes.placed" :key="word"
+                           class="px-2 py-1 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded text-xs font-semibold shadow-sm">
+                        {{ word }}
+                      </div>
+                      <div v-if="categories.cellTypes.placed.length === 0" class="text-xs text-gray-400 text-center py-2">
+                        Glissez les types de cellules ici
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Category 3: Risk Factors -->
-              <div class="bg-white/95 rounded-xl p-4 shadow-lg border-2"
-                   :class="getCategoryBorderClass('riskFactors')">
-                <div class="flex items-center justify-between mb-3">
-                  <h4 class="font-bold text-orange-700 flex items-center">
-                    <span class="mr-2">📊</span> Facteurs de Risque
-                  </h4>
-                  <span class="text-xs text-gray-500">{{ categories.riskFactors.placed.length }}/6</span>
-                </div>
-                <div class="min-h-[120px] p-2 bg-orange-50 rounded-lg border-2 border-dashed border-orange-200"
-                     @drop="onDrop($event, 'riskFactors')"
-                     @dragover.prevent
-                     @dragenter.prevent>
-                  <div class="space-y-2">
-                    <div v-for="word in categories.riskFactors.placed" :key="word"
-                         class="px-3 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg text-sm font-semibold shadow-md">
-                      {{ word }}
-                    </div>
-                    <div v-if="categories.riskFactors.placed.length === 0" class="text-xs text-gray-400 text-center py-4">
-                      Glissez les facteurs de risque ici
+                <!-- Category 3: Risk Factors -->
+                <div class="bg-white/95 rounded-lg p-3 shadow-lg border-2"
+                     :class="getCategoryBorderClass('riskFactors')">
+                  <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-bold text-orange-700 flex items-center text-sm">
+                      <span class="mr-1">📊</span> Facteurs de Risque
+                    </h4>
+                    <span class="text-xs text-gray-500">{{ categories.riskFactors.placed.length }}/6</span>
+                  </div>
+                  <div class="min-h-[80px] p-2 bg-orange-50 rounded-lg border-2 border-dashed border-orange-200"
+                       @drop="onDrop($event, 'riskFactors')"
+                       @dragover.prevent
+                       @dragenter.prevent>
+                    <div class="space-y-1">
+                      <div v-for="word in categories.riskFactors.placed" :key="word"
+                           class="px-2 py-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded text-xs font-semibold shadow-sm">
+                        {{ word }}
+                      </div>
+                      <div v-if="categories.riskFactors.placed.length === 0" class="text-xs text-gray-400 text-center py-2">
+                        Glissez les facteurs de risque ici
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Category 4: Stages -->
-              <div class="bg-white/95 rounded-xl p-4 shadow-lg border-2"
-                   :class="getCategoryBorderClass('stages')">
-                <div class="flex items-center justify-between mb-3">
-                  <h4 class="font-bold text-blue-700 flex items-center">
-                    <span class="mr-2">📈</span> Stades du Cancer
-                  </h4>
-                  <span class="text-xs text-gray-500">{{ categories.stages.placed.length }}/5</span>
-                </div>
-                <div class="min-h-[100px] p-2 bg-blue-50 rounded-lg border-2 border-dashed border-blue-200"
-                     @drop="onDrop($event, 'stages')"
-                     @dragover.prevent
-                     @dragenter.prevent>
-                  <div class="space-y-2">
-                    <div v-for="word in categories.stages.placed" :key="word"
-                         class="px-3 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg text-sm font-semibold shadow-md">
-                      {{ word }}
-                    </div>
-                    <div v-if="categories.stages.placed.length === 0" class="text-xs text-gray-400 text-center py-4">
-                      Glissez les stades ici
+                <!-- Category 4: Stages -->
+                <div class="bg-white/95 rounded-lg p-3 shadow-lg border-2"
+                     :class="getCategoryBorderClass('stages')">
+                  <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-bold text-blue-700 flex items-center text-sm">
+                      <span class="mr-1">📈</span> Stades du Cancer
+                    </h4>
+                    <span class="text-xs text-gray-500">{{ categories.stages.placed.length }}/5</span>
+                  </div>
+                  <div class="min-h-[80px] p-2 bg-blue-50 rounded-lg border-2 border-dashed border-blue-200"
+                       @drop="onDrop($event, 'stages')"
+                       @dragover.prevent
+                       @dragenter.prevent>
+                    <div class="space-y-1">
+                      <div v-for="word in categories.stages.placed" :key="word"
+                           class="px-2 py-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded text-xs font-semibold shadow-sm">
+                        {{ word }}
+                      </div>
+                      <div v-if="categories.stages.placed.length === 0" class="text-xs text-gray-400 text-center py-2">
+                        Glissez les stades ici
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -165,9 +327,9 @@
 
             <!-- Right: Available Words (Drag Source) -->
             <div>
-              <h3 class="text-lg font-bold text-gray-800 mb-3">🔤 Mots-Fragments Disponibles</h3>
-              <div class="bg-white/95 rounded-xl p-4 shadow-lg">
-                <div class="grid grid-cols-2 gap-2">
+              <h3 class="text-lg font-bold text-gray-800 mb-3">🔤 Mots-Fragments</h3>
+              <div class="bg-white/95 rounded-xl p-4 shadow-lg max-h-[400px] overflow-y-auto">
+                <div class="grid grid-cols-1 gap-2">
                   <div
                     v-for="(word, index) in availableWords"
                     :key="index"
@@ -279,33 +441,70 @@
       </div>
 
       <!-- Chat Side -->
-      <div class="w-96 bg-white/90 border-l border-gray-200 flex flex-col">
+      <div class="w-96 bg-white/90 backdrop-blur-sm border-l border-gray-200 flex flex-col shadow-2xl">
+        <!-- En-tête du chat -->
         <div class="p-4 border-b border-gray-200">
-          <h3 class="font-bold text-gray-800 flex items-center"><span class="mr-2">💬</span> Chat d'équipe</h3>
-          <p class="text-xs text-gray-500 mt-1">Donnez des indices ({{ connectedPlayers.length }} en ligne)</p>
+          <h3 class="font-bold text-gray-800 flex items-center">
+            <span class="mr-2">💬</span>
+            Chat d'équipe
+          </h3>
+          <p class="text-xs text-gray-500 mt-1">{{ connectedPlayers.length }} agent(s) en ligne</p>
+          <div class="mt-2 text-[11px] text-gray-500 bg-gray-50 border border-gray-200 rounded px-2 py-1">
+            Indices: décrivez la couleur, un mot partiel ou une position (ex: "coin haut gauche") sans donner la réponse.
+          </div>
         </div>
-        <div class="flex-1 overflow-y-auto p-4 space-y-2" ref="chatContainer">
+
+        <!-- Messages -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-3" ref="chatContainer">
           <div
             v-for="(m, i) in messages"
             :key="i"
             class="flex items-start space-x-2"
             :class="[m.pseudo === playerName ? 'flex-row-reverse space-x-reverse' : '']"
           >
-            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-white text-xs">{{ (m.pseudo||'?')[0] }}</div>
-            <div class="max-w-xs">
-              <div class="text-[10px] text-gray-500 mb-0.5">{{ m.pseudo || 'system' }}</div>
-              <div class="px-3 py-2 rounded-lg text-sm"
-                   :class="m.pseudo === playerName ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-br-none' : 'bg-gray-100 text-gray-900 rounded-bl-none'">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-blue-400 flex items-center justify-center text-white font-bold text-xs">
+                {{ (m.pseudo||'?')[0] }}
+              </div>
+            </div>
+            <div 
+              class="flex-1 max-w-xs"
+              :class="[m.pseudo === playerName ? 'text-right' : 'text-left']"
+            >
+              <div class="text-xs text-gray-500 mb-1">{{ m.pseudo || 'system' }}</div>
+              <div 
+                class="inline-block px-3 py-2 rounded-lg text-sm"
+                :class="[
+                  m.pseudo === playerName 
+                    ? 'bg-gradient-to-r from-pink-500 to-blue-500 text-white rounded-br-none' 
+                    : 'bg-gray-100 text-gray-800 rounded-bl-none',
+                  m.system ? 'italic bg-yellow-50 text-yellow-800' : ''
+                ]"
+              >
                 {{ m.content }}
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Input de message -->
         <div class="p-4 border-t border-gray-200">
           <div class="flex space-x-2">
-            <input v-model="newMessage" @keyup.enter="sendMessage" class="flex-1 px-3 py-2 border rounded" placeholder="Indice..." />
-            <button @click="sendMessage" class="px-4 py-2 bg-blue-500 text-white rounded">Envoyer</button>
+            <input
+              v-model="newMessage"
+              @keyup.enter="sendMessage"
+              type="text"
+              placeholder="Donnez un indice..."
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm text-black"
+            />
+            <button
+              @click="sendMessage"
+              class="px-4 py-2 bg-gradient-to-r from-pink-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all"
+            >
+              <span class="text-lg">📤</span>
+            </button>
           </div>
+          <p class="text-xs text-gray-500 mt-2">Astuce : Décrivez ce que vous voyez sans révéler directement</p>
         </div>
       </div>
     </div>
@@ -321,6 +520,44 @@ const router = useRouter();
 const playerName = ref(sessionStorage.getItem('playerName') || 'Agent');
 const sessionCode = ref(sessionStorage.getItem('sessionCode') || 'DEFAULT');
 const selectedEmoji = ref(sessionStorage.getItem('playerEmoji') || '🌸');
+
+// Lesson management
+const lessonCompleted = ref(false);
+const quizScore = ref(0);
+
+// Quiz questions based on the lesson content
+const quizQuestions = ref([
+  {
+    question: "Le cancer du sein peut-il affecter les hommes ?",
+    options: ["Oui, mais c'est rare", "Non, seulement les femmes", "Seulement les femmes de plus de 50 ans", "Seulement les femmes avec des antécédents familiaux"],
+    correct: 0,
+    selected: null
+  },
+  {
+    question: "Quel est le symptôme le plus fréquent du cancer du sein ?",
+    options: ["Douleur mammaire", "Masse ou bosse dans le sein", "Écoulement du mamelon", "Changement de couleur de la peau"],
+    correct: 1,
+    selected: null
+  },
+  {
+    question: "Quels sont les stades du cancer du sein ?",
+    options: ["De 0 à III", "De I à IV", "De 0 à IV", "De A à D"],
+    correct: 2,
+    selected: null
+  },
+  {
+    question: "Quel facteur de risque est mentionné dans le cours ?",
+    options: ["Consommation de café", "Exercice physique excessif", "Consommation d'alcool", "Exposition au soleil"],
+    correct: 2,
+    selected: null
+  },
+  {
+    question: "Que signifie 'dépistage précoce' ?",
+    options: ["Détecter la maladie à un stade avancé", "Détecter la maladie tôt", "Prévenir la maladie", "Guérir la maladie"],
+    correct: 1,
+    selected: null
+  }
+]);
 
 // Game data
 const wordDatabase = {
@@ -462,6 +699,39 @@ const fetchOnline = async () => {
   try { const r = await fetch(`${API_BASE_URL}/connected-players`); const d = await r.json(); connectedPlayers.value = (d.sessions||{})[sessionCode.value]||[]; } catch(_) {}
 };
 
+// Quiz functions
+const selectAnswer = (questionIndex, optionIndex) => {
+  const question = quizQuestions.value[questionIndex];
+  if (question.selected !== null) return; // Already answered
+  
+  question.selected = optionIndex;
+  if (optionIndex === question.correct) {
+    quizScore.value++;
+  }
+};
+
+const getAnswerClass = (questionIndex, optionIndex, correctIndex) => {
+  const question = quizQuestions.value[questionIndex];
+  if (question.selected === null) {
+    return 'quiz-button';
+  }
+  
+  if (optionIndex === correctIndex) {
+    return 'quiz-button correct';
+  } else if (optionIndex === question.selected && optionIndex !== correctIndex) {
+    return 'quiz-button incorrect';
+  } else {
+    return 'quiz-button disabled';
+  }
+};
+
+const completeLesson = () => {
+  console.log('completeLesson called');
+  lessonCompleted.value = true;
+  console.log('lessonCompleted set to:', lessonCompleted.value);
+  startTimer();
+};
+
 const goNext = () => {
   router.push('/scene3');
 };
@@ -471,7 +741,7 @@ onMounted(() => {
   connectWS();
   fetchOnline();
   setInterval(fetchOnline, 10000);
-  startTimer();
+  // Timer will start when lesson is completed
 });
 </script>
 
@@ -483,6 +753,35 @@ onMounted(() => {
 }
 .animate-shake {
   animation: shake 0.3s ease-in-out;
+}
+
+/* Force les boutons du quiz à avoir le bon style rose */
+.quiz-button {
+  background: linear-gradient(to right, rgb(252, 231, 243), rgb(251, 207, 232)) !important;
+  color: rgb(55, 65, 81) !important;
+  border: 1px solid rgb(249, 168, 212) !important;
+}
+
+.quiz-button:hover {
+  background: linear-gradient(to right, rgb(251, 207, 232), rgb(244, 114, 182)) !important;
+}
+
+.quiz-button.correct {
+  background: linear-gradient(to right, rgb(220, 252, 231), rgb(167, 243, 208)) !important;
+  color: rgb(22, 101, 52) !important;
+  border: 1px solid rgb(34, 197, 94) !important;
+}
+
+.quiz-button.incorrect {
+  background: linear-gradient(to right, rgb(254, 226, 226), rgb(252, 165, 165)) !important;
+  color: rgb(153, 27, 27) !important;
+  border: 1px solid rgb(239, 68, 68) !important;
+}
+
+.quiz-button.disabled {
+  background: linear-gradient(to right, rgb(249, 250, 251), rgb(243, 244, 246)) !important;
+  color: rgb(107, 114, 128) !important;
+  border: 1px solid rgb(209, 213, 219) !important;
 }
 </style>
 
